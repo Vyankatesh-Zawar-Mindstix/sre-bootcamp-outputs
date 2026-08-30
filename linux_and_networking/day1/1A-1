@@ -1,0 +1,10 @@
+Question : Find the 5 largest files on your system under /var. Use ls -lrth smartly.
+
+Command : find . -type f -exec ls -lh {} + | sort -k5 -hr | head -5
+
+output : 
+-rw------T  1 root             wheel             1.0G 29 Aug 19:44 ./vm/sleepimage
+-rwxr-xr-x@ 1 mindstix-dev     staff             486M 25 Aug 07:11 ./folders/pf/8fj3s8_932jdbkyn9c4kjsk80000gp/X/com.google.Chrome.code_sign_clone/code_sign_clone.3sVq8g/Google Chrome.app.bundle/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.65/Google Chrome Framework
+-rw-r--r--  1 root             wheel             157M 27 Aug 15:56 ./db/uuidtext/dsc/F25A411F0E2B394F861B412F1A52F90D
+-rw-r--r--  1 root             wheel              75M 22 Aug 00:03 ./db/uuidtext/dsc/F4A0A466A5C830B4A6BAD15DD5272A81
+-rwxr-xr-x@ 1 mindstix-dev     staff              35M 25 Aug 07:11 ./folders/pf/8fj3s8_932jdbkyn9c4kjsk80000gp/X/com.google.Chrome.code_sign_clone/code_sign_clone.3sVq8g/Google Chrome.app.bundle/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.65/Libraries/liboptimization_guide_internal.dylib
