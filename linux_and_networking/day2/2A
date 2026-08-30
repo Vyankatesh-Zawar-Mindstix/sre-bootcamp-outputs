@@ -1,0 +1,48 @@
+
+In Top command :
+Before M:
+Processes → sorted by CPU
+After M:
+Processes → sorted by Memory
+
+
+
+
+
+
+
+➜  ~ ps -ef | grep 3583
+  502  3583  3582   0  1:50AM ttys000    0:01.43 -zsh
+    0  4033  3583   0  2:17AM ttys000    0:00.01 ps -ef
+  502  4034  3583   0  2:17AM ttys000    0:00.01 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv 3583
+➜  ~ ps aux | grep 3583
+mindstix-dev      3583   0.3  0.0 34188992   4324 s000  S     1:50AM   0:01.45 -zsh
+mindstix-dev      4048   0.0  0.0 34123244    568 s000  R+    2:18AM   0:00.01 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv 3583
+➜  ~ secho $$
+zsh: command not found: secho
+➜  ~ sleep 999 &
+[1] 4062
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ sleep 999 &
+[2] 4091
+➜  ~ 
+➜  ~ pkill sleep
+[2]  + 4091 terminated  sleep 999
+[1]  + 4062 terminated  sleep 999
+➜  ~ sleep 300 &
+[1] 4108
+➜  ~ sleep 300
+^C
+➜  ~ ps aux | grep sleep
+mindstix-dev      4124   0.0  0.0 34122404    720 s000  S+    2:21AM   0:00.01 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv sleep
+mindstix-dev      4108   0.0  0.0 34132416    608 s000  SN    2:21AM   0:00.01 sleep 300
+➜  ~ ps -ef | grep sleep
+  502  4108  3583   0  2:21AM ttys000    0:00.01 sleep 300
+  502  4131  3583   0  2:22AM ttys000    0:00.01 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv sleep
+➜  ~ kill -15 4108
+[1]  + 4108 terminated  sleep 300                                                                                       
+➜  ~ top
+➜  ~ 
