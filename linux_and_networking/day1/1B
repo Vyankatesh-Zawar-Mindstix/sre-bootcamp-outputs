@@ -1,0 +1,28 @@
+➜  ~ id
+uid=502(mindstix-dev) gid=20(staff) groups=20(staff),12(everyone),61(localaccounts),79(_appserverusr),80(admin),81(_appserveradm),98(_lpadmin),702(com.apple.sharepoint.group.2),33(_appstore),100(_lpoperator),204(_developer),250(_analyticsusers),395(com.apple.access_ftp),398(com.apple.access_screensharing),399(com.apple.access_ssh),400(com.apple.access_remote_ae),701(com.apple.sharepoint.group.1)
+➜  ~ touch secret.txt
+➜  ~ echo "abc" > secret.txt 
+➜  ~ ls -lart secret.txt 
+-rw-r--r--  1 mindstix-dev  staff  4 31 Aug 02:05 secret.txt
+➜  ~ chmod 600 secret.txt 
+➜  ~ ls -lart secret.txt 
+-rw-------  1 mindstix-dev  staff  4 31 Aug 02:05 secret.txt
+➜  ~ vim hello.sh
+➜  ~ ./hello.sh 
+zsh: permission denied: ./hello.sh
+➜  ~ chmod 700 hello.sh 
+➜  ~ ./hello.sh        
+Hello from DevOps Bootcamp
+➜  ~ chmod 300 hello.sh 
+➜  ~ ./hello.sh        
+/bin/bash: ./hello.sh: Permission denied
+➜  ~ chmod 700 hello.sh
+➜  ~ mkdir shared/
+➜  ~ ls -lart shared 
+total 0
+drwxr-xr-x   2 mindstix-dev  staff   64 31 Aug 02:09 .
+drwxr-xr-x+ 28 mindstix-dev  staff  896 31 Aug 02:09 ..
+➜  ~ chmod 755 shared 
+
+
+Conclusion : we need execure 'x' permission to enter in dir.
