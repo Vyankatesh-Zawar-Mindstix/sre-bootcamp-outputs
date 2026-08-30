@@ -1,0 +1,186 @@
+➜  vy vim logger.sh
+➜  vy chmod 700 logger.sh 
+➜  vy touch output.log    
+➜  vy nohup ./logger.sh&
+[1] 4215
+appending output to nohup.out                                                                                           
+➜  vy tail -f output.log
+Mon Aug 31 02:33:59 IST 2026
+Mon Aug 31 02:34:01 IST 2026
+Mon Aug 31 02:34:04 IST 2026
+Mon Aug 31 02:34:06 IST 2026
+Mon Aug 31 02:34:08 IST 2026
+Mon Aug 31 02:34:10 IST 2026
+Mon Aug 31 02:34:12 IST 2026
+Mon Aug 31 02:34:14 IST 2026
+Mon Aug 31 02:34:16 IST 2026
+Mon Aug 31 02:34:18 IST 2026
+Mon Aug 31 02:34:20 IST 2026
+Mon Aug 31 02:34:22 IST 2026
+Mon Aug 31 02:34:24 IST 2026
+Mon Aug 31 02:34:26 IST 2026
+Mon Aug 31 02:34:28 IST 2026
+Mon Aug 31 02:34:30 IST 2026
+Mon Aug 31 02:34:32 IST 2026
+Mon Aug 31 02:34:34 IST 2026
+^C
+➜  vy 
+➜  vy du -sh ~/
+du: /Users/mindstix-dev//Library/Application Support/CallHistoryTransactions: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/CloudDocs: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/com.apple.sharedfilelist: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/Knowledge: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/com.apple.TCC: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/FileProvider: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/AddressBook: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/FaceTime: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/DifferentialPrivacy: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/com.apple.avfoundation/Frecents: Operation not permitted
+du: /Users/mindstix-dev//Library/Application Support/CallHistoryDB: Operation not permitted
+du: /Users/mindstix-dev//Library/Assistant/SiriVocabulary: Operation not permitted
+du: /Users/mindstix-dev//Library/Daemon Containers: Operation not permitted
+du: /Users/mindstix-dev//Library/Autosave Information: Operation not permitted
+du: /Users/mindstix-dev//Library/IdentityServices: Operation not permitted
+du: /Users/mindstix-dev//Library/Calendars: Operation not permitted
+du: /Users/mindstix-dev//Library/Messages: Operation not permitted
+du: /Users/mindstix-dev//Library/HomeKit: Operation not permitted
+du: /Users/mindstix-dev//Library/Sharing: Operation not permitted
+du: /Users/mindstix-dev//Library/com.apple.aiml.instrumentation: Operation not permitted
+du: /Users/mindstix-dev//Library/Mail: Operation not permitted
+du: /Users/mindstix-dev//Library/Trial: Operation not permitted
+du: /Users/mindstix-dev//Library/AppleMediaServices: Operation not permitted
+du: /Users/mindstix-dev//Library/DuetExpertCenter: Operation not permitted
+du: /Users/mindstix-dev//Library/Accounts: Operation not permitted
+du: /Users/mindstix-dev//Library/Safari: Operation not permitted
+du: /Users/mindstix-dev//Library/Biome: Operation not permitted
+du: /Users/mindstix-dev//Library/IntelligencePlatform: Operation not permitted
+du: /Users/mindstix-dev//Library/Shortcuts: Operation not permitted
+du: /Users/mindstix-dev//Library/Suggestions: Operation not permitted
+du: /Users/mindstix-dev//Library/Weather: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.stocks-news: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.photolibraryd.private: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.feedback: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.siri.inference: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.telephonyutilities.callservicesd: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.swtransparency: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.coreservices.useractivityd: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.accessibility.voicebanking: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.icloud.searchpartyuseragent: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.siri.referenceResolution: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.stocks: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.usernoted: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.VoiceMemos.shared: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.contacts: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.secure-control-center-preferences: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.chronod: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/com.apple.MailPersonaStorage: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.private.translation: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.appstoreagent: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.portrait.BackgroundReplacement: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.icloud.fmfcore: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.liveactivitiesd: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.amsondevicestoraged: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.SiriTTS: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.notes.import: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.calendar: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.siri.userfeedbacklearning: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.gamecenter: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.tips: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.tv.sharedcontainer: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.loginwindow.persistent-apps: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.spotlight: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.studentd: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.ManagedSettings: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.sharingd: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.printtool: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.news: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.mobileslideshow.PhotosFileProvider: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.scopedbookmarkagent: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.weather: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/com.apple.systempreferences.cache: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.feedbacklogger: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.controlcenter: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.siri.remembers: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.notes: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.UserNotifications: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.tipsnext: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.moments: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.Safari.SandboxBroker: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.transparency: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.reminders: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.findmy.findmylocateagent: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.mail: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/com.apple.bird: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.DeviceActivity: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.replayd: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.Journal: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/com.apple.Home.group: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.iCloudDrive: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.FaceTime: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.energykit: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/com.apple.PreviewLegacySignaturesConversion: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.siri.ASR.shared: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.replicatord: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.Photos.PhotosFileProvider: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.icloud.fmipcore: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.AppleSpell: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.mlhost: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.FamilyControls: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.Maps: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.PegasusConfiguration: Operation not permitted
+du: /Users/mindstix-dev//Library/Group Containers/group.com.apple.shortcuts: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.VoiceMemos: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.Maps/Data/Maps: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.Home: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.Safari: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.CloudDocs.MobileDocumentsFileProvider: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.mail: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.MobileSMS: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.Notes: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.corerecents.recentsd/Data/Library/Recents: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.stocks: Operation not permitted
+du: /Users/mindstix-dev//Library/Containers/com.apple.Safari.WebApp: Operation not permitted
+du: /Users/mindstix-dev//Library/ContainerManager: Operation not permitted
+du: /Users/mindstix-dev//Library/PersonalizationPortrait: Operation not permitted
+du: /Users/mindstix-dev//Library/Metadata/CoreSpotlight: Operation not permitted
+du: /Users/mindstix-dev//Library/Reminders: Operation not permitted
+du: /Users/mindstix-dev//Library/Cookies: Operation not permitted
+du: /Users/mindstix-dev//Library/CoreFollowUp: Operation not permitted
+du: /Users/mindstix-dev//Library/StatusKit: Operation not permitted
+du: /Users/mindstix-dev//Library/DoNotDisturb: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/familycircled: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/com.apple.HomeKit: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/CloudKit: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/com.apple.Safari: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/com.apple.containermanagerd: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/com.apple.Safari.SafeBrowsing: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/FamilyCircle: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/com.apple.homed: Operation not permitted
+du: /Users/mindstix-dev//Library/Caches/com.apple.ap.adprivacyd: Operation not permitted
+du: /Users/mindstix-dev//.Trash: Operation not permitted
+2.8G	/Users/mindstix-dev/
+➜  vy 
+[1]  + 4215 killed     nohup ./logger.sh
+➜  vy tail -f output.log  
+Mon Aug 31 02:35:00 IST 2026
+Mon Aug 31 02:35:02 IST 2026
+Mon Aug 31 02:35:04 IST 2026
+Mon Aug 31 02:35:06 IST 2026
+Mon Aug 31 02:35:08 IST 2026
+Mon Aug 31 02:35:10 IST 2026
+Mon Aug 31 02:35:12 IST 2026
+Mon Aug 31 02:35:14 IST 2026
+Mon Aug 31 02:35:16 IST 2026
+Mon Aug 31 02:35:18 IST 2026
+^C
+➜  vy 
+
+
+
+Last login: Mon Aug 31 01:50:41 on ttys000
+➜  ~ ps aux | grep logger
+mindstix-dev      4215   0.2  0.0 34123960   1160 s000  SN    2:32AM   0:00.08 /bin/bash ./logger.sh
+root               410   0.0  0.0 33766536   1252   ??  S    Fri08PM   0:00.73 /usr/sbin/systemstats --logger-helper /private/var/db/systemstats
+mindstix-dev      4312   0.0  0.0 34122300    584 s001  R+    2:33AM   0:00.01 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox --exclude-dir=.venv --exclude-dir=venv logger
+➜  ~ kill -9 4215
+➜  ~ 
