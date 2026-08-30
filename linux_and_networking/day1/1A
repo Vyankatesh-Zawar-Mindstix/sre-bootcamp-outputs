@@ -1,0 +1,108 @@
+Question : Find the 5 largest files on your system under /var. Use ls -lrth smartly.
+
+Command : find . -type f -exec ls -lh {} + | sort -k5 -hr | head -5
+
+output : 
+-rw------T  1 root             wheel             1.0G 29 Aug 19:44 ./vm/sleepimage
+-rwxr-xr-x@ 1 mindstix-dev     staff             486M 25 Aug 07:11 ./folders/pf/8fj3s8_932jdbkyn9c4kjsk80000gp/X/com.google.Chrome.code_sign_clone/code_sign_clone.3sVq8g/Google Chrome.app.bundle/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.65/Google Chrome Framework
+-rw-r--r--  1 root             wheel             157M 27 Aug 15:56 ./db/uuidtext/dsc/F25A411F0E2B394F861B412F1A52F90D
+-rw-r--r--  1 root             wheel              75M 22 Aug 00:03 ./db/uuidtext/dsc/F4A0A466A5C830B4A6BAD15DD5272A81
+-rwxr-xr-x@ 1 mindstix-dev     staff              35M 25 Aug 07:11 ./folders/pf/8fj3s8_932jdbkyn9c4kjsk80000gp/X/com.google.Chrome.code_sign_clone/code_sign_clone.3sVq8g/Google Chrome.app.bundle/Contents/Frameworks/Google Chrome Framework.framework/Versions/152.0.7977.65/Libraries/liboptimization_guide_internal.dylib
+
+
+Question : Find every file named *.log under /var/log. Use find.
+Command : find . -type f | grep ".log"
+command : find . -type f -name "*.log"
+output :
+
+mindstix-dev@mindstixs-MacBook-Pro log % find . -type f | grep ".log" 
+./fsck_apfs_error.log
+./displaypolicy/displaypolicyd.0:2:0.log
+./displaypolicy/displaypolicyd.log
+./system.log.3.gz
+./system.log.2.gz
+./wifi.log.4.bz2
+./displaypolicyd.stdout.log
+./com.apple.xpc.launchd/launchd.log
+./com.apple.xpc.launchd/launchd.log.1
+./com.apple.xpc.launchd/launchd.log.2
+./system.log.1.gz
+./wifi.log.2.bz2
+./system.log.0.gz
+./wifi.log.3.bz2
+./wifi.log.1.bz2
+./shutdown_monitor.log
+./system.log
+./wifi.log.0.bz2
+./wifi.log
+./keybagd.log.0
+./install.log
+./fsck_apfs.log
+
+mindstix-dev@mindstixs-MacBook-Pro log % find . -type f -name "*.log"
+./fsck_apfs_error.log
+./displaypolicy/displaypolicyd.0:2:0.log
+./displaypolicy/displaypolicyd.log
+./displaypolicyd.stdout.log
+./com.apple.xpc.launchd/launchd.log
+./shutdown_monitor.log
+./system.log
+./wifi.log
+./install.log
+./fsck_apfs.log
+mindstix-dev@mindstixs-MacBook-Pro log %
+
+
+
+==========================================================================================
+
+3,4,5 Answers below
+
+➜  ~ tree bootcamp 
+bootcamp
+└── week1
+    ├── notes.txt
+    └── scripts
+
+3 directories, 1 file
+➜  ~ ls -lart README.md 
+-rw-r--r--  1 mindstix-dev  staff  43 31 Aug 01:07 README.md
+➜  ~ pwd  
+/Users/mindstix-dev
+➜  ~ find ~/bootcamp -type f
+/Users/mindstix-dev/bootcamp/week1/notes.txt
+➜  ~ cp bootcamp/week1/notes.txt bootcamp/week1/scripts 
+➜  ~ mv bootcamp/week1/scripts/notes.txt bootcamp/week1/day1_backup.txt
+➜  ~ tree bootcamp                                                     
+bootcamp
+└── week1
+    ├── day1_backup.txt
+    ├── notes.txt
+    └── scripts
+
+3 directories, 2 files
+➜  ~ rm bootcamp/week1/day1_backup.txt 
+➜  ~ cp bootcamp/week1/notes.txt bootcamp/week1/scripts 
+➜  ~ tree bootcamp                                     
+bootcamp
+└── week1
+    ├── notes.txt
+    └── scripts
+        └── notes.txt
+
+3 directories, 2 files
+➜  ~ mv bootcamp/week1/scripts/notes.txt bootcamp/week1/scripts/day1_backup.txt
+➜  ~ tree bootcamp                                     
+bootcamp
+└── week1
+    ├── notes.txt
+    └── scripts
+        └── day1_backup.txt
+
+3 directories, 2 files
+➜  ~ rm -rf bootcamp/week1/notes.txt 
+➜  ~ find ~/bootcamp -type f
+/Users/mindstix-dev/bootcamp/week1/scripts/day1_backup.txt
+➜  ~ 
+
+
