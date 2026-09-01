@@ -1,0 +1,209 @@
+Traceroute path 
+
+                 YOUR NETWORK
+
+┌──────────────┐
+│    Mac       │
+└──────┬───────┘
+       │
+       │ Wi-Fi/Ethernet
+       ▼
+┌─────────────────┐
+│ 192.168.1.1     │
+│ Home Router     │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ 100.72.192.1    │
+│ ISP CGNAT       │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│125.18.138.153   │
+│ ISP Router      │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│ 182.79.224.124              │
+│ 116.119.106.202             │
+│ 116.119.106.206             │
+│ ISP / backbone routing      │
+└────────────┬────────────────┘
+             │
+             ▼
+           * * *
+             │
+             │ routers aren't
+             │ responding
+             ▼
+           * * *
+             │
+             ▼
+      199.36.158.100
+        mindstix.com
+
+
+
+➜  vy traceroute mindstix.com
+traceroute to mindstix.com (199.36.158.100), 64 hops max, 40 byte packets
+ 1  192.168.1.1 (192.168.1.1)  9.525 ms  3.585 ms  3.131 ms
+ 2  100.72.192.1 (100.72.192.1)  5.421 ms  8.560 ms  36.119 ms
+ 3  125.18.138.153 (125.18.138.153)  8.118 ms  9.009 ms  8.270 ms
+ 4  182.79.224.124 (182.79.224.124)  11.205 ms
+    116.119.106.202 (116.119.106.202)  12.471 ms
+    116.119.106.206 (116.119.106.206)  10.249 ms
+
+ 5  * * *
+ 6  * * *
+ 7  * * *
+ 8  * * *
+ 9  * * *
+10  *^C
+
+
+
+
+
+curl -v https://httpbin.org/get
+
+Request headers:
+
+Host: httpbin.org
+User-Agent: curl/8.7.1
+Accept: */*
+
+Response status:
+
+HTTP/2 200 OK
+
+Response headers:
+
+date: Tue, 01 Sep 2026 10:58:30 GMT
+content-type: application/json
+content-length: 255
+server: gunicorn/19.9.0
+access-control-allow-origin: *
+access-control-allow-credentials: true
+
+Response body:
+
+{
+  "args": {},
+  "headers": {
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/8.7.1",
+    "X-Amzn-Trace-Id": "Root=1-6a96afd6-2fec583033348805302e6916"
+  },
+  "origin": "103.197.75.236",
+  "url": "https://httpbin.org/get"
+}
+
+
+
+DNS can return different answers based on things such as:
+
+your geographic location
+your DNS resolver
+Google's load-balancing system
+network conditions
+DNS caching
+which Google infrastructure is optimal
+routing/traffic management
+
+
+
+
+➜  vy ll /etc/hosts 
+-rw-r--r--  1 root  wheel   213B 13 Aug 08:21 /etc/hosts
+➜  vy sudo su root
+Password:
+sh-3.2# vim /etc/hosts
+sh-3.2# exit
+exit
+➜  vy 
+➜  vy 
+➜  vy cat /etc/hosts
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+127.0.0.1 myapp.local
+➜  vy ping -c 1 myapp.local
+PING myapp.local (127.0.0.1): 56 data bytes
+64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=0.870 ms
+
+--- myapp.local ping statistics ---
+1 packets transmitted, 1 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 0.870/0.870/0.870/0.000 ms
+➜  vy mkdir -p ~/myapp
+cd ~/myapp
+➜  myapp 
+➜  myapp        python3 -m http.server 8080
+Serving HTTP on :: port 8080 (http://[::]:8080/) ...
+::ffff:127.0.0.1 - - [01/Sep/2026 16:41:31] "GET / HTTP/1.1" 200 -
+^C
+Keyboard interrupt received, exiting.
+➜  myapp 
+➜  myapp sudo su root
+Password:
+Sorry, try again.
+Password:
+sh-3.2# vim /etc/hosts
+sh-3.2# exit
+exit
+➜  myapp        python3 -m http.server 8080
+Serving HTTP on :: port 8080 (http://[::]:8080/) ...
+^C
+Keyboard interrupt received, exiting.
+➜  myapp 
+
+
+
+➜  ~ curl -v http://myapp.local:8080
+* Host myapp.local:8080 was resolved.
+* IPv6: (none)
+* IPv4: 127.0.0.1
+*   Trying 127.0.0.1:8080...
+* Connected to myapp.local (127.0.0.1) port 8080
+> GET / HTTP/1.1
+> Host: myapp.local:8080
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+* HTTP 1.0, assume close after body
+< HTTP/1.0 200 OK
+< Server: SimpleHTTP/0.6 Python/3.9.6
+< Date: Tue, 01 Sep 2026 11:11:31 GMT
+< Content-type: text/html; charset=utf-8
+< Content-Length: 297
+< 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Directory listing for /</title>
+</head>
+<body>
+<h1>Directory listing for /</h1>
+<hr>
+<ul>
+</ul>
+<hr>
+</body>
+</html>
+* Closing connection
+➜  ~ curl -v http://myapp.local:8080
+* Could not resolve host: myapp.local
+* Closing connection
+curl: (6) Could not resolve host: myapp.local
+➜  ~ 
