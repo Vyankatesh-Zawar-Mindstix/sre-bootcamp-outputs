@@ -1,0 +1,418 @@
+➜  vy grep "ERROR" sample.log 
+2024-01-10 10:02:10 ERROR Database connection failed: timeout
+2024-01-10 10:02:20 ERROR Database connection failed: refused
+2024-01-10 10:05:00 ERROR Disk usage at 94%
+➜  vy grep -c "ERROR" sample.log
+3
+➜  vy grep -v "DEBUG" sample.log
+2024-01-10 10:01:23 INFO  Server started on port 8080
+2024-01-10 10:02:10 ERROR Database connection failed: timeout
+2024-01-10 10:02:15 INFO  Retrying connection...
+2024-01-10 10:02:20 ERROR Database connection failed: refused
+2024-01-10 10:02:25 WARN  Max retries reached
+2024-01-10 10:03:00 INFO  Failover to secondary DB
+2024-01-10 10:05:00 ERROR Disk usage at 94%
+➜  vy grep -i "connection" sample.log
+2024-01-10 10:02:10 ERROR Database connection failed: timeout
+2024-01-10 10:02:15 INFO  Retrying connection...
+2024-01-10 10:02:20 ERROR Database connection failed: refused
+➜  vy grep -n "ERROR" sample.log
+3:2024-01-10 10:02:10 ERROR Database connection failed: timeout
+5:2024-01-10 10:02:20 ERROR Database connection failed: refused
+9:2024-01-10 10:05:00 ERROR Disk usage at 94%
+➜  vy awk '{print $1, $3}'  sample.log 
+2024-01-10 INFO
+2024-01-10 DEBUG
+2024-01-10 ERROR
+2024-01-10 INFO
+2024-01-10 ERROR
+2024-01-10 WARN
+2024-01-10 INFO
+2024-01-10 DEBUG
+2024-01-10 ERROR
+➜  vy awk '{print $2, $3}'  sample.log
+10:01:23 INFO
+10:01:45 DEBUG
+10:02:10 ERROR
+10:02:15 INFO
+10:02:20 ERROR
+10:02:25 WARN
+10:03:00 INFO
+10:03:05 DEBUG
+10:05:00 ERROR
+➜  vy awk '$3 == "ERROR" {print $4}' sample.log 
+Database
+Database
+Disk
+➜  vy awk '{print $0}'  sample.log        
+2024-01-10 10:01:23 INFO  Server started on port 8080
+2024-01-10 10:01:45 DEBUG Health check passed
+2024-01-10 10:02:10 ERROR Database connection failed: timeout
+2024-01-10 10:02:15 INFO  Retrying connection...
+2024-01-10 10:02:20 ERROR Database connection failed: refused
+2024-01-10 10:02:25 WARN  Max retries reached
+2024-01-10 10:03:00 INFO  Failover to secondary DB
+2024-01-10 10:03:05 DEBUG Query executed in 23ms
+2024-01-10 10:05:00 ERROR Disk usage at 94%
+➜  vy awk '$3 == "ERROR" {for(i=4;i<=NF;i++) printf "%s ",$i; print ""}' sample.log 
+Database connection failed: timeout 
+Database connection failed: refused 
+Disk usage at 94% 
+➜  vy awk '{count[$3]++} END {for (level in count) print level, count[level]}' sample.log 
+INFO 3
+WARN 1
+DEBUG 2
+ERROR 3
+➜  vy awk '{print $NF}' sample.log
+8080
+passed
+timeout
+connection...
+refused
+reached
+DB
+23ms
+94%
+➜  vy sed "s/ERROR/[CRITICAL]/g" sample.log 
+2024-01-10 10:01:23 INFO  Server started on port 8080
+2024-01-10 10:01:45 DEBUG Health check passed
+2024-01-10 10:02:10 [CRITICAL] Database connection failed: timeout
+2024-01-10 10:02:15 INFO  Retrying connection...
+2024-01-10 10:02:20 [CRITICAL] Database connection failed: refused
+2024-01-10 10:02:25 WARN  Max retries reached
+2024-01-10 10:03:00 INFO  Failover to secondary DB
+2024-01-10 10:03:05 DEBUG Query executed in 23ms
+2024-01-10 10:05:00 [CRITICAL] Disk usage at 94%
+➜  vy sed "s/ERROR/[CRITICAL]/g" sample.log > sample_sed.log
+➜  vy cat sample_sed.log                                    
+2024-01-10 10:01:23 INFO  Server started on port 8080
+2024-01-10 10:01:45 DEBUG Health check passed
+2024-01-10 10:02:10 [CRITICAL] Database connection failed: timeout
+2024-01-10 10:02:15 INFO  Retrying connection...
+2024-01-10 10:02:20 [CRITICAL] Database connection failed: refused
+2024-01-10 10:02:25 WARN  Max retries reached
+2024-01-10 10:03:00 INFO  Failover to secondary DB
+2024-01-10 10:03:05 DEBUG Query executed in 23ms
+2024-01-10 10:05:00 [CRITICAL] Disk usage at 94%
+➜  vy sed -i '/DEBUG/d' sample_sed.log
+sed: 1: "sample_sed.log
+": unterminated substitute pattern
+➜  vy sed '/DEBUG/d' sample_sed.log > sample_sed.log & cat sample_sed.log 
+[1] 6836
+[1]  + 6836 done       sed '/DEBUG/d' sample_sed.log > sample_sed.log                                                   
+➜  vy sed '/DEBUG/d' sample_sed.log > sample_sed.log && cat sample_sed.log
+➜  vy cat sample_sed.log 
+➜  vy sed '/DEBUG/d' sample_sed.log > temp.log && mv temp.log sample_sed.log
+➜  vy cp sample.log sample_sed.log 
+➜  vy cat sample_sed.log 
+2024-01-10 10:01:23 INFO  Server started on port 8080
+2024-01-10 10:01:45 DEBUG Health check passed
+2024-01-10 10:02:10 ERROR Database connection failed: timeout
+2024-01-10 10:02:15 INFO  Retrying connection...
+2024-01-10 10:02:20 ERROR Database connection failed: refused
+2024-01-10 10:02:25 WARN  Max retries reached
+2024-01-10 10:03:00 INFO  Failover to secondary DB
+2024-01-10 10:03:05 DEBUG Query executed in 23ms
+2024-01-10 10:05:00 ERROR Disk usage at 94%
+➜  vy sed '/DEBUG/d' sample_sed.log > temp.log && mv temp.log sample_sed.log
+➜  vy cat sample_sed.log 
+2024-01-10 10:01:23 INFO  Server started on port 8080
+2024-01-10 10:02:10 ERROR Database connection failed: timeout
+2024-01-10 10:02:15 INFO  Retrying connection...
+2024-01-10 10:02:20 ERROR Database connection failed: refused
+2024-01-10 10:02:25 WARN  Max retries reached
+2024-01-10 10:03:00 INFO  Failover to secondary DB
+2024-01-10 10:05:00 ERROR Disk usage at 94%
+➜  vy sed -n '3,7p' sample_sed.log
+2024-01-10 10:02:15 INFO  Retrying connection...
+2024-01-10 10:02:20 ERROR Database connection failed: refused
+2024-01-10 10:02:25 WARN  Max retries reached
+2024-01-10 10:03:00 INFO  Failover to secondary DB
+2024-01-10 10:05:00 ERROR Disk usage at 94%
+➜  vy sed "s/2024-01-10/REDACTED/g" sample_sed.log > temp && mv temp sample_sed.log && cat sample_sed.log 
+REDACTED 10:01:23 INFO  Server started on port 8080
+REDACTED 10:02:10 ERROR Database connection failed: timeout
+REDACTED 10:02:15 INFO  Retrying connection...
+REDACTED 10:02:20 ERROR Database connection failed: refused
+REDACTED 10:02:25 WARN  Max retries reached
+REDACTED 10:03:00 INFO  Failover to secondary DB
+REDACTED 10:05:00 ERROR Disk usage at 94%
+➜  vy grep ERROR sample.log | awk '{print $5}' | sort | uniq -c     
+   2 connection
+   1 usage
+➜  vy grep ERROR sample.log | awk '{print $3}' | sort | uniq -c 
+   3 ERROR
+➜  vy cat sample.log | awk '{print $3}' | sort | uniq -c 
+   2 DEBUG
+   3 ERROR
+   3 INFO
+   1 WARN
+➜  vy awk '$3=="ERROR" {print}' filename | sort | tail -1
+awk: can't open file filename
+ source line number 1
+➜  vy awk '$3=="ERROR" {print}' sample_sed.log | sort | tail -1 
+REDACTED 10:05:00 ERROR Disk usage at 94%
+➜  vy awk '$3=="ERROR" {print}' sample_sed.log | sort -r | tail -1
+REDACTED 10:02:10 ERROR Database connection failed: timeout
+➜  vy awk '$3=="ERROR" {print}' sample.log | sort -r | tail -1 
+2024-01-10 10:02:10 ERROR Database connection failed: timeout
+➜  vy awk '{print substr($2,1,5)}' sample.log | sort | uniq -c 
+   2 10:01
+   4 10:02
+   2 10:03
+   1 10:05
+➜  vy awk '{for (i=4; i<=NF; i++) printf "%s ", $i; print ""}' sample.log | sort 
+Database connection failed: refused 
+Database connection failed: timeout 
+Disk usage at 94% 
+Failover to secondary DB 
+Health check passed 
+Max retries reached 
+Query executed in 23ms 
+Retrying connection... 
+Server started on port 8080 
+➜  vy ll
+total 40
+-rwx------  1 mindstix-dev  staff    73B 31 Aug 02:31 logger.sh
+-rw-------  1 mindstix-dev  staff     0B 31 Aug 02:32 nohup.out
+-rw-r--r--  1 mindstix-dev  staff   2.2K 31 Aug 02:35 output.log
+-rw-r--r--  1 mindstix-dev  staff    32B 28 Aug 11:53 readme
+-rw-r--r--  1 mindstix-dev  staff   354B  1 Sep 11:46 sample_sed.log
+-rw-r--r--  1 mindstix-dev  staff   463B  1 Sep 11:16 sample.log
+➜  vy ll ~/bootcamp/scripts
+ls: /Users/mindstix-dev/bootcamp/scripts: No such file or directory
+➜  vy cd ../bootcamp 
+➜  bootcamp ll
+total 0
+drwxr-xr-x  3 mindstix-dev  staff    96B 31 Aug 01:59 week1
+➜  bootcamp mkdir scripts
+➜  bootcamp cd
+➜  ~ vim .zshrc
+➜  ~ source ~/.zshrc
+➜  ~ cd bootcamp/scripts 
+➜  scripts cd vy
+cd: no such file or directory: vy
+➜  scripts cd ~/vy
+➜  vy ll
+total 40
+-rwx------  1 mindstix-dev  staff    73B 31 Aug 02:31 logger.sh
+-rw-------  1 mindstix-dev  staff     0B 31 Aug 02:32 nohup.out
+-rw-r--r--  1 mindstix-dev  staff   2.2K 31 Aug 02:35 output.log
+-rw-r--r--  1 mindstix-dev  staff    32B 28 Aug 11:53 readme
+-rw-r--r--  1 mindstix-dev  staff   354B  1 Sep 11:46 sample_sed.log
+-rw-r--r--  1 mindstix-dev  staff   463B  1 Sep 11:16 sample.log
+➜  vy cp logger.sh ~/bootcamp/scripts 
+➜  vy logger.sh
+zsh: command not found: logger.sh
+➜  vy ./logger.sh
+^C
+➜  vy 
+➜  vy 
+➜  vy cd
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ ./logger.sh
+zsh: no such file or directory: ./logger.sh
+➜  ~ logger.sh 
+zsh: command not found: logger.sh
+➜  ~ cat .zshrc
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bootcamp/scripts:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time Oh My Zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='nvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch $(uname -m)"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+➜  ~ cd $HOME/bootcamp/scripts
+➜  scripts ll
+total 8
+-rwx------  1 mindstix-dev  staff    73B  1 Sep 12:40 logger.sh
+➜  scripts chmod 777 logger.sh 
+➜  scripts cd
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ source ~/.zshrc
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ logger.sh              
+zsh: command not found: logger.sh
+➜  ~ vim .zshrc
+➜  ~ source ~/.zshrc
+➜  ~ logger.sh      
+^C
+➜  ~ 
+➜  ~ 
+➜  ~ echo 'export BOOTCAMP_ENV=dev' >> ~/.zshrc
+➜  ~ source ~/.zshrc
+
+➜  ~ echo $BOOTCAMP_ENV
+
+dev
+➜  ~ vim ~/bootcamp/scripts/check_env.sh
+➜  ~ chmod +x ~/bootcamp/scripts/check_env.sh
+
+➜  ~ check_env.sh
+BOOTCAMP_ENV=dev
+➜  ~ cd vy 
+➜  vy ll
+total 40
+-rwx------  1 mindstix-dev  staff    73B 31 Aug 02:31 logger.sh
+-rw-------  1 mindstix-dev  staff     0B 31 Aug 02:32 nohup.out
+-rw-r--r--  1 mindstix-dev  staff   2.3K  1 Sep 12:41 output.log
+-rw-r--r--  1 mindstix-dev  staff    32B 28 Aug 11:53 readme
+-rw-r--r--  1 mindstix-dev  staff   354B  1 Sep 11:46 sample_sed.log
+-rw-r--r--  1 mindstix-dev  staff   463B  1 Sep 11:16 sample.log
+➜  vy vim diffrence_between_zshrc_and_profile
+➜  vy mv diffrence_between_zshrc_and_profile diffrence_between_zshrc_and_zprofile 
+➜  vy vim diffrence_between_zshrc_and_profile                                    
+➜  vy cat diffrence_between_zshrc_and_zprofile 
+.zprofile → environment/setup
+.zshrc    → interactive configuration
+➜  vy cd
+➜  ~ touch ~/bootcamp/heartbeat.log
+➜  ~ crontab -e
+crontab: no crontab for mindstix-dev - using an empty one
+crontab: installing new crontab
+➜  ~ crontab -l                    
+* * * * * echo "I am alive - $(date '+\%Y-\%m-\%d \%H:\%M:\%S')" >> "$HOME/bootcamp/heartbeat.log"
+➜  ~ cat bootcamp/heartbeat.log 
+I am alive - 2026-09-01 12:57:00
+I am alive - 2026-09-01 12:58:00
+I am alive - 2026-09-01 12:59:00
+I am alive - 2026-09-01 13:00:00
+➜  ~ crontab -e
+crontab: installing new crontab
+➜  ~ crontab -l                
+➜  ~ 
+
+
+
+
+
+➜  vy cat diffrence_between_zshrc_and_zprofile 
+.zprofile → environment/setup
+.zshrc    → interactive configuration
+➜  vy 
+
+
+command >> output.log 2>&1
+
+========================================================
+
+other shell :
+
+➜  ~ source ~/.zshrc
+➜  ~ 
+➜  ~ 
+➜  ~ echo $BOOTCAMP_ENV
+
+
+➜  ~ source ~/.zshrc   
+
+➜  ~ echo $BOOTCAMP_ENV
+
+dev
+➜  ~ check_env.sh                            
+BOOTCAMP_ENV=dev
+➜  ~ 
