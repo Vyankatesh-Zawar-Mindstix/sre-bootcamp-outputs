@@ -1,0 +1,131 @@
+I am Working with Mac OS 
+systemctl and journalctl not available for practise
+
+  but Asswer of asssignment:
+  1. systemctl status nginx
+  systemctl is-enabled nginx
+  sudo systemctl stop nginx
+  systemctl is-active nginx
+
+
+
+  ##systemd capture stdout/stderr and send it to journald.
+
+  unit file 
+  sudo vim /etc/systemd/system/bootcamp-logger.service
+
+[Unit]
+Description=Bootcamp Logger Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/ubuntu/logger.sh
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+
+  sudo systemctl daemon-reload
+  This makes systemd reload its unit-file configuration.
+  sudo systemctl enable bootcamp-logger.service
+  sudo systemctl start bootcamp-logger
+
+  journalctl -u bootcamp-logger -f
+  journalctl -u bootcamp-logger --since "10 minutes ago"
+
+  Important: Not every service supports reload. can check:
+systemctl show nginx -p CanReload      # Reload configuration without full restart
+
+
+  dependency tree : systemctl list-dependencies multi-user.target
+
+    Wants
+  ↓
+soft dependency
+
+Requires
+  ↓
+strong dependency
+
+
+
+
+
+When you execute:
+
+sudo systemctl enable bootcamp-logger
+
+systemd looks at:
+
+[Install]
+WantedBy=multi-user.target
+
+and creates an appropriate symlink under the target's .wants directory.
+
+Conceptually:
+
+/etc/systemd/system/
+       │
+       └── multi-user.target.wants/
+                │
+                └── bootcamp-logger.service → ../bootcamp-logger.service
+
+So now:
+
+multi-user.target
+       │
+       └── wants
+             ↓
+     bootcamp-logger.service
+
+That's the magic behind WantedBy.
+
+You can actually inspect it:
+
+ls -l /etc/systemd/system/multi-user.target.wants/
+
+You may see:
+
+bootcamp-logger.service -> /etc/systemd/system/bootcamp-logger.service
+
+
+
+
+  After
+
+Controls ordering:
+
+network.target
+      ↓
+your service
+WantedBy=
+
+Controls boot integration when enabled:
+
+multi-user.target
+      ↓
+wants
+      ↓
+your service
+
+
+
+  systemd
+   │
+   ├── local-fs.target
+   │
+   ├── network.target
+   │
+   ├── multi-user.target
+   │       │
+   │       ├── ssh.service
+   │       ├── cron.service
+   │       └── your-service.service
+   │
+   └── graphical.target
