@@ -414,3 +414,64 @@ index 5ad8d37..7782dc0 100644
      app.run(debug=True)
 -
 ➜  Git_learning git:(master) ✗ 
+
+
+➜  Git_learning git:(master) echo "DB_PASSWORD=supersecret123" > .env
+➜  Git_learning git:(master) ✗ cat .env
+DB_PASSWORD=supersecret123
+➜  Git_learning git:(master) ✗ git add .env
+git commit -m "add env config"
+[master bf2fbfa] add env config
+ 1 file changed, 1 insertion(+)
+ create mode 100644 .env
+➜  Git_learning git:(master) git log --oneline -1 | tee
+bf2fbfa add env config
+➜  Git_learning git:(master) echo "Flask learning" > notes.txt
+git add notes.txt
+git commit -m "add learning notes"
+[master f1e7b17] add learning notes
+ 1 file changed, 1 insertion(+)
+ create mode 100644 notes.txt
+➜  Git_learning git:(master) echo "# Git practice" > practice.md
+git add practice.md
+git commit -m "add practice file"
+[master 4fa686c] add practice file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 practice.md
+➜  Git_learning git:(master) echo ".env" >> .gitignore
+➜  Git_learning git:(master) cat .gitignore 
+*log*
+*git*
+.env
+➜  Git_learning git:(master) git add .gitignore
+git commit -m "ignore env file"
+The following paths are ignored by one of your .gitignore files:
+.gitignore
+hint: Use -f if you really want to add them.
+hint: Disable this message with "git config set advice.addIgnoredFile false"
+On branch master
+nothing to commit, working tree clean
+➜  Git_learning git:(master) git rm --cached .env
+rm '.env'
+➜  Git_learning git:(master) ✗ git commit -m "stop tracking env file"
+[master 2ee440f] stop tracking env file
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 .env
+➜  Git_learning git:(master) git show bf2fbfa        
+➜  Git_learning git:(master) git show bf2fbfa | tee
+commit bf2fbfaf24081fd55d858c56a5991ca5bc9fc10b
+Author: Vyankatesh Zawar <vyankatesh.zawar@mindstix.com>
+Date:   Wed Sep 2 11:36:16 2026 +0530
+
+    add env config
+
+diff --git a/.env b/.env
+new file mode 100644
+index 0000000..295dfad
+--- /dev/null
++++ b/.env
+@@ -0,0 +1 @@
++DB_PASSWORD=supersecret123
+➜  Git_learning git:(master) ######.gitignore prevents future tracking. It does not erase secrets from Git history.#######
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
