@@ -1,0 +1,416 @@
+➜  Git_learning git:(master) ls -lart
+total 0
+drwxr-xr-x  10 mindstix-dev  staff  320  2 Sep 10:39 ..
+drwxr-xr-x   3 mindstix-dev  staff   96  2 Sep 10:39 .
+drwxr-xr-x   9 mindstix-dev  staff  288  2 Sep 10:45 .git
+➜  Git_learning git:(master) vim app.py
+➜  Git_learning git:(master) ✗ 
+➜  Git_learning git:(master) ✗ vim app.py
+➜  Git_learning git:(master) ✗ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	app.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+➜  Git_learning git:(master) ✗ git add app.py 
+➜  Git_learning git:(master) ✗ git status    
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   app.py
+
+➜  Git_learning git:(master) ✗ git commit -m "basic flask app while earning git" app.py
+[master (root-commit) ccc6240] basic flask app while earning git
+ 1 file changed, 18 insertions(+)
+ create mode 100644 app.py
+➜  Git_learning git:(master) vim README.md 
+➜  Git_learning git:(master) ✗ vim requirements.txt
+➜  Git_learning git:(master) ✗ git commit -m "Readme commit" README.md
+error: pathspec 'README.md' did not match any file(s) known to git
+➜  Git_learning git:(master) ✗ git add README.md 
+➜  Git_learning git:(master) ✗ git commit -m "Readme commit" README.md
+[master 3c8aca0] Readme commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+➜  Git_learning git:(master) ✗ git add requirements.txt               
+➜  Git_learning git:(master) ✗ git commit -m "Requirements commit" requirements.txt
+[master 15b7bc8] Requirements commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 requirements.txt
+➜  Git_learning git:(master) git logs
+git: 'logs' is not a git command. See 'git --help'.
+
+The most similar command is
+	log
+➜  Git_learning git:(master) git log 
+➜  Git_learning git:(master) git log
+➜  Git_learning git:(master) git log --oneline
+➜  Git_learning git:(master) cat .git/HEAD
+ref: refs/heads/master
+➜  Git_learning git:(master) git show
+➜  Git_learning git:(master) git log          
+➜  Git_learning git:(master) git show ccc6240f21524a9701cb33f3bcfaf88e1a9d3941
+➜  Git_learning git:(master) vim app.py 
+➜  Git_learning git:(master) ✗ git add -p
+diff --git a/app.py b/app.py
+index 5ad8d37..7782dc0 100644
+--- a/app.py
++++ b/app.py
+@@ -13,6 +13,11 @@ def hello():
+     return {"message": "Hello from Flask!"}
+ 
+ 
++# Flask application routes
++@app.route("/ping")
++def ping():
++    return {"status": "ok"}
++
++
+ if __name__ == "__main__":
+     app.run(debug=True)
+-
+(1/1) Stage this hunk [y,n,q,a,d,s,e,p,P,?]? e
+error: corrupt patch at <stdin>:10
+error: 'git apply --cached' failed
+Your edited hunk does not apply. Edit again (saying "no" discards!) [y/n]? y
+
+➜  Git_learning git:(master) ✗ git log
+➜  Git_learning git:(master) ✗ git add -p
+No changes.
+➜  Git_learning git:(master) ✗ ll
+total 24
+-rw-r--r--  1 mindstix-dev  staff   326B  2 Sep 11:00 app.py
+-rw-r--r--  1 mindstix-dev  staff    19B  2 Sep 10:51 README.md
+-rw-r--r--  1 mindstix-dev  staff    19B  2 Sep 10:52 requirements.txt
+➜  Git_learning git:(master) ✗ git diff .
+➜  Git_learning git:(master) ✗ git diff  
+➜  Git_learning git:(master) ✗ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   app.py
+
+➜  Git_learning git:(master) ✗ cat app.py 
+from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def home():
+    return "Hello, Flask!"
+
+
+@app.route("/hello")
+def hello():
+    return {"message": "Hello from Flask!"}
+
+
+# Flask application routes
+@app.route("/ping")
+def ping():
+    return {"status": "ok"}
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+➜  Git_learning git:(master) ✗ git restore --staged app.py
+➜  Git_learning git:(master) ✗ git diff                   
+➜  Git_learning git:(master) ✗ git app -p
+git: 'app' is not a git command. See 'git --help'.
+
+The most similar command is
+	apply
+➜  Git_learning git:(master) ✗ git add -p
+diff --git a/app.py b/app.py
+index 5ad8d37..7782dc0 100644
+--- a/app.py
++++ b/app.py
+@@ -13,6 +13,11 @@ def hello():
+     return {"message": "Hello from Flask!"}
+ 
+ 
++# Flask application routes
++@app.route("/ping")
++def ping():
++    return {"status": "ok"}
++
++
+ if __name__ == "__main__":
+     app.run(debug=True)
+-
+(1/1) Stage this hunk [y,n,q,a,d,s,e,p,P,?]? s
+Split into 2 hunks.
+@@ -13,5 +13,11 @@ def hello():
+     return {"message": "Hello from Flask!"}
+ 
+ 
++# Flask application routes
++@app.route("/ping")
++def ping():
++    return {"status": "ok"}
++
++
+ if __name__ == "__main__":
+     app.run(debug=True)
+(1/2) Stage this hunk [y,n,q,a,d,k,K,j,J,g,/,e,p,P,?]? s
+Sorry, cannot split this hunk
+(1/2) Stage this hunk [y,n,q,a,d,k,K,j,J,g,/,e,p,P,?]? n
+@@ -16,3 +22,2 @@
+ if __name__ == "__main__":
+     app.run(debug=True)
+-
+(2/2) Stage this hunk [y,n,q,a,d,K,J,g,/,e,p,P,?]? n
+
+➜  Git_learning git:(master) ✗ git add -p
+diff --git a/app.py b/app.py
+index 5ad8d37..7782dc0 100644
+--- a/app.py
++++ b/app.py
+@@ -13,6 +13,11 @@ def hello():
+     return {"message": "Hello from Flask!"}
+ 
+ 
++# Flask application routes
++@app.route("/ping")
++def ping():
++    return {"status": "ok"}
++
++
+ if __name__ == "__main__":
+     app.run(debug=True)
+-
+(1/1) Stage this hunk [y,n,q,a,d,s,e,p,P,?]? e
+error: patch failed: app.py:13
+error: app.py: patch does not apply
+error: 'git apply --cached' failed
+Your edited hunk does not apply. Edit again (saying "no" discards!) [y/n]? y
+
+➜  Git_learning git:(master) ✗ git log
+➜  Git_learning git:(master) ✗ git diff
+➜  Git_learning git:(master) ✗ git commit -m "only comment added in this commit git add -p " app.py
+[master 3ca4407] only comment added in this commit git add -p
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+➜  Git_learning git:(master) git diff                                                            
+➜  Git_learning git:(master) git show --stat HEAD
+➜  Git_learning git:(master) git show head
+➜  Git_learning git:(master) git reset HEAD~1
+Unstaged changes after reset:
+M	app.py
+➜  Git_learning git:(master) ✗ git status                                                          
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  Git_learning git:(master) ✗ tee git log
+
+
+
+
+
+
+
+
+^C
+➜  Git_learning git:(master) ✗ git log | tee
+commit 15b7bc88d6e051da3235844aeeb02c9cb4b0c510
+Author: Vyankatesh Zawar <vyankatesh.zawar@mindstix.com>
+Date:   Wed Sep 2 10:53:50 2026 +0530
+
+    Requirements commit
+
+commit 3c8aca0e88129ec10532c3e0fab92baf2736a8ef
+Author: Vyankatesh Zawar <vyankatesh.zawar@mindstix.com>
+Date:   Wed Sep 2 10:53:27 2026 +0530
+
+    Readme commit
+
+commit ccc6240f21524a9701cb33f3bcfaf88e1a9d3941
+Author: Vyankatesh Zawar <vyankatesh.zawar@mindstix.com>
+Date:   Wed Sep 2 10:51:18 2026 +0530
+
+    basic flask app while earning git
+➜  Git_learning git:(master) ✗ git status | tee
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	git
+	log
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  Git_learning git:(master) ✗ ls -l git log
+-rw-r--r--  1 mindstix-dev  staff  4  2 Sep 11:18 git
+-rw-r--r--  1 mindstix-dev  staff  4  2 Sep 11:18 log
+➜  Git_learning git:(master) ✗ ll
+total 40
+-rw-r--r--  1 mindstix-dev  staff   326B  2 Sep 11:00 app.py
+-rw-r--r--  1 mindstix-dev  staff     4B  2 Sep 11:18 git
+-rw-r--r--  1 mindstix-dev  staff     4B  2 Sep 11:18 log
+-rw-r--r--  1 mindstix-dev  staff    19B  2 Sep 10:51 README.md
+-rw-r--r--  1 mindstix-dev  staff    19B  2 Sep 10:52 requirements.txt
+➜  Git_learning git:(master) ✗ ls -lart
+total 40
+drwxr-xr-x  10 mindstix-dev  staff  320  2 Sep 10:39 ..
+-rw-r--r--   1 mindstix-dev  staff   19  2 Sep 10:51 README.md
+-rw-r--r--   1 mindstix-dev  staff   19  2 Sep 10:52 requirements.txt
+-rw-r--r--   1 mindstix-dev  staff  326  2 Sep 11:00 app.py
+drwxr-xr-x   8 mindstix-dev  staff  256  2 Sep 11:18 .
+-rw-r--r--   1 mindstix-dev  staff    4  2 Sep 11:18 log
+-rw-r--r--   1 mindstix-dev  staff    4  2 Sep 11:18 git
+drwxr-xr-x  13 mindstix-dev  staff  416  2 Sep 11:20 .git
+➜  Git_learning git:(master) ✗ git add -p app.py
+diff --git a/app.py b/app.py
+index 5ad8d37..7782dc0 100644
+--- a/app.py
++++ b/app.py
+@@ -13,6 +13,11 @@ def hello():
+     return {"message": "Hello from Flask!"}
+ 
+ 
++# Flask application routes
++@app.route("/ping")
++def ping():
++    return {"status": "ok"}
++
++
+ if __name__ == "__main__":
+     app.run(debug=True)
+-
+(1/1) Stage this hunk [y,n,q,a,d,s,e,p,P,?]? e
+
+➜  Git_learning git:(master) ✗ git diff --cached
+➜  Git_learning git:(master) ✗ git commit -m "Fix comment"
+[master d56fa31] Fix comment
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+➜  Git_learning git:(master) ✗ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	git
+	log
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  Git_learning git:(master) ✗ git diff head
+➜  Git_learning git:(master) ✗ git add -p 
+diff --git a/app.py b/app.py
+index c329202..7782dc0 100644
+--- a/app.py
++++ b/app.py
+@@ -14,5 +14,10 @@ def hello():
+ 
+ 
+ # Flask application routes
++@app.route("/ping")
++def ping():
++    return {"status": "ok"}
++
++
+ if __name__ == "__main__":
+     app.run(debug=True)
+(1/1) Stage this hunk [y,n,q,a,d,e,p,P,?]? s
+Sorry, cannot split this hunk
+(1/1) Stage this hunk [y,n,q,a,d,e,p,P,?]? y
+
+➜  Git_learning git:(master) ✗ 
+➜  Git_learning git:(master) ✗ 
+➜  Git_learning git:(master) ✗ 
+➜  Git_learning git:(master) ✗ 
+➜  Git_learning git:(master) ✗ git diff --cache
+➜  Git_learning git:(master) ✗ git diff --cached
+➜  Git_learning git:(master) ✗ git commit -m "added /ping route"
+[master b99cbb8] added /ping route
+ 1 file changed, 5 insertions(+)
+➜  Git_learning git:(master) ✗ git commit -m "added /ping route" | tee
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	git
+	log
+
+nothing added to commit but untracked files present (use "git add" to track)
+➜  Git_learning git:(master) ✗ git log --oneline | tee                
+b99cbb8 added /ping route
+d56fa31 Fix comment
+15b7bc8 Requirements commit
+3c8aca0 Readme commit
+ccc6240 basic flask app while earning git
+➜  Git_learning git:(master) ✗ git log --oneline --graph --all 
+➜  Git_learning git:(master) ✗ git log --oneline --graph --all  | tee
+* b99cbb8 added /ping route
+* d56fa31 Fix comment
+* 15b7bc8 Requirements commit
+* 3c8aca0 Readme commit
+* ccc6240 basic flask app while earning git
+➜  Git_learning git:(master) ✗ ls -lart
+total 40
+drwxr-xr-x  10 mindstix-dev  staff  320  2 Sep 10:39 ..
+-rw-r--r--   1 mindstix-dev  staff   19  2 Sep 10:51 README.md
+-rw-r--r--   1 mindstix-dev  staff   19  2 Sep 10:52 requirements.txt
+-rw-r--r--   1 mindstix-dev  staff  326  2 Sep 11:00 app.py
+drwxr-xr-x   8 mindstix-dev  staff  256  2 Sep 11:18 .
+-rw-r--r--   1 mindstix-dev  staff    4  2 Sep 11:18 log
+-rw-r--r--   1 mindstix-dev  staff    4  2 Sep 11:18 git
+drwxr-xr-x  13 mindstix-dev  staff  416  2 Sep 11:27 .git
+➜  Git_learning git:(master) ✗ git show b99cbb8                      
+➜  Git_learning git:(master) ✗ git show b99cbb8 | tee
+commit b99cbb85c19c219efe7f2cf96f2a6d833828e042
+Author: Vyankatesh Zawar <vyankatesh.zawar@mindstix.com>
+Date:   Wed Sep 2 11:27:24 2026 +0530
+
+    added /ping route
+
+diff --git a/app.py b/app.py
+index c329202..7782dc0 100644
+--- a/app.py
++++ b/app.py
+@@ -14,5 +14,10 @@ def hello():
+ 
+ 
+ # Flask application routes
++@app.route("/ping")
++def ping():
++    return {"status": "ok"}
++
++
+ if __name__ == "__main__":
+     app.run(debug=True)
+➜  Git_learning git:(master) ✗ git diff head~2 head
+➜  Git_learning git:(master) ✗ git diff head~2 head | tee
+diff --git a/app.py b/app.py
+index 5ad8d37..7782dc0 100644
+--- a/app.py
++++ b/app.py
+@@ -13,6 +13,11 @@ def hello():
+     return {"message": "Hello from Flask!"}
+ 
+ 
++# Flask application routes
++@app.route("/ping")
++def ping():
++    return {"status": "ok"}
++
++
+ if __name__ == "__main__":
+     app.run(debug=True)
+-
+➜  Git_learning git:(master) ✗ 
