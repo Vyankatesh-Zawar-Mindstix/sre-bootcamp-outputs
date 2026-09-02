@@ -1,0 +1,151 @@
+➜  ~ git --version
+git version 2.55.0
+➜  ~ git config --global user.name "Vyankatesh Zawar"
+➜  ~ git config --global user.email "vyankatesh.zawar@mindstix.com"
+➜  ~ ls -al ~/.ssh
+ls: /Users/mindstix-dev/.ssh: No such file or directory
+➜  ~ ssh-keygen -t ed25519 -C "your-email@example.com"
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/Users/mindstix-dev/.ssh/id_ed25519): 
+Created directory '/Users/mindstix-dev/.ssh'.
+Enter passphrase for "/Users/mindstix-dev/.ssh/id_ed25519" (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /Users/mindstix-dev/.ssh/id_ed25519
+Your public key has been saved in /Users/mindstix-dev/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:B1yOj6HamT1RYiq5uS9ZedM7iKW7EHfBZiQBVhGwqTw your-email@example.com
+The key's randomart image is:
++--[ED25519 256]--+
+|    ++*+. .      |
+|   . o = +       |
+|    o   % o      |
+| . . . * O       |
+|  E + +.S.o      |
+|   . Oo=+o.      |
+|    =o+=oo .     |
+|    ooo ..o      |
+|    .o+o   .     |
++----[SHA256]-----+
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ echo "$(ssh-agent -s)" 
+SSH_AUTH_SOCK=/Users/mindstix-dev/.ssh/agent/s.beB9z2LRA2.agent.2n3k8C9gdE; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=10260; export SSH_AGENT_PID;
+echo Agent pid 10260;
+➜  ~ eval "$(ssh-agent -s)"
+Agent pid 10268
+➜  ~ ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+Identity added: /Users/mindstix-dev/.ssh/id_ed25519 (your-email@example.com)
+➜  ~ pbcopy < ~/.ssh/id_ed25519.pub
+➜  ~ ssh -T git@github.com
+The authenticity of host 'github.com (20.207.73.82)' can't be established.
+ED25519 key fingerprint is: SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Hi Vyankatesh-Zawar-Mindstix! You've successfully authenticated, but GitHub does not provide shell access.
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ 
+➜  ~ git remote -v
+fatal: not a git repository (or any of the parent directories): .git
+➜  ~ cd vy
+➜  vy ll
+total 48
+-rw-r--r--  1 mindstix-dev  staff    72B  1 Sep 12:53 diffrence_between_zshrc_and_zprofile
+-rwx------  1 mindstix-dev  staff    73B 31 Aug 02:31 logger.sh
+-rw-------  1 mindstix-dev  staff     0B 31 Aug 02:32 nohup.out
+-rw-r--r--  1 mindstix-dev  staff   2.3K  1 Sep 12:41 output.log
+-rw-r--r--  1 mindstix-dev  staff    32B 28 Aug 11:53 readme
+-rw-r--r--  1 mindstix-dev  staff   354B  1 Sep 11:46 sample_sed.log
+-rw-r--r--  1 mindstix-dev  staff   463B  1 Sep 11:16 sample.log
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy mkdir Git_learning
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy 
+➜  vy git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /Users/mindstix-dev/Vy/.git/
+➜  vy git:(master) ✗ 
+➜  vy git:(master) ✗ 
+➜  vy git:(master) ✗ 
+➜  vy git:(master) ✗ 
+➜  vy git:(master) ✗ 
+➜  vy git:(master) ✗ 
+➜  vy git:(master) ✗ l
+total 48
+drwxr-xr-x  11 mindstix-dev  staff   352B  2 Sep 10:39 .
+drwxr-xr-x+ 32 mindstix-dev  staff   1.0K  2 Sep 10:39 ..
+drwxr-xr-x   9 mindstix-dev  staff   288B  2 Sep 10:39 .git
+-rw-r--r--   1 mindstix-dev  staff    72B  1 Sep 12:53 diffrence_between_zshrc_and_zprofile
+drwxr-xr-x   2 mindstix-dev  staff    64B  2 Sep 10:39 Git_learning
+-rwx------   1 mindstix-dev  staff    73B 31 Aug 02:31 logger.sh
+-rw-------   1 mindstix-dev  staff     0B 31 Aug 02:32 nohup.out
+-rw-r--r--   1 mindstix-dev  staff   2.3K  1 Sep 12:41 output.log
+-rw-r--r--   1 mindstix-dev  staff    32B 28 Aug 11:53 readme
+-rw-r--r--   1 mindstix-dev  staff   354B  1 Sep 11:46 sample_sed.log
+-rw-r--r--   1 mindstix-dev  staff   463B  1 Sep 11:16 sample.log
+➜  vy git:(master) ✗ rm -rf .git 
+➜  vy cd Git_learning 
+➜  Git_learning git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /Users/mindstix-dev/Vy/Git_learning/.git/
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) git remote -v
+➜  Git_learning git:(master) git remote add origin git@github.com:vyankatesh-zawar-mindstix/REPO.git
+➜  Git_learning git:(master) git remote add origin git@github.com:vyankatesh-zawar-mindstix/sre-bootcamp-outputs.git         
+error: remote origin already exists.
+➜  Git_learning git:(master) git remote set-url origin git@github.com:vyankatesh-zawar-mindstix/sre-bootcamp-outputs.git
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) 
+➜  Git_learning git:(master) git remote -v                                                                              
+origin	git@github.com:vyankatesh-zawar-mindstix/sre-bootcamp-outputs.git (fetch)
+origin	git@github.com:vyankatesh-zawar-mindstix/sre-bootcamp-outputs.git (push)
+➜  Git_learning git:(master) 
