@@ -1,0 +1,293 @@
+# Git Cheat Sheet
+
+Important Git commands from Week 2 — focused on useful, non-basic commands.
+
+## History & Changes
+
+```bash
+git log --oneline --graph --all
+```
+Visualize compact commit history across all branches.
+
+```bash
+git diff
+```
+Show changes that are not staged.
+
+```bash
+git diff --staged
+```
+Show changes that are staged but not committed.
+
+```bash
+git diff <hash1> <hash2>
+```
+Compare changes between two commits.
+
+```bash
+git diff HEAD~2 HEAD
+```
+Compare the current commit with the commit two positions before it.
+
+```bash
+git show <commit-hash>
+```
+Show the details and changes introduced by a specific commit.
+
+```bash
+git log origin/main --oneline
+```
+Show the commits currently recorded on the remote-tracking `origin/main` branch.
+
+```bash
+git log --oneline <branch>
+```
+Show compact commit history for a specific branch.
+
+## Selective Staging
+
+```bash
+git add -p
+```
+Interactively stage only selected chunks of your changes.
+
+## Remotes
+
+```bash
+git remote -v
+```
+Show the configured remote repositories and their URLs.
+
+```bash
+git remote add origin <url>
+```
+Add a remote repository named `origin`.
+
+## Fetch & Pull
+
+```bash
+git fetch origin
+```
+Download changes from `origin` without merging them.
+
+```bash
+git fetch --all
+```
+Download changes from all configured remotes.
+
+```bash
+git pull
+```
+Fetch remote changes and merge them into the current branch.
+
+```bash
+git merge origin/main
+```
+Merge the fetched `origin/main` changes into your current branch.
+
+## Branches
+
+```bash
+git branch -a
+```
+List local branches and remote-tracking branches.
+
+```bash
+git checkout -b <branch>
+```
+Create a new branch and switch to it.
+
+```bash
+git checkout <branch>
+```
+Switch to an existing branch.
+
+```bash
+git branch -d <branch>
+```
+Safely delete a local branch that has been merged.
+
+## Push
+
+```bash
+git push origin <branch>
+```
+Push a local branch to the matching branch on `origin`.
+
+```bash
+git push origin <local>:<remote>
+```
+Push a local branch to a differently named remote branch.
+
+## Merge
+
+```bash
+git merge <branch>
+```
+Merge another branch into the current branch.
+
+## Rebase
+
+```bash
+git rebase <branch>
+```
+Replay the current branch's commits on top of another branch.
+
+```bash
+git rebase -i HEAD~3
+```
+Interactively edit, reorder, squash, or reword the last three commits.
+
+```bash
+git rebase -i main
+```
+Interactively clean up the current branch before integrating it with `main`.
+
+```bash
+git rebase --continue
+```
+Continue a rebase after resolving a conflict.
+
+```bash
+git pull --rebase origin main
+```
+Fetch and replay your local commits on top of the latest `main`.
+
+## Cherry-pick
+
+```bash
+git cherry-pick <commit-hash>
+```
+Apply one specific commit from another branch to the current branch.
+
+## Shallow Clone
+
+```bash
+git clone --depth=1 <url>
+```
+Clone only the latest snapshot without the full commit history.
+
+## Amend Commits
+
+```bash
+git commit --amend -m "corrected message"
+```
+Replace the message of the most recent commit.
+
+```bash
+git commit --amend --no-edit
+```
+Add staged changes to the most recent commit while keeping its message.
+
+```bash
+git commit --amend --author="Name <email>"
+```
+Change the author of the most recent commit.
+
+## Search History
+
+```bash
+git log -p --all | grep "<text>"
+```
+Search all commit patches for specific text.
+
+```bash
+git log -S "<text>"
+```
+Find commits where a specific string was added or removed.
+
+## Tracking Files
+
+```bash
+git rm --cached <file>
+```
+Stop tracking a file while keeping it on your local disk.
+
+```bash
+git rm <file>
+```
+Remove a file from the working tree and stage its deletion.
+
+## Remove Files from History
+
+```bash
+pip install git-filter-repo
+```
+Install the `git-filter-repo` history-rewriting tool.
+
+```bash
+git filter-repo --path <file> --invert-paths
+```
+Remove a file from the repository's entire Git history.
+
+## Stash
+
+```bash
+git stash
+```
+Temporarily save uncommitted changes and clean the working tree.
+
+```bash
+git stash pop
+```
+Restore the latest stash and remove it from the stash list.
+
+```bash
+git stash list
+```
+List all saved stashes.
+
+```bash
+git stash push -m "wip"
+```
+Create a named stash for your current uncommitted changes.
+
+```bash
+git stash apply stash@{n}
+```
+Apply a specific stash without removing it.
+
+```bash
+git stash drop stash@{n}
+```
+Delete a specific stash.
+
+## Force Push
+
+```bash
+git push --force origin <branch>
+```
+Force the remote branch to match rewritten local history.
+
+```bash
+git push --force-with-lease origin <branch>
+```
+Force-push more safely by checking that the remote has not changed unexpectedly.
+
+## Configuration
+
+```bash
+git config --global user.name "Your Name"
+```
+Set your global Git username.
+
+```bash
+git config --global user.email "you@email.com"
+```
+Set your global Git email.
+
+```bash
+git config user.email "email@example.com"
+```
+Set the Git email for the current repository only.
+
+---
+
+## ⭐ Key Rules
+
+- Prefer `git fetch` + inspect over blindly using `git pull`.
+- Rebase your own local feature branches; avoid rebasing shared branches.
+- Prefer `--force-with-lease` over `--force` when force-pushing.
+- Never commit secrets; deleting them later does not remove them from Git history.
+- `git rm --cached` untracks a file but keeps it on disk.
+- `git cherry-pick` copies one specific commit as a new commit.
