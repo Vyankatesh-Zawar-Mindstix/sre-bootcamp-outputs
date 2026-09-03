@@ -1,0 +1,43 @@
+What did we actually learn?
+If it was pushed to GitHub before catching it:
+Immediately revoke/rotate the AWS credentials.
+Then rewrite Git history with git-filter-repo.
+Force-push the cleaned history.
+Check for other copies/caches if necessary.
+
+Why can it still be compromised after rewriting?
+
+Because someone may already have:
+
+old clone
+old commit
+fork
+downloaded copy
+CI/build logs
+
+Rewriting GitHub doesn't magically erase copies that other people already obtained.
+
+Actual response when a secret leaks:
+
+Rotate/revoke the secret first. Then clean the Git history.
+
+History cleanup is important, but the leaked credential must be considered compromised.
+
+Your assignment's core lesson
+Secret committed
+      ↓
+Delete file ❌
+      ↓
+Secret STILL in Git history
+      ↓
+Rewrite history with filter-repo
+      ↓
+Secret removed from rewritten history ✅
+      ↓
+BUT...
+      ↓
+Old copies may still exist
+      ↓
+ROTATE/REVOKE THE SECRET 🔐
+
+And one correction to keep in mind: the AWS-looking values in this exercise are example credentials, not real ones.
