@@ -2263,3 +2263,126 @@ total 16
 -rw-r--r--  1 mindstix-dev  staff    11B  3 Sep 08:23 notes.txt
 ➜  git-secret-practice git:(master) 
 
+
+➜  git_play2 git:(shared-feature) git status
+On branch shared-feature
+Your branch is up to date with 'origin/shared-feature'.
+
+nothing to commit, working tree clean
+➜  git_play2 git:(shared-feature) echo " " >>  app.py
+➜  git_play2 git:(shared-feature) ✗ git status         
+On branch shared-feature
+Your branch is up to date with 'origin/shared-feature'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  git_play2 git:(shared-feature) ✗ git stash
+Saved working directory and index state WIP on shared-feature: 24d08dd shared feature commit 3
+➜  git_play2 git:(shared-feature) git status
+On branch shared-feature
+Your branch is up to date with 'origin/shared-feature'.
+
+nothing to commit, working tree clean
+➜  git_play2 git:(shared-feature) echo "new feature" >> app.txt
+git add app.txt
+git commit -m "add new feature"
+[shared-feature e12121a] add new feature
+ 1 file changed, 1 insertion(+)
+ create mode 100644 app.txt
+➜  git_play2 git:(shared-feature) git log --oneline -2
+➜  git_play2 git:(shared-feature) git log --oneline -2 | cat
+e12121a add new feature
+24d08dd shared feature commit 3
+➜  git_play2 git:(shared-feature) git stash pop
+On branch shared-feature
+Your branch is ahead of 'origin/shared-feature' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (d3edc07ced7335a5ed3e365452ff116178902a56)
+➜  git_play2 git:(shared-feature) ✗ git status                   
+On branch shared-feature
+Your branch is ahead of 'origin/shared-feature' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  git_play2 git:(shared-feature) ✗ git brach a
+git: 'brach' is not a git command. See 'git --help'.
+
+The most similar command is
+	branch
+➜  git_play2 git:(shared-feature) ✗ git brach av
+git: 'brach' is not a git command. See 'git --help'.
+
+The most similar command is
+	branch
+➜  git_play2 git:(shared-feature) ✗ git brach -av  
+git: 'brach' is not a git command. See 'git --help'.
+
+The most similar command is
+	branch
+➜  git_play2 git:(shared-feature) ✗ git branch av 
+➜  git_play2 git:(shared-feature) ✗ git branch -av
+➜  git_play2 git:(shared-feature) ✗ git statsh list
+git: 'statsh' is not a git command. See 'git --help'.
+
+The most similar command is
+	stash
+➜  git_play2 git:(shared-feature) ✗ git stash list 
+➜  git_play2 git:(shared-feature) ✗ git status
+On branch shared-feature
+Your branch is ahead of 'origin/shared-feature' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  git_play2 git:(shared-feature) ✗ git stash
+Saved working directory and index state WIP on shared-feature: e12121a add new feature
+➜  git_play2 git:(shared-feature) echo "# second temporary change" >> app.py
+➜  git_play2 git:(shared-feature) ✗ git stash                                 
+Saved working directory and index state WIP on shared-feature: e12121a add new feature
+➜  git_play2 git:(shared-feature) git stash list
+➜  git_play2 git:(shared-feature) git stash list | cat
+stash@{0}: WIP on shared-feature: e12121a add new feature
+stash@{1}: WIP on shared-feature: e12121a add new feature
+➜  git_play2 git:(shared-feature) git stash apply stash@{1}
+On branch shared-feature
+Your branch is ahead of 'origin/shared-feature' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  git_play2 git:(shared-feature) ✗ git status
+On branch shared-feature
+Your branch is ahead of 'origin/shared-feature' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  git_play2 git:(shared-feature) ✗ 
