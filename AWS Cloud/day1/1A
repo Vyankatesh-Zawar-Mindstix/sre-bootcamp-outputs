@@ -1,0 +1,52 @@
+Run aws sts get-caller-identity. What do the three fields (UserId, Account, Arn) tell you?
+
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ aws sts get-caller-identity | cat
+{
+    "UserId": "AIDAY2HHG23D2Y6IL5O2A",  -  my user id
+    "Account": "606075279047",  - my account name of whitch I am user
+    "Arn": "arn:aws:iam::606075279047:user/vy-iam"   # Amazon resoure name - unique name
+}
+
+
+➜ aws configure --profile testuser
+
+Tip: You can deliver temporary credentials to the AWS CLI using your AWS Console session by running the command 'aws login'.
+
+AWS Access Key ID [None]: 
+AWS Secret Access Key [None]: 
+Default region name [None]: ap-south-1
+Default output format [None]: json
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ aws ec2 describe-instances --profile testuser
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ aws ec2 describe-instances --profile testuser | cat
+{
+    "Reservations": []
+}
+
+ #### yes it is working
+
+
+
+ ➜ aws ec2 run-instances --image-id ami-12345 --instance-type t2.micro --profile testuser
+
+aws: [ERROR]: An error occurred (InvalidAMIID.NotFound) when calling the RunInstances operation: The image id '[ami-12345]' does not exist
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
+
+
+Error is like [ami-12345] does not exist , we do not have this ami configured.
+
+
+Managed Policy → Separate policy object → can be attached to many users/roles.
+Inline Policy → Part of one user/role → belongs to only that one identity.
+
+
+AmazonEC2ReadOnlyAccess gives you permission to see EC2, not permission to create/manage EC2 resources.
