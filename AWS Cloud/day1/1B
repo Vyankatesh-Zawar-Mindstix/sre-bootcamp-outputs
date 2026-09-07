@@ -1,0 +1,74 @@
+The trust policy defines who is allowed to assume the role, while the permissions policy defines what the role can do after it is assumed. 
+
+If the trust policy allows lambda.amazonaws.com instead of ec2.amazonaws.com, 
+an EC2 instance cannot assume or use the role, even if the role has S3 permissions.
+
+
+
+
+
+
+➜ aws sts assume-role --profile testuser \
+  --role-arn arn:aws:iam::606075279047:role/s3-admin-role \
+  --role-session-name my-test-session |cat
+{
+    "Credentials": {
+        "AccessKeyId": "ASIAY2HHG23DYBQ3VKGW",
+        "SecretAccessKey": "8W2AH4PfSKO8XN541H630eErkZUvL5JAKiwGNsB2",
+        "SessionToken": "IQoJb3JpZ2luX2VjEHIaCmFwLXNvdXRoLTEiRjBEAiBvm3asaRVOK0Z3vtQKiFLZ/42eHAt6sdsUuErMv+9E7wIgcsmEJKSJxfddoarhyio6GR5UJfB4rJuuchruMkSLv5wqnAIIOxAAGgw2MDYwNzUyNzkwNDciDBfV4NPnwnqpWxLM+yr5AU57VcJ1lAQhlY97tvWQIJSdoMayt9BgoZbM3y91MC4/1LhFrwwYPoa2GScnwUkyICqTKz/90DMswFp9rvq6TEoXfboQfvzJvVLBufbw5SOwjOcXGYA+iHKs7SC5h6RXpVbNf0Kz1YDmbCvkPjzqr+o/nJbDDvlPwG/SvvJky/NxLfqweMdgrBSzjDlpnJc2noGvFP2IPqiHsgSzyehL+4E3xb2R0Bp7ct76HDMF92RPWfyKXyN0z3c3YWwOmY0QuQHJqk32cUdDrN5oq3v6iXusP4eacreZ5ugrqg3blIT+j/MeAyMKHLeazQhhZLagOBzC4aqnNCdW7TCzn/rUBjqeAfbL+7sS4j7mzGgXsJIHpw3+zUUc7d0wxeSTqT5Gnhl5V3saKiEOb/T7Q+kdcqWzo4q9TUwmqSk8Y+agnvMXalPmv6xrNVoIs9NY5rguEGBUwWjyNWvrGktmmTMOgs0esgEophDdLyJd2APFRJHPnnrpK8Ot3oiz2fVvXw78WrUJfFY2wt8IQrM+C8XJPalr6bqzU175gnb6HQxNSRX2",
+        "Expiration": "2026-09-07T11:19:31+00:00"
+    },
+    "AssumedRoleUser": {
+        "AssumedRoleId": "AROAY2HHG23DWCENFNF6M:my-test-session",
+        "Arn": "arn:aws:sts::606075279047:assumed-role/s3-admin-role/my-test-session"
+    }
+}
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
+
+
+Question for your log: You assumed a role with AmazonS3FullAccess. Can you now do EC2 operations with those temporary credentials? Why or why not?
+
+yes I can do because I have that policy attached directly. role of s3 operation is something extra that I have from assuming Role
+
+
+
+
+➜ aws sts assume-role --profile testuser \
+  --role-arn arn:aws:iam::606075279047:role/s3-admin-role \
+  --role-session-name my-test-session |cat
+{
+    "Credentials": {
+        "AccessKeyId": "ASIAY2HHG23DYBQ3VKGW",
+        "SecretAccessKey": "8W2AH4PfSKO8XN541H630eErkZUvL5JAKiwGNsB2",
+        "SessionToken": "IQoJb3JpZ2luX2VjEHIaCmFwLXNvdXRoLTEiRjBEAiBvm3asaRVOK0Z3vtQKiFLZ/42eHAt6sdsUuErMv+9E7wIgcsmEJKSJxfddoarhyio6GR5UJfB4rJuuchruMkSLv5wqnAIIOxAAGgw2MDYwNzUyNzkwNDciDBfV4NPnwnqpWxLM+yr5AU57VcJ1lAQhlY97tvWQIJSdoMayt9BgoZbM3y91MC4/1LhFrwwYPoa2GScnwUkyICqTKz/90DMswFp9rvq6TEoXfboQfvzJvVLBufbw5SOwjOcXGYA+iHKs7SC5h6RXpVbNf0Kz1YDmbCvkPjzqr+o/nJbDDvlPwG/SvvJky/NxLfqweMdgrBSzjDlpnJc2noGvFP2IPqiHsgSzyehL+4E3xb2R0Bp7ct76HDMF92RPWfyKXyN0z3c3YWwOmY0QuQHJqk32cUdDrN5oq3v6iXusP4eacreZ5ugrqg3blIT+j/MeAyMKHLeazQhhZLagOBzC4aqnNCdW7TCzn/rUBjqeAfbL+7sS4j7mzGgXsJIHpw3+zUUc7d0wxeSTqT5Gnhl5V3saKiEOb/T7Q+kdcqWzo4q9TUwmqSk8Y+agnvMXalPmv6xrNVoIs9NY5rguEGBUwWjyNWvrGktmmTMOgs0esgEophDdLyJd2APFRJHPnnrpK8Ot3oiz2fVvXw78WrUJfFY2wt8IQrM+C8XJPalr6bqzU175gnb6HQxNSRX2",
+        "Expiration": "2026-09-07T11:19:31+00:00"
+    },
+    "AssumedRoleUser": {
+        "AssumedRoleId": "AROAY2HHG23DWCENFNF6M:my-test-session",
+        "Arn": "arn:aws:sts::606075279047:assumed-role/s3-admin-role/my-test-session"
+    }
+}
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ export AccessKeyId=ASIAY2HHG23DYBQ3VKGW    
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ export SecretAccessKey=8W2AH4PfSKO8XN541H630eErkZUvL5JAKiwGNsB2    
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ export SessionToken=IQoJb3JpZ2luX2VjEHIaCmFwLXNvdXRoLTEiRjBEAiBvm3asaRVOK0Z3vtQKiFLZ/42eHAt6sdsUuErMv+9E7wIgcsmEJKSJxfddoarhyio6GR5UJfB4rJuuchruMkSLv5wqnAIIOxAAGgw2MDYwNzUyNzkwNDciDBfV4NPnwnqpWxLM+yr5AU57VcJ1lAQhlY97tvWQIJSdoMayt9BgoZbM3y91MC4/1LhFrwwYPoa2GScnwUkyICqTKz/90DMswFp9rvq6TEoXfboQfvzJvVLBufbw5SOwjOcXGYA+iHKs7SC5h6RXpVbNf0Kz1YDmbCvkPjzqr+o/nJbDDvlPwG/SvvJky/NxLfqweMdgrBSzjDlpnJc2noGvFP2IPqiHsgSzyehL+4E3xb2R0Bp7ct76HDMF92RPWfyKXyN0z3c3YWwOmY0QuQHJqk32cUdDrN5oq3v6iXusP4eacreZ5ugrqg3blIT+j/MeAyMKHLeazQhhZLagOBzC4aqnNCdW7TCzn/rUBjqeAfbL+7sS4j7mzGgXsJIHpw3+zUUc7d0wxeSTqT5Gnhl5V3saKiEOb/T7Q+kdcqWzo4q9TUwmqSk8Y+agnvMXalPmv6xrNVoIs9NY5rguEGBUwWjyNWvrGktmmTMOgs0esgEophDdLyJd2APFRJHPnnrpK8Ot3oiz2fVvXw78WrUJfFY2wt8IQrM+C8XJPalr6bqzU175gnb6HQxNSRX2; export Expiration=2026-09-07T11:19:31+00:00
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ aws sts get-caller-identity --profile testuser
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ aws sts get-caller-identity --profile testuser | cat
+{
+    "UserId": "AIDAY2HHG23DUY4ZJAVBQ",
+    "Account": "606075279047",
+    "Arn": "arn:aws:iam::606075279047:user/vy-NoConsole"
+}
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy
+➜ 
