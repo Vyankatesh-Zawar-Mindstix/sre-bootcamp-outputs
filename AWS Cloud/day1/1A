@@ -50,3 +50,24 @@ Inline Policy → Part of one user/role → belongs to only that one identity.
 
 
 AmazonEC2ReadOnlyAccess gives you permission to see EC2, not permission to create/manage EC2 resources.
+
+
+
+
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/.aws
+➜ cat credentials 
+[default]
+aws_access_key_id = **
+aws_secret_access_key = **
+[testuser]
+aws_access_key_id = **
+aws_secret_access_key = **
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/.aws
+➜ cat config     
+[default]
+region = ap-south-1
+output = json
+[profile testuser]
+region = ap-south-1
+output = json
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/.aws
