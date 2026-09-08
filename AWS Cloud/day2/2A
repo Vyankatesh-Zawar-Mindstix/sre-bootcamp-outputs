@@ -1,0 +1,59 @@
+# VPC
+aws ec2 create-vpc --cidr-block 10.0.0.0/16
+
+# Subnets
+aws ec2 create-subnet \
+  --vpc-id $VPC_ID \
+  --cidr-block 10.0.1.0/24 \
+  --availability-zone ap-south-1a
+
+aws ec2 create-subnet \
+  --vpc-id $VPC_ID \
+  --cidr-block 10.0.2.0/24 \
+  --availability-zone ap-south-1b
+
+aws ec2 create-subnet \
+  --vpc-id $VPC_ID \
+  --cidr-block 10.0.3.0/24 \
+  --availability-zone ap-south-1a
+
+aws ec2 create-subnet \
+  --vpc-id $VPC_ID \
+  --cidr-block 10.0.4.0/24 \
+  --availability-zone ap-south-1b
+
+# Internet Gateway
+aws ec2 create-internet-gateway
+
+aws ec2 attach-internet-gateway \
+  --internet-gateway-id $IGW_ID \
+  --vpc-id $VPC_ID
+
+# Public Route Table
+aws ec2 create-route-table \
+  --vpc-id $VPC_ID
+
+aws ec2 create-route \
+  --route-table-id $PUBLIC_RT_ID \
+  --destination-cidr-block 0.0.0.0/0 \
+  --gateway-id $IGW_ID
+
+aws ec2 associate-route-table \
+  --route-table-id $PUBLIC_RT_ID \
+  --subnet-id $PUBLIC_A_ID
+
+aws ec2 associate-route-table \
+  --route-table-id $PUBLIC_RT_ID \
+  --subnet-id $PUBLIC_B_ID
+
+# Private Route Table
+aws ec2 create-route-table \
+  --vpc-id $VPC_ID
+
+aws ec2 associate-route-table \
+  --route-table-id $PRIVATE_RT_ID \
+  --subnet-id $PRIVATE_A_ID
+
+aws ec2 associate-route-table \
+  --route-table-id $PRIVATE_RT_ID \
+  --subnet-id $PRIVATE_B_ID
