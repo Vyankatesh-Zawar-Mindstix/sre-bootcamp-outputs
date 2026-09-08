@@ -1,0 +1,155 @@
+3A — Commands Used
+1. Find latest Amazon Linux 2023 AMI
+aws ec2 describe-images \
+  --owners amazon \
+  --filters "Name=name,Values=al2023-ami-*-x86_64" \
+  --query "sort_by(Images, &CreationDate)[-1].ImageId" \
+  --output text
+
+Save it:
+
+AMI_ID=ami-xxxxxxxx
+2. Check existing key pairs
+aws ec2 describe-key-pairs \
+  --query "KeyPairs[*].KeyName" \
+  --output table
+
+If you need to create one:
+
+aws ec2 create-key-pair \
+  --key-name assignment-key \
+  --query "KeyMaterial" \
+  --output text > assignment-key.pem
+
+chmod 400 assignment-key.pem
+KEY_NAME=assignment-key
+3. Launch EC2
+aws ec2 run-instances \
+  --image-id $AMI_ID \
+  --instance-type t2.micro \
+  --subnet-id $PUBLIC_A_ID \
+  --security-group-ids $SG_ID \
+  --key-name $KEY_NAME \
+  --associate-public-ip-address
+
+Save instance ID:
+
+INSTANCE_ID=i-xxxxxxxx
+
+Wait:
+
+aws ec2 wait instance-running \
+  --instance-ids $INSTANCE_ID
+
+Check details:
+
+aws ec2 describe-instances \
+  --instance-ids $INSTANCE_ID \
+  --query "Reservations[0].Instances[0].[InstanceId,State.Name,PrivateIpAddress,PublicIpAddress]" \
+  --output table
+4. SSH into EC2
+ssh -i assignment-key.pem ec2-user@$PUBLIC_IP
+
+Now you're inside the EC2 instance.
+
+⭐ 5. IMDS — Most Important Part
+
+IMDS = Instance Metadata Service
+
+Its endpoint is:
+
+169.254.169.254
+
+This is a special link-local IP available from inside the EC2 instance.
+
+Think:
+
+EC2
+ │
+ │ HTTP request
+ ▼
+169.254.169.254
+ │
+ ▼
+IMDS
+6. Get IMDSv2 token
+
+Amazon Linux 2023 normally uses IMDSv2.
+
+TOKEN=$(curl -X PUT \
+  http://169.254.169.254/latest/api/token \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+The token is then used to access metadata.
+
+7. Get instance ID from IMDS
+curl \
+  -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/instance-id
+
+You'll get something like:
+
+i-0123456789abcdef
+
+This is interesting because you didn't ask AWS API.
+
+You asked the local EC2 metadata service.
+
+8. Get IAM information
+curl \
+  -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/iam/info
+
+If an IAM role is attached, you'll get information about the role/instance profile.
+
+⭐⭐⭐ 9. The MOST Important IMDS Command
+
+To see the IAM role associated with the instance:
+
+curl \
+  -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/iam/security-credentials/
+
+Suppose it returns:
+
+EC2S3Role
+
+Then:
+
+curl \
+  -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/iam/security-credentials/EC2S3Role
+
+You can get something conceptually like:
+
+{
+  "AccessKeyId": "ASIA...",
+  "SecretAccessKey": "...",
+  "Token": "...",
+  "Expiration": "..."
+}
+
+These are temporary credentials.
+
+🔥 Understand IMDS Properly
+
+This is the part I really want you to remember:
+
+                IAM
+                 │
+                 ▼
+          IAM Role + Policy
+                 │
+                 ▼
+        Temporary credentials
+                 │
+                 ▼
+              IMDS
+       169.254.169.254
+                 │
+                 ▼
+        EC2 application
+        / AWS CLI / SDK
+                 │
+                 ▼
+           AWS Service
