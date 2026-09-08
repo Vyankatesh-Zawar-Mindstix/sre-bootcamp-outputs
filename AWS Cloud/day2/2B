@@ -1,0 +1,164 @@
+1. Create Security Group
+aws ec2 create-security-group \
+  --group-name assignment-2b-sg \
+  --description "Assignment 2B Security Group" \
+  --vpc-id $VPC_ID
+  
+SG_ID=sg-xxxxxxxx
+
+2. Find your public IP
+curl https://checkip.amazonaws.com
+MY_IP=YOUR_PUBLIC_IP
+
+3. Allow SSH only from your IP
+aws ec2 authorize-security-group-ingress \
+  --group-id $SG_ID \
+  --protocol tcp \
+  --port 22 \
+  --cidr ${MY_IP}/32
+  
+4. Allow HTTP from anywhere
+aws ec2 authorize-security-group-ingress \
+  --group-id $SG_ID \
+  --protocol tcp \
+  --port 80 \
+  --cidr 0.0.0.0/0
+  
+5. Create custom NACL
+aws ec2 create-network-acl \
+  --vpc-id $VPC_ID
+  
+NACL_ID=acl-xxxxxxxx
+
+6. Find current NACL association for Public Subnet A
+aws ec2 describe-network-acls \
+  --filters "Name=association.subnet-id,Values=$PUBLIC_A_ID" \
+  --query 'NetworkAcls[0].Associations'
+
+Then:
+
+NACL_ASSOC_ID=aclassoc-xxxxxxxx
+
+7. Associate custom NACL with Public Subnet A
+aws ec2 replace-network-acl-association \
+  --association-id $NACL_ASSOC_ID \
+  --network-acl-id $NACL_ID
+  
+8. NACL — allow inbound HTTP
+aws ec2 create-network-acl-entry \
+  --network-acl-id $NACL_ID \
+  --rule-number 100 \
+  --protocol tcp \
+  --port-range From=80,To=80 \
+  --cidr-block 0.0.0.0/0 \
+  --ingress \
+  --rule-action allow
+  
+9. NACL — allow outbound ephemeral ports
+aws ec2 create-network-acl-entry \
+  --network-acl-id $NACL_ID \
+  --rule-number 100 \
+  --protocol tcp \
+  --port-range From=1024,To=65535 \
+  --cidr-block 0.0.0.0/0 \
+  --egress \
+  --rule-action allow
+  
+10. Find an Amazon Linux 2023 AMI
+aws ec2 describe-images \
+  --owners amazon \
+  --filters \
+    "Name=name,Values=al2023-ami-*" \
+    "Name=state,Values=available" \
+    "Name=architecture,Values=x86_64" \
+  --query 'sort_by(Images,&CreationDate)[-1].[ImageId,Name]' \
+  --output table
+AMI_ID=ami-xxxxxxxx
+11. Create nginx user-data
+nano userdata.sh
+
+Put this inside:
+
+#!/bin/bash
+
+dnf update -y
+dnf install -y nginx
+
+systemctl enable nginx
+systemctl start nginx
+
+echo "Assignment 2B - Nginx is working!" > /usr/share/nginx/html/index.html
+12. Launch EC2
+aws ec2 run-instances \
+  --image-id $AMI_ID \
+  --instance-type t3.micro \
+  --subnet-id $PUBLIC_A_ID \
+  --security-group-ids $SG_ID \
+  --associate-public-ip-address \
+  --user-data file://userdata.sh
+
+Then:
+
+INSTANCE_ID=i-xxxxxxxx
+13. Get EC2 public IP
+aws ec2 describe-instances \
+  --instance-ids $INSTANCE_ID \
+  --query 'Reservations[0].Instances[0].PublicIpAddress' \
+  --output text
+
+Test in browser:
+
+http://<EC2-PUBLIC-IP>
+Experiment: NACL DENY
+14. Add DENY for port 80 with lower rule number
+aws ec2 create-network-acl-entry \
+  --network-acl-id $NACL_ID \
+  --rule-number 50 \
+  --protocol tcp \
+  --port-range From=80,To=80 \
+  --cidr-block 0.0.0.0/0 \
+  --ingress \
+  --rule-action deny
+
+Now:
+
+Rule 50  → DENY 80
+Rule 100 → ALLOW 80
+
+Refresh browser → port 80 should fail.
+
+15. Remove DENY rule
+aws ec2 delete-network-acl-entry \
+  --network-acl-id $NACL_ID \
+  --rule-number 50 \
+  --ingress
+
+Refresh → port 80 should work again.
+
+Experiment: Security Group DENY
+16. Try to add a DENY rule to SG
+aws ec2 authorize-security-group-ingress \
+  --group-id $SG_ID \
+  --protocol tcp \
+  --port 80 \
+  --cidr 0.0.0.0/0 \
+  --rule-action deny
+
+This should fail, because Security Groups don't support deny rules.
+
+Useful verification commands
+Check SG rules
+aws ec2 describe-security-groups \
+  --group-ids $SG_ID
+Check NACL
+aws ec2 describe-network-acls \
+  --network-acl-ids $NACL_ID
+Check which NACL is attached to Public A
+aws ec2 describe-network-acls \
+  --filters "Name=association.subnet-id,Values=$PUBLIC_A_ID"
+Check EC2
+aws ec2 describe-instances \
+  --instance-ids $INSTANCE_ID
+Check route table
+aws ec2 describe-route-tables \
+  --filters "Name=vpc-id,Values=$VPC_ID"
