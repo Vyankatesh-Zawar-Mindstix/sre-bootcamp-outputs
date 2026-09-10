@@ -1,0 +1,204 @@
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ cat > user-data.sh <<'EOF'
+#!/bin/bash
+echo "Hiiiii" > /tmp/hello.txt
+EOF
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ cat user-data.sh 
+#!/bin/bash
+echo "Hiiiii" > /tmp/hello.txt
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ ll ~/Downloads/            
+total 1462848
+-r--------@ 1 mindstix-dev  staff   1.6K  7 Sep 17:37 AWS_key_ssh.pem
+-rw-r--r--@ 1 mindstix-dev  staff   194K 27 Aug 23:55 file_0000000042b8820797d3a2c29ecb979e~2.jpg
+-rw-r--r--@ 1 mindstix-dev  staff   5.2K  3 Sep 11:07 git-cheat-sheet.md
+-rw-r--r--@ 1 mindstix-dev  staff   264M 27 Aug 15:05 googlechrome.dmg
+-rw-r--r--@ 1 mindstix-dev  staff   153M  3 Sep 10:26 Postman for macOS (x64).zip
+drwxr-xr-x@ 3 mindstix-dev  staff    96B  3 Sep 08:18 Postman.app
+-rw-r--r--@ 1 mindstix-dev  staff   296M  4 Sep 11:43 VSCode-darwin-x64.dmg
+-rw-r--r--@ 1 mindstix-dev  staff   763K 28 Aug 19:29 Vyankatesh_Zawar_2026.pdf
+-rw-r--r--@ 1 mindstix-dev  staff   297K 28 Aug 15:19 Vyankatesh_Zawar_Resume_107.pdf
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ cp ~/Downloads/AWS_key_ssh.pem .
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ ll
+total 16
+-r--------@ 1 mindstix-dev  staff   1.6K 10 Sep 11:49 AWS_key_ssh.pem
+-rw-r--r--  1 mindstix-dev  staff    43B 10 Sep 11:48 user-data.sh
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ SG = sg-0bbf736eb72b8e3ea
+zsh: command not found: SG
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ SG = "sg-0bbf736eb72b8e3ea"
+zsh: command not found: SG
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ export SG = "sg-0bbf736eb72b8e3ea"
+zsh: bad assignment
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ export SG="sg-0bbf736eb72b8e3ea"   
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ SG="sg-0bbf736eb72b8e3ea"        
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ pem_file="AWS_key_ssh.pem"
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ Region="ap-south-1"
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ aws ec2 run-instances \
+  --image-id resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 \
+  --instance-type t3.micro \
+  --count 1 \
+  --key-name $pem_file \
+  --security-group-ids $SG \        
+  --user-data file://user-data.sh
+
+aws: [ERROR]: An error occurred (InvalidGroup.NotFound) when calling the RunInstances operation: The security group 'sg-0bbf736eb72b8e3ea' does not exist in VPC 'vpc-0a8fbdfaf2d6ec8f0'
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ SG="sg-0b72afb16dd503886"
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ aws ec2 run-instances \  
+  --image-id resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 \
+  --instance-type t3.micro \
+  --count 1 \
+  --key-name $pem_file \
+  --security-group-ids $SG \
+  --user-data file://user-data.sh
+
+aws: [ERROR]: An error occurred (InvalidKeyPair.NotFound) when calling the RunInstances operation: The key pair 'AWS_key_ssh.pem' does not exist
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ ll
+total 16
+-r--------@ 1 mindstix-dev  staff   1.6K 10 Sep 11:49 AWS_key_ssh.pem
+-rw-r--r--  1 mindstix-dev  staff    43B 10 Sep 11:48 user-data.sh
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ aws ec2 run-instances \
+  --image-id resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 \
+  --instance-type t3.micro \
+  --count 1 \
+  --key-name $pem_file \
+  --security-group-ids $SG \
+  --user-data file://user-data.sh
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ 
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ 
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ pem_file="AWS_key_ssh"    
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ aws ec2 run-instances \
+  --image-id resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 \
+  --instance-type t3.micro \
+  --count 1 \
+  --key-name $pem_file \
+  --security-group-ids $SG \
+  --user-data file://user-data.sh
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ aws ec2 describe-instances \
+  --filters "Name=instance-state-name,Values=running" \
+  --query 'Reservations[].Instances[].{ID:InstanceId,Type:InstanceType,PublicIP:PublicIpAddress,PrivateIP:PrivateIpAddress,State:State.Name}' \
+  --output table
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ ssh -i AWS_key_ssh.pem ec2_user@13.204.75.103
+The authenticity of host '13.204.75.103 (13.204.75.103)' can't be established.
+ED25519 key fingerprint is: SHA256:mizzzHJt+/xFmmE14+H7JLg8MZ42Q/qw5Yq8pp83+U8
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '13.204.75.103' (ED25519) to the list of known hosts.
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+ec2_user@13.204.75.103: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+mindstix-dev (Vy) at·mindstixs-MacBook-Pro in·~/vy/aws_cli
+➜ ssh -i AWS_key_ssh.pem ec2-user@13.204.75.103
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+   ,     #_
+   ~\_  ####_        Amazon Linux 2023
+  ~~  \_#####\
+  ~~     \###|
+  ~~       \#/ ___   https://aws.amazon.com/linux/amazon-linux-2023
+   ~~       V~' '->
+    ~~~         /
+      ~~._.   _/
+         _/ _/
+       _/m/'
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ 
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 ls
+
+Unable to locate credentials. You can configure credentials by running "aws login".
+[ec2-user@ip-172-31-13-145 ~]$ aws iam create-instance-profile \
+  --instance-profile-name ec2-s3-read-profile
+
+Unable to locate credentials. You can configure credentials by running "aws login".
+[ec2-user@ip-172-31-13-145 ~]$ aws sts get-caller-identity
+{
+    "UserId": "AROAY2HHG23D5G5HA2Q6G:i-0f818d8758d8ab5f5",
+    "Account": "606075279047",
+    "Arn": "arn:aws:sts::606075279047:assumed-role/ec2-s3-read-role/i-0f818d8758d8ab5f5"
+}
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 ls
+
+An error occurred (AccessDenied) when calling the ListBuckets operation: User: arn:aws:sts::606075279047:assumed-role/ec2-s3-read-role/i-0f818d8758d8ab5f5 is not authorized to perform: s3:ListAllMyBuckets because no identity-based policy allows the s3:ListAllMyBuckets action
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 ls demobucket-606075279047
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 ls demobucket-606075279047
+2026-09-10 06:47:10     198815 file_0000000042b8820797d3a2c29ecb979e~2.jpg
+[ec2-user@ip-172-31-13-145 ~]$ aws ls s3://demobucket-606075279047 
+
+aws: [ERROR]: argument command: Found invalid choice 'ls'
+
+
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 ls s3://demobucket-606075279047 
+2026-09-10 06:47:10     198815 file_0000000042b8820797d3a2c29ecb979e~2.jpg
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 cp s3://demobucket-606075279047/file.txt
+
+aws: [ERROR]: the following arguments are required: paths
+
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 cp s3://demobucket-606075279047/file_0000000042b8820797d3a2c29ecb979e~2.jpg
+
+aws: [ERROR]: the following arguments are required: paths
+
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 cp s3://demobucket-606075279047/file_0000000042b8820797d3a2c29ecb979e~2.jpg .
+fatal error: An error occurred (403) when calling the HeadObject operation: Forbidden
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 cp s3://demobucket-606075279047/file_0000000042b8820797d3a2c29ecb979e~2.jpg .
+fatal error: An error occurred (403) when calling the HeadObject operation: Forbidden
+[ec2-user@ip-172-31-13-145 ~]$ aws s3 cp s3://secondbucket-606075279047/git-cheat-sheet.md .
+fatal error: An error occurred (403) when calling the HeadObject operation: Forbidden
+[ec2-user@ip-172-31-13-145 ~]$ 
