@@ -1,0 +1,141 @@
+vyankatz@DESKTOP-KQ9P9R3:~/vy$ kubectl get pods -A
+
+NAMESPACE            NAME                                                                READY   STATUS    RESTARTS   AGE
+
+kube-system          coredns-589f44dc88-sqn8w                                            1/1     Running   0          3m6s
+
+kube-system          coredns-589f44dc88-w85xf                                            1/1     Running   0          3m6s
+
+kube-system          etcd-mindstix-assignment-cluster-control-plane                      1/1     Running   0          3m11s
+
+kube-system          kindnet-flq8g                                                       1/1     Running   0          3m
+
+kube-system          kindnet-h9v2g                                                       1/1     Running   0          3m
+
+kube-system          kindnet-x2vpz                                                       1/1     Running   0          3m6s
+
+kube-system          kube-apiserver-mindstix-assignment-cluster-control-plane            1/1     Running   0          3m11s
+
+kube-system          kube-controller-manager-mindstix-assignment-cluster-control-plane   1/1     Running   0          3m11s
+
+kube-system          kube-proxy-8vbhk                                                    1/1     Running   0          3m
+
+kube-system          kube-proxy-pp2qp                                                    1/1     Running   0          3m
+
+kube-system          kube-proxy-t2nt6                                                    1/1     Running   0          3m6s
+
+kube-system          kube-scheduler-mindstix-assignment-cluster-control-plane            1/1     Running   0          3m11s
+
+local-path-storage   local-path-provisioner-855c7b7774-r2bmx                             1/1     Running   0          3m6s
+
+vyankatz@DESKTOP-KQ9P9R3:~/vy$ 
+
+  ---------------------------------------------------------------------------------------------------
+Here is a breakdown of every pod running in your cluster, grouped by the Kubernetes architecture component it belongs to.
+
+1. Control Plane Components
+These pods form the "brain" of your Kubernetes cluster. They run as static pods on your control-plane node (mindstix-assignment-cluster-control-plane).
+
+kube-apiserver-...
+
+Component: API Server (kube-apiserver)
+
+Purpose: The central front door of Kubernetes. Every command you run (like kubectl), along with communication between cluster components, goes directly through this API.
+
+etcd-...
+
+Component: etcd Database
+
+Purpose: The cluster's key-value database. It stores the state and configuration data of the entire cluster (e.g., deployments, secrets, namespaces).
+
+kube-scheduler-...
+
+Component: Kubernetes Scheduler (kube-scheduler)
+
+Purpose: Assigns unscheduled pods to nodes based on resource availability, constraints, and affinity rules.
+
+kube-controller-manager-...
+
+Component: Controller Manager (kube-controller-manager)
+
+Purpose: Runs background control loops (e.g., Node Controller, ReplicaSet Controller) to ensure the current state of the cluster matches your desired state.
+
+2. Networking & Cluster Add-ons
+These pods run in the kube-system namespace to handle internal network routing, DNS resolution, and Pod-to-Pod communication across your 3-node cluster.
+
+coredns-... (2 replicas)
+
+Component: CoreDNS
+
+Purpose: Provides internal DNS resolution within the cluster so pods can find and talk to services by name (e.g., my-service.default.svc.cluster.local).
+
+kindnet-... (3 pods: flq8g, h9v2g, x2vpz)
+
+Component: CNI Plugin (Kindnet)
+
+Purpose: The Container Network Interface (CNI) specifically used by Kind. It sets up IP addresses for pods and routes traffic across nodes. There is 1 pod running on each of your 3 nodes (managed via a DaemonSet).
+
+kube-proxy-... (3 pods: 8vbhk, pp2qp, t2nt6)
+
+Component: Network Proxy (kube-proxy)
+
+Purpose: Manages network rules on each node using iptables/ipvs. It enables network communication to your Pods from inside or outside the cluster (Services abstraction). Runs on all 3 nodes via a DaemonSet.
+
+3. Storage Provisioner
+local-path-provisioner-... (in local-path-storage namespace)
+
+Component: Rancher Local Path Provisioner
+  ---------------------------------------------------------------------------------------------
+
+
+
+  output
+  -----------------------
+  vyankatz@DESKTOP-KQ9P9R3:~/vy$ kind create cluster --name mindstix-assignment-cluster --config kind_cluster_config.yaml
+Creating cluster "mindstix-assignment-cluster" ...
+ ✓ Ensuring node image (kindest/node:v1.36.1) 🖼
+ ✓ Preparing nodes 📦 📦 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing CNI 🔌
+ ✓ Installing StorageClass 💾
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-mindstix-assignment-cluster"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-mindstix-assignment-cluster
+
+Not sure what to do next? 😅  Check out https://kind.sigs.k8s.io/docs/user/quick-start/
+vyankatz@DESKTOP-KQ9P9R3:~/vy$ kubectl get nodes
+NAME                                        STATUS   ROLES           AGE    VERSION
+mindstix-assignment-cluster-control-plane   Ready    control-plane   117s   v1.36.1
+mindstix-assignment-cluster-worker          Ready    <none>          103s   v1.36.1
+mindstix-assignment-cluster-worker2         Ready    <none>          103s   v1.36.1
+vyankatz@DESKTOP-KQ9P9R3:~/vy$ kubectl config current-context
+kind-mindstix-assignment-cluster
+vyankatz@DESKTOP-KQ9P9R3:~/vy$ kubectl get pods -A
+NAMESPACE            NAME                                                                READY   STATUS    RESTARTS   AGE
+kube-system          coredns-589f44dc88-sqn8w                                            1/1     Running   0          3m6s
+kube-system          coredns-589f44dc88-w85xf                                            1/1     Running   0          3m6s
+kube-system          etcd-mindstix-assignment-cluster-control-plane                      1/1     Running   0          3m11s
+kube-system          kindnet-flq8g                                                       1/1     Running   0          3m
+kube-system          kindnet-h9v2g                                                       1/1     Running   0          3m
+kube-system          kindnet-x2vpz                                                       1/1     Running   0          3m6s
+kube-system          kube-apiserver-mindstix-assignment-cluster-control-plane            1/1     Running   0          3m11s
+kube-system          kube-controller-manager-mindstix-assignment-cluster-control-plane   1/1     Running   0          3m11s
+kube-system          kube-proxy-8vbhk                                                    1/1     Running   0          3m
+kube-system          kube-proxy-pp2qp                                                    1/1     Running   0          3m
+kube-system          kube-proxy-t2nt6                                                    1/1     Running   0          3m6s
+kube-system          kube-scheduler-mindstix-assignment-cluster-control-plane            1/1     Running   0          3m11s
+local-path-storage   local-path-provisioner-855c7b7774-r2bmx                             1/1     Running   0          3m6s
+vyankatz@DESKTOP-KQ9P9R3:~/vy$ docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED         STATUS          PORTS                       NAMES
+1e1eab16fe88   kindest/node:v1.36.1   "/usr/local/bin/entr…"   4 minutes ago   Up 4 minutes    127.0.0.1:38571->6443/tcp   mindstix-assignment-cluster-control-plane
+e6d320edc268   kindest/node:v1.36.1   "/usr/local/bin/entr…"   4 minutes ago   Up 4 minutes                                mindstix-assignment-cluster-worker
+aa57660459f2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   4 minutes ago   Up 4 minutes                                mindstix-assignment-cluster-worker2
+85d9e165e140   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago     Up 13 minutes                               kind-worker2
+14364cb80ba2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago     Up 13 minutes                               kind-worker
+bf21bf3323ba   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago     Up 13 minutes   127.0.0.1:45977->6443/tcp   kind-control-plane
+vyankatz@DESKTOP-KQ9P9R3:~/vy$
+
+Purpose: Automatically handles local persistent storage (PersistentVolumeClaims). When you request a volume in Kind, this provisioner dynamically allocates directory storage on the host node.
