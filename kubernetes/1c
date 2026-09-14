@@ -1,0 +1,453 @@
+When to use kubectl create:
+
+For quick, one-off imperative tasks or script execution (e.g., kubectl create secret, kubectl create namespace).
+When you want an operation to fail explicitly if the resource already exists.
+
+When to use kubectl apply:
+
+For managing infrastructure via Infrastructure as Code (IaC) or GitOps workflows.
+For maintaining declarative YAML configurations in source control where you expect to update specs in-place over time.
+
+
+----------------------------------
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb apply -f niginx_pod.yaml
+pod/nginx created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod nginx -n practice
+NAME    READY   STATUS              RESTARTS   AGE
+nginx   0/1     ContainerCreating   0          15s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod nginx -n practice
+NAME    READY   STATUS              RESTARTS   AGE
+nginx   0/1     ContainerCreating   0          19s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod nginx -n practice
+NAME    READY   STATUS              RESTARTS   AGE
+nginx   0/1     ContainerCreating   0          24s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod nginx -n practice -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"nginx"},"name":"nginx","namespace":"practice"},"spec":{"containers":[{"image":"nginx:latest","name":"nginx","ports":[{"containerPort":80}]}]}}
+  creationTimestamp: "2026-09-14T17:33:13Z"
+  generation: 1
+  labels:
+    app: nginx
+  name: nginx
+  namespace: practice
+  resourceVersion: "1887"
+  uid: 6353dac7-9da9-4083-b8ce-48156707f43b
+spec:
+  containers:
+  - image: nginx:latest
+    imagePullPolicy: Always
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-hzwk7
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: mindstix-assignment-cluster-worker2
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-hzwk7
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-14T17:33:14Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-14T17:33:13Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-14T17:33:41Z"
+    observedGeneration: 1
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-14T17:33:41Z"
+    observedGeneration: 1
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-14T17:33:13Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://db610ef85356bb712e92889caa1f8c4997e349541a44e08c8224d6d60b813775
+    image: docker.io/library/nginx:latest
+    imageID: docker.io/library/nginx@sha256:05b8cb60c354a44ab824ea6e7dc69b46d50762cdbe728a347a5b656e6fb3d7c4
+    lastState: {}
+    name: nginx
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-09-14T17:33:41Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-hzwk7
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.5
+  hostIPs:
+  - ip: 172.18.0.5
+  observedGeneration: 1
+  phase: Running
+  podIP: 10.244.3.2
+  podIPs:
+  - ip: 10.244.3.2
+  qosClass: BestEffort
+  resources: {}
+  startTime: "2026-09-14T17:33:13Z"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl port-forward pod/nginx -n practice 8080:80
+Forwarding from 127.0.0.1:8080 -> 80
+Forwarding from [::1]:8080 -> 80
+Handling connection for 8080
+Handling connection for 8080
+
+
+
+
+
+
+
+
+-------------------
+
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb exec -it pod/niginx -n practice bash
+error: exec [POD] [COMMAND] is not supported anymore. Use exec [POD] -- [COMMAND] instead
+See 'kubectl exec -h' for help and examples
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb exec -it pod/niginx -n practice --bash
+error: unknown flag: --bash
+See 'kubectl exec --help' for usage.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb exec -it pod/niginx -n practice -- bash
+Error from server (NotFound): pods "niginx" not found
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb exec -it pod/nginx -n practice -- bash
+root@nginx:/#
+root@nginx:/#
+root@nginx:/#
+root@nginx:/#
+root@nginx:/# CD
+bash: CD: command not found
+root@nginx:/#
+root@nginx:/#
+root@nginx:/#
+root@nginx:/#
+root@nginx:/# ps aux | grep nginx
+bash: ps: command not found
+root@nginx:/# cd /proc/
+1/             41/            crypto         fs/            kmsg           modules        scsi/          thread-self/
+33/            acpi/          devices        interrupts     kpagecgroup    mounts         self/          timer_list
+34/            buddyinfo      diskstats      iomem          kpagecount     mpt/           slabinfo       tty/
+35/            bus/           dma            ioports        kpageflags     mtrr           softirqs       uptime
+36/            cgroups        driver/        irq/           latency_stats  net/           stat           version
+37/            cmdline        dynamic_debug/ kallsyms       loadavg        pagetypeinfo   swaps          vmallocinfo
+38/            config.gz      execdomains    kcore          locks          partitions     sys/           vmstat
+39/            consoles       fb             key-users      meminfo        pressure/      sysrq-trigger  zoneinfo
+40/            cpuinfo        filesystems    keys           misc           schedstat      sysvipc/
+root@nginx:/# cd /proc/
+1/             41/            crypto         fs/            kmsg           modules        scsi/          thread-self/
+33/            acpi/          devices        interrupts     kpagecgroup    mounts         self/          timer_list
+34/            buddyinfo      diskstats      iomem          kpagecount     mpt/           slabinfo       tty/
+35/            bus/           dma            ioports        kpageflags     mtrr           softirqs       uptime
+36/            cgroups        driver/        irq/           latency_stats  net/           stat           version
+37/            cmdline        dynamic_debug/ kallsyms       loadavg        pagetypeinfo   swaps          vmallocinfo
+38/            config.gz      execdomains    kcore          locks          partitions     sys/           vmstat
+39/            consoles       fb             key-users      meminfo        pressure/      sysrq-trigger  zoneinfo
+40/            cpuinfo        filesystems    keys           misc           schedstat      sysvipc/
+root@nginx:/# cd /proc/
+root@nginx:/proc# ll
+bash: ll: command not found
+root@nginx:/proc# ls
+1   39         cgroups    diskstats      fs          key-users      loadavg  mtrr          self           sysvipc      vmstat
+33  40         cmdline    dma            interrupts  keys           locks    net           slabinfo       thread-self  zoneinfo
+34  41         config.gz  driver         iomem       kmsg           meminfo  pagetypeinfo  softirqs       timer_list
+35  51         consoles   dynamic_debug  ioports     kpagecgroup    misc     partitions    stat           tty
+36  acpi       cpuinfo    execdomains    irq         kpagecount     modules  pressure      swaps          uptime
+37  buddyinfo  crypto     fb             kallsyms    kpageflags     mounts   schedstat     sys            version
+38  bus        devices    filesystems    kcore       latency_stats  mpt      scsi          sysrq-trigger  vmallocinfo
+root@nginx:/proc# ls -lart
+total 4
+lrwxrwxrwx   1 root  root      0 Sep 14 17:33 thread-self -> 52/task/52
+lrwxrwxrwx   1 root  root      0 Sep 14 17:33 self -> 52
+dr-xr-xr-x 444 root  root      0 Sep 14 17:33 .
+crw-rw-rw-   1 root  root   1, 3 Sep 14 17:33 timer_list
+crw-rw-rw-   1 root  root   1, 3 Sep 14 17:33 latency_stats
+crw-rw-rw-   1 root  root   1, 3 Sep 14 17:33 keys
+crw-rw-rw-   1 root  root   1, 3 Sep 14 17:33 kcore
+crw-rw-rw-   1 root  root   1, 3 Sep 14 17:33 interrupts
+drwxr-xr-x   1 root  root   4096 Sep 14 17:33 ..
+--w-------   1 root  root      0 Sep 14 17:33 sysrq-trigger
+dr-xr-xr-x   1 root  root      0 Sep 14 17:33 sys
+drwxrwxrwt   2 root  root     40 Sep 14 17:33 scsi
+dr-xr-xr-x  24 root  root      0 Sep 14 17:33 irq
+dr-xr-xr-x   8 root  root      0 Sep 14 17:33 fs
+dr-xr-xr-x   4 root  root      0 Sep 14 17:33 bus
+drwxrwxrwt   2 root  root     40 Sep 14 17:33 acpi
+dr-xr-xr-x   9 root  root      0 Sep 14 17:33 1
+lrwxrwxrwx   1 root  root     11 Sep 14 17:33 mounts -> self/mounts
+-r--r--r--   1 root  root      0 Sep 14 17:33 filesystems
+lrwxrwxrwx   1 root  root      8 Sep 14 17:33 net -> self/net
+dr-xr-xr-x   9 root  root      0 Sep 14 17:39 41
+dr-xr-xr-x   9 nginx nginx     0 Sep 14 17:39 40
+dr-xr-xr-x   9 nginx nginx     0 Sep 14 17:39 39
+dr-xr-xr-x   9 nginx nginx     0 Sep 14 17:39 38
+dr-xr-xr-x   9 nginx nginx     0 Sep 14 17:39 37
+dr-xr-xr-x   9 nginx nginx     0 Sep 14 17:39 36
+dr-xr-xr-x   9 nginx nginx     0 Sep 14 17:39 35
+dr-xr-xr-x   9 nginx nginx     0 Sep 14 17:39 34
+dr-xr-xr-x   9 nginx nginx     0 Sep 14 17:39 33
+-r--r--r--   1 root  root      0 Sep 14 17:39 zoneinfo
+-r--r--r--   1 root  root      0 Sep 14 17:39 vmstat
+-r--------   1 root  root      0 Sep 14 17:39 vmallocinfo
+-r--r--r--   1 root  root      0 Sep 14 17:39 version
+-r--r--r--   1 root  root      0 Sep 14 17:39 uptime
+dr-xr-xr-x   6 root  root      0 Sep 14 17:39 tty
+dr-xr-xr-x   5 root  root      0 Sep 14 17:39 sysvipc
+-r--r--r--   1 root  root      0 Sep 14 17:39 swaps
+-r--r--r--   1 root  root      0 Sep 14 17:39 stat
+-r--r--r--   1 root  root      0 Sep 14 17:39 softirqs
+-r--------   1 root  root      0 Sep 14 17:39 slabinfo
+-r--r--r--   1 root  root      0 Sep 14 17:39 schedstat
+dr-xr-xr-x   5 root  root      0 Sep 14 17:39 pressure
+-r--r--r--   1 root  root      0 Sep 14 17:39 partitions
+-r--------   1 root  root      0 Sep 14 17:39 pagetypeinfo
+-rw-r--r--   1 root  root      0 Sep 14 17:39 mtrr
+dr-xr-xr-x   4 root  root      0 Sep 14 17:39 mpt
+-r--r--r--   1 root  root      0 Sep 14 17:39 modules
+-r--r--r--   1 root  root      0 Sep 14 17:39 misc
+-r--r--r--   1 root  root      0 Sep 14 17:39 meminfo
+-r--r--r--   1 root  root      0 Sep 14 17:39 locks
+-r--r--r--   1 root  root      0 Sep 14 17:39 loadavg
+-r--------   1 root  root      0 Sep 14 17:39 kpageflags
+-r--------   1 root  root      0 Sep 14 17:39 kpagecount
+-r--------   1 root  root      0 Sep 14 17:39 kpagecgroup
+-r--------   1 root  root      0 Sep 14 17:39 kmsg
+-r--r--r--   1 root  root      0 Sep 14 17:39 key-users
+-r--r--r--   1 root  root      0 Sep 14 17:39 kallsyms
+-r--r--r--   1 root  root      0 Sep 14 17:39 ioports
+-r--r--r--   1 root  root      0 Sep 14 17:39 iomem
+-r--r--r--   1 root  root      0 Sep 14 17:39 fb
+-r--r--r--   1 root  root      0 Sep 14 17:39 execdomains
+dr-xr-xr-x   3 root  root      0 Sep 14 17:39 dynamic_debug
+dr-xr-xr-x   3 root  root      0 Sep 14 17:39 driver
+-r--r--r--   1 root  root      0 Sep 14 17:39 dma
+-r--r--r--   1 root  root      0 Sep 14 17:39 diskstats
+-r--r--r--   1 root  root      0 Sep 14 17:39 devices
+-r--r--r--   1 root  root      0 Sep 14 17:39 crypto
+-r--r--r--   1 root  root      0 Sep 14 17:39 cpuinfo
+-r--r--r--   1 root  root      0 Sep 14 17:39 consoles
+-r--r--r--   1 root  root  50653 Sep 14 17:39 config.gz
+-r--r--r--   1 root  root    145 Sep 14 17:39 cmdline
+-r--r--r--   1 root  root      0 Sep 14 17:39 cgroups
+-r--r--r--   1 root  root      0 Sep 14 17:39 buddyinfo
+dr-xr-xr-x   9 root  root      0 Sep 14 17:40 52
+root@nginx:/proc# cd 1
+root@nginx:/proc/1# ls
+arch_status  coredump_filter  gid_map            map_files   ns             personality  smaps         task
+attr         cpuset           io                 maps        numa_maps      projid_map   smaps_rollup  timens_offsets
+auxv         cwd              ksm_merging_pages  mem         oom_adj        root         stack         timers
+cgroup       environ          ksm_stat           mountinfo   oom_score      sched        stat          timerslack_ns
+clear_refs   exe              latency            mounts      oom_score_adj  schedstat    statm         uid_map
+cmdline      fd               limits             mountstats  pagemap        sessionid    status        wchan
+comm         fdinfo           loginuid           net         patch_state    setgroups    syscall
+root@nginx:/proc/1# cat cmdline
+nginx: master process nginx -g daemon off;root@nginx:/proc/1#
+root@nginx:/proc/1# exit
+exit
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker ps -a
+CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS          PORTS                       NAMES
+1e1eab16fe88   kindest/node:v1.36.1   "/usr/local/bin/entr…"   35 minutes ago   Up 35 minutes   127.0.0.1:38571->6443/tcp   mindstix-assignment-cluster-control-plane
+e6d320edc268   kindest/node:v1.36.1   "/usr/local/bin/entr…"   35 minutes ago   Up 35 minutes                               mindstix-assignment-cluster-worker
+aa57660459f2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   35 minutes ago   Up 35 minutes                               mindstix-assignment-cluster-worker2
+85d9e165e140   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago      Up 44 minutes                               kind-worker2
+14364cb80ba2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago      Up 44 minutes                               kind-worker
+bf21bf3323ba   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago      Up 44 minutes   127.0.0.1:45977->6443/tcp   kind-control-plane
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker top aa57660459f2
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                7644                7570                0                   17:21               ?                   00:00:01            /sbin/init
+65535               14762               14736               0                   17:34               ?                   00:00:00            /pause
+root                14911               14736               0                   17:35               ?                   00:00:00            nginx: master process nginx -g daemon off;
+statd               14969               14911               0                   17:35               ?                   00:00:00            nginx: worker process
+statd               14970               14911               0                   17:35               ?                   00:00:00            nginx: worker process
+statd               14971               14911               0                   17:35               ?                   00:00:00            nginx: worker process
+statd               14972               14911               0                   17:35               ?                   00:00:00            nginx: worker process
+statd               14973               14911               0                   17:35               ?                   00:00:00            nginx: worker process
+statd               14974               14911               0                   17:35               ?                   00:00:00            nginx: worker process
+statd               14975               14911               0                   17:35               ?                   00:00:00            nginx: worker process
+statd               14976               14911               0                   17:35               ?                   00:00:00            nginx: worker process
+root                10109               9927                0                   17:21               ?                   00:00:01            /usr/local/bin/kube-proxy --config=/var/lib/kube-proxy/config.conf --hostname-override=mindstix-assignment-cluster-worker2
+65535               9989                9927                0                   17:21               ?                   00:00:00            /pause
+root                10441               9946                0                   17:21               ?                   00:00:00            /bin/kindnetd
+65535               9996                9946                0                   17:21               ?                   00:00:00            /pause
+root                9721                7644                1                   17:21               ?                   00:00:24            /usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml --node-ip=172.18.0.5 --provider-id=kind://docker/mindstix-assignment-cluster/mindstix-assignment-cluster-worker2 --node-labels= --runtime-cgroups=/system.slice/containerd.service
+root                8097                7644                1                   17:21               ?                   00:00:22            /usr/local/bin/containerd
+root                9927                7644                0                   17:21               ?                   00:00:03            /usr/local/bin/containerd-shim-runc-v2 -namespace k8s.io -id 51793b26aa676de95694195df8f1842d53e8fa2f50bb410ec4d043e0098bd744 -address /run/containerd/containerd.sock
+root                9946                7644                0                   17:21               ?                   00:00:03            /usr/local/bin/containerd-shim-runc-v2 -namespace k8s.io -id 7b0b760366e257502f98aa1d1e6fec9723fc72b4cff2b7f0a56042723876e9c0 -address /run/containerd/containerd.sock
+root                14736               7644                0                   17:34               ?                   00:00:02            /usr/local/bin/containerd-shim-runc-v2 -namespace k8s.io -id b3fb9fd25d8fe35cb967a42f56e72df3518048c48430e551a18424781b98d647 -address /run/containerd/containerd.sock
+root                7961                7644                0                   17:21               ?                   00:00:00            /usr/lib/systemd/systemd-journald
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb exec -it pod/nginx -n practice -- bash
+root@nginx:/# cat /etc/nginx/conf.d/default.conf | grep listen
+    listen       80;
+    listen  [::]:80;
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+root@nginx:/# exit
+exit
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl delete pod nginx -n practice
+kubectl get pods -n practice
+pod "nginx" deleted from practice namespace
+No resources found in practice namespace.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim nginx-deployment.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f nginx-deployment.yaml -n practice
+kubectl get pods -n practice
+deployment.apps/nginx-deployment created
+NAME                                READY   STATUS              RESTARTS   AGE
+nginx-deployment-59c4c87bc6-tbzdh   0/1     ContainerCreating   0          0s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods -n practice
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-59c4c87bc6-tbzdh   1/1     Running   0          50s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl delete pod nginx-deployment-59c4c87bc6-tbzdh -n practice
+kubectl get pods -n practice
+pod "nginx-deployment-59c4c87bc6-tbzdh" deleted from practice namespace
+NAME                                READY   STATUS              RESTARTS   AGE
+nginx-deployment-59c4c87bc6-hkbzk   0/1     ContainerCreating   0          1s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods -n practice
+NAME                                READY   STATUS              RESTARTS   AGE
+nginx-deployment-59c4c87bc6-hkbzk   0/1     ContainerCreating   0          9s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl describe pod <pod-name> -n practice
+-bash: pod-name: No such file or directory
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl describe pod nginx-deployment-59c4c87bc6-hkbzk -n practice
+Name:             nginx-deployment-59c4c87bc6-hkbzk
+Namespace:        practice
+Priority:         0
+Service Account:  default
+Node:             mindstix-assignment-cluster-worker/172.18.0.6
+Start Time:       Mon, 14 Sep 2026 18:00:42 +0000
+Labels:           app=nginx
+                  pod-template-hash=59c4c87bc6
+Annotations:      <none>
+Status:           Running
+IP:               10.244.1.2
+IPs:
+  IP:           10.244.1.2
+Controlled By:  ReplicaSet/nginx-deployment-59c4c87bc6
+Containers:
+  nginx:
+    Container ID:   containerd://dbbddf6800786f08282587692bec8c09e0a5e76267aef007a2e1e458a8f59e0e
+    Image:          nginx:latest
+    Image ID:       docker.io/library/nginx@sha256:05b8cb60c354a44ab824ea6e7dc69b46d50762cdbe728a347a5b656e6fb3d7c4
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Mon, 14 Sep 2026 18:01:04 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kqppg (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
+Volumes:
+  kube-api-access-kqppg:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  53s   default-scheduler  Successfully assigned practice/nginx-deployment-59c4c87bc6-hkbzk to mindstix-assignment-cluster-worker
+  Normal  Pulling    53s   kubelet            spec.containers{nginx}: Pulling image "nginx:latest"
+  Normal  Pulled     31s   kubelet            spec.containers{nginx}: Successfully pulled image "nginx:latest" in 19.433s (19.433s including waiting). Image size: 66343926 bytes.
+  Normal  Created    31s   kubelet            spec.containers{nginx}: Container created
+  Normal  Started    31s   kubelet            spec.containers{nginx}: Container started
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ cat
+kind_cluster_config.yaml  nginx-deployment.yaml     niginx_pod.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ cat nginx-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: practice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
