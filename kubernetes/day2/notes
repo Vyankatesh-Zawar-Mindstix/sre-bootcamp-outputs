@@ -1,0 +1,6 @@
+| Pod Name Pattern | Resource Type | Created By |
+|---|---|---|
+| `my-app` | Bare Pod | Created directly via `kind: Pod` in YAML |
+| `my-app-66b49d9868-8pvp` | Deployment | Deployment → ReplicaSet → Pod |
+| `my-app-0`, `my-app-1` | StatefulSet | Created by a StatefulSet (predictable ordinal names) |
+| `my-app-x9k2l` | DaemonSet / Job | Created directly by a DaemonSet or a batch Job |
