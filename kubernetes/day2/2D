@@ -1,0 +1,626 @@
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim pod-logs.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f pod-logs.yaml
+pod/pod-logs-demo created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs pod-logs-demo
+stdout: Tue Sep 15 14:01:08 UTC 2026
+stdout: Tue Sep 15 14:01:10 UTC 2026
+stdout: Tue Sep 15 14:01:12 UTC 2026
+stdout: Tue Sep 15 14:01:14 UTC 2026
+stdout: Tue Sep 15 14:01:16 UTC 2026
+stdout: Tue Sep 15 14:01:18 UTC 2026
+stdout: Tue Sep 15 14:01:20 UTC 2026
+stdout: Tue Sep 15 14:01:22 UTC 2026
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs pod-logs-demo
+stdout: Tue Sep 15 14:01:08 UTC 2026
+stdout: Tue Sep 15 14:01:10 UTC 2026
+stdout: Tue Sep 15 14:01:12 UTC 2026
+stdout: Tue Sep 15 14:01:14 UTC 2026
+stdout: Tue Sep 15 14:01:16 UTC 2026
+stdout: Tue Sep 15 14:01:18 UTC 2026
+stdout: Tue Sep 15 14:01:20 UTC 2026
+stdout: Tue Sep 15 14:01:22 UTC 2026
+stdout: Tue Sep 15 14:01:24 UTC 2026
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl exec -it pod-logs-demo -- cat /tmp/app.log
+file: Tue Sep 15 14:01:08 UTC 2026
+file: Tue Sep 15 14:01:10 UTC 2026
+file: Tue Sep 15 14:01:12 UTC 2026
+file: Tue Sep 15 14:01:14 UTC 2026
+file: Tue Sep 15 14:01:16 UTC 2026
+file: Tue Sep 15 14:01:18 UTC 2026
+file: Tue Sep 15 14:01:20 UTC 2026
+file: Tue Sep 15 14:01:22 UTC 2026
+file: Tue Sep 15 14:01:24 UTC 2026
+file: Tue Sep 15 14:01:26 UTC 2026
+file: Tue Sep 15 14:01:28 UTC 2026
+file: Tue Sep 15 14:01:30 UTC 2026
+file: Tue Sep 15 14:01:32 UTC 2026
+file: Tue Sep 15 14:01:34 UTC 2026
+file: Tue Sep 15 14:01:36 UTC 2026
+file: Tue Sep 15 14:01:38 UTC 2026
+file: Tue Sep 15 14:01:40 UTC 2026
+file: Tue Sep 15 14:01:42 UTC 2026
+file: Tue Sep 15 14:01:44 UTC 2026
+file: Tue Sep 15 14:01:46 UTC 2026
+file: Tue Sep 15 14:01:48 UTC 2026
+file: Tue Sep 15 14:01:50 UTC 2026
+file: Tue Sep 15 14:01:52 UTC 2026
+file: Tue Sep 15 14:01:54 UTC 2026
+file: Tue Sep 15 14:01:56 UTC 2026
+file: Tue Sep 15 14:01:58 UTC 2026
+file: Tue Sep 15 14:02:00 UTC 2026
+file: Tue Sep 15 14:02:02 UTC 2026
+file: Tue Sep 15 14:02:04 UTC 2026
+file: Tue Sep 15 14:02:06 UTC 2026
+file: Tue Sep 15 14:02:08 UTC 2026
+file: Tue Sep 15 14:02:10 UTC 2026
+file: Tue Sep 15 14:02:12 UTC 2026
+file: Tue Sep 15 14:02:14 UTC 2026
+file: Tue Sep 15 14:02:16 UTC 2026
+file: Tue Sep 15 14:02:18 UTC 2026
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl exec pod-logs-demo -- kill 1
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod pod-logs-demo
+NAME            READY   STATUS    RESTARTS   AGE
+pod-logs-demo   1/1     Running   0          106s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl exec pod-logs-demo -- kill -9 -1
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod pod-logs-demo
+NAME            READY   STATUS    RESTARTS   AGE
+pod-logs-demo   1/1     Running   0          2m11s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker exec -it mindstix-assignment-cluster-worker crictl ps
+CONTAINER           IMAGE               CREATED             STATE               NAME                ATTEMPT             POD ID              POD                                 NAMESPACE
+61ecac625ed87       b40c72cf464fb       3 hours ago         Running             app                 0                   feec50ae2b8ee       slow-start-exp2-66b49d9868-8pvp7    default
+92b354c22b953       d7b01abacd67f       8 hours ago         Running             metrics-server      0                   b248825e1647b       metrics-server-5b58578978-pjdzk     kube-system
+dbbddf6800786       5f52b9aca7a79       20 hours ago        Running             nginx               0                   a0e0a57883bd7       nginx-deployment-59c4c87bc6-hkbzk   practice
+03e55874d6525       e44e5463fce88       21 hours ago        Running             kindnet-cni         0                   ae34c3db4afe0       kindnet-flq8g                       kube-system
+cc5bbeeb04f43       78282b5844742       21 hours ago        Running             kube-proxy          0                   1d524d235edd5       kube-proxy-8vbhk                    kube-system
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker exec -it mindstix-assignment-cluster-worker crictl stop 61ecac625ed87
+61ecac625ed87
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod pod-logs-demo
+NAME            READY   STATUS    RESTARTS   AGE
+pod-logs-demo   1/1     Running   0          6m54s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod pod-logs-demo
+NAME            READY   STATUS    RESTARTS   AGE
+pod-logs-demo   1/1     Running   0          7m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker exec -it mindstix-assignment-cluster-worker crictl ps
+CONTAINER           IMAGE               CREATED              STATE               NAME                ATTEMPT             POD ID              POD                                 NAMESPACE
+8770f426306af       b40c72cf464fb       About a minute ago   Running             app                 1                   feec50ae2b8ee       slow-start-exp2-66b49d9868-8pvp7    default
+92b354c22b953       d7b01abacd67f       8 hours ago          Running             metrics-server      0                   b248825e1647b       metrics-server-5b58578978-pjdzk     kube-system
+dbbddf6800786       5f52b9aca7a79       20 hours ago         Running             nginx               0                   a0e0a57883bd7       nginx-deployment-59c4c87bc6-hkbzk   practice
+03e55874d6525       e44e5463fce88       21 hours ago         Running             kindnet-cni         0                   ae34c3db4afe0       kindnet-flq8g                       kube-system
+cc5bbeeb04f43       78282b5844742       21 hours ago         Running             kube-proxy          0                   1d524d235edd5       kube-proxy-8vbhk                    kube-system
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod pod-logs-demo
+NAME            READY   STATUS    RESTARTS   AGE
+pod-logs-demo   1/1     Running   0          8m35s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod
+NAME                               READY   STATUS    RESTARTS       AGE
+init-demo-pod                      1/1     Running   0              23m
+pod-logs-demo                      1/1     Running   0              8m42s
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running   1 (2m1s ago)   3h12m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb describe pod/pod-logs-demo
+Name:             pod-logs-demo
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             mindstix-assignment-cluster-worker2/172.18.0.5
+Start Time:       Tue, 15 Sep 2026 14:01:05 +0000
+Labels:           app=pod-logs
+Annotations:      <none>
+Status:           Running
+IP:               10.244.3.12
+IPs:
+  IP:  10.244.3.12
+Containers:
+  app:
+    Container ID:  containerd://e984d3f9f8a8438b83003363352457811661888c3dc5074cc06a3f6b97def49d
+    Image:         busybox
+    Image ID:      docker.io/library/busybox@sha256:dc2d74b28e4cf8984fa52af1f39bc7c3d9c73760b41a74d629f5d11b1ab28616
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      while true; do echo "stdout: $(date)" && echo "file: $(date)" >> /tmp/app.log && sleep 2; done
+    State:          Running
+      Started:      Tue, 15 Sep 2026 14:01:08 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-97smw (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
+Volumes:
+  kube-api-access-97smw:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  9m15s  default-scheduler  Successfully assigned default/pod-logs-demo to mindstix-assignment-cluster-worker2
+  Normal  Pulling    9m15s  kubelet            spec.containers{app}: Pulling image "busybox"
+  Normal  Pulled     9m12s  kubelet            spec.containers{app}: Successfully pulled image "busybox" in 2.399s (2.399s including waiting). Image size: 2236931 bytes.
+  Normal  Created    9m12s  kubelet            spec.containers{app}: Container created
+  Normal  Started    9m12s  kubelet            spec.containers{app}: Container started
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker exec -it mindstix-assignment-cluster-worker2 crictl ps
+CONTAINER           IMAGE               CREATED             STATE               NAME                ATTEMPT             POD ID              POD                 NAMESPACE
+e984d3f9f8a84       c6348fa86ba0f       9 minutes ago       Running             app                 0                   c5877b8c4ba00       pod-logs-demo       default
+e6eb78d167b44       c6348fa86ba0f       24 minutes ago      Running             main-app            0                   b88f78e5524ec       init-demo-pod       default
+111fe9f195c2f       e44e5463fce88       21 hours ago        Running             kindnet-cni         0                   7b0b760366e25       kindnet-h9v2g       kube-system
+205671487f72d       78282b5844742       21 hours ago        Running             kube-proxy          0                   51793b26aa676       kube-proxy-pp2qp    kube-system
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker exec -it mindstix-assignment-cluster-worker2 crictl stop e984d3f9f8a84
+e984d3f9f8a84
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod
+NAME                               READY   STATUS    RESTARTS        AGE
+init-demo-pod                      1/1     Running   0               25m
+pod-logs-demo                      1/1     Running   1 (5s ago)      10m
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running   1 (3m59s ago)   3h14m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs pod-logs-demo
+stdout: Tue Sep 15 14:11:43 UTC 2026
+stdout: Tue Sep 15 14:11:45 UTC 2026
+stdout: Tue Sep 15 14:11:47 UTC 2026
+stdout: Tue Sep 15 14:11:49 UTC 2026
+stdout: Tue Sep 15 14:11:51 UTC 2026
+stdout: Tue Sep 15 14:11:53 UTC 2026
+stdout: Tue Sep 15 14:11:55 UTC 2026
+stdout: Tue Sep 15 14:11:57 UTC 2026
+stdout: Tue Sep 15 14:11:59 UTC 2026
+stdout: Tue Sep 15 14:12:01 UTC 2026
+stdout: Tue Sep 15 14:12:03 UTC 2026
+stdout: Tue Sep 15 14:12:05 UTC 2026
+stdout: Tue Sep 15 14:12:07 UTC 2026
+stdout: Tue Sep 15 14:12:09 UTC 2026
+stdout: Tue Sep 15 14:12:11 UTC 2026
+stdout: Tue Sep 15 14:12:13 UTC 2026
+stdout: Tue Sep 15 14:12:15 UTC 2026
+stdout: Tue Sep 15 14:12:17 UTC 2026
+stdout: Tue Sep 15 14:12:19 UTC 2026
+stdout: Tue Sep 15 14:12:21 UTC 2026
+stdout: Tue Sep 15 14:12:23 UTC 2026
+stdout: Tue Sep 15 14:12:25 UTC 2026
+stdout: Tue Sep 15 14:12:27 UTC 2026
+stdout: Tue Sep 15 14:12:29 UTC 2026
+stdout: Tue Sep 15 14:12:31 UTC 2026
+stdout: Tue Sep 15 14:12:33 UTC 2026
+stdout: Tue Sep 15 14:12:35 UTC 2026
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs pod-logs-demo --previous
+stdout: Tue Sep 15 14:01:08 UTC 2026
+stdout: Tue Sep 15 14:01:10 UTC 2026
+stdout: Tue Sep 15 14:01:12 UTC 2026
+stdout: Tue Sep 15 14:01:14 UTC 2026
+stdout: Tue Sep 15 14:01:16 UTC 2026
+stdout: Tue Sep 15 14:01:18 UTC 2026
+stdout: Tue Sep 15 14:01:20 UTC 2026
+stdout: Tue Sep 15 14:01:22 UTC 2026
+stdout: Tue Sep 15 14:01:24 UTC 2026
+stdout: Tue Sep 15 14:01:26 UTC 2026
+stdout: Tue Sep 15 14:01:28 UTC 2026
+stdout: Tue Sep 15 14:01:30 UTC 2026
+stdout: Tue Sep 15 14:01:32 UTC 2026
+stdout: Tue Sep 15 14:01:34 UTC 2026
+stdout: Tue Sep 15 14:01:36 UTC 2026
+stdout: Tue Sep 15 14:01:38 UTC 2026
+stdout: Tue Sep 15 14:01:40 UTC 2026
+stdout: Tue Sep 15 14:01:42 UTC 2026
+stdout: Tue Sep 15 14:01:44 UTC 2026
+stdout: Tue Sep 15 14:01:46 UTC 2026
+stdout: Tue Sep 15 14:01:48 UTC 2026
+stdout: Tue Sep 15 14:01:50 UTC 2026
+stdout: Tue Sep 15 14:01:52 UTC 2026
+stdout: Tue Sep 15 14:01:54 UTC 2026
+stdout: Tue Sep 15 14:01:56 UTC 2026
+stdout: Tue Sep 15 14:01:58 UTC 2026
+stdout: Tue Sep 15 14:02:00 UTC 2026
+stdout: Tue Sep 15 14:02:02 UTC 2026
+stdout: Tue Sep 15 14:02:04 UTC 2026
+stdout: Tue Sep 15 14:02:06 UTC 2026
+stdout: Tue Sep 15 14:02:08 UTC 2026
+stdout: Tue Sep 15 14:02:10 UTC 2026
+stdout: Tue Sep 15 14:02:12 UTC 2026
+stdout: Tue Sep 15 14:02:14 UTC 2026
+stdout: Tue Sep 15 14:02:16 UTC 2026
+stdout: Tue Sep 15 14:02:18 UTC 2026
+stdout: Tue Sep 15 14:02:20 UTC 2026
+stdout: Tue Sep 15 14:02:22 UTC 2026
+stdout: Tue Sep 15 14:02:24 UTC 2026
+stdout: Tue Sep 15 14:02:26 UTC 2026
+stdout: Tue Sep 15 14:02:28 UTC 2026
+stdout: Tue Sep 15 14:02:30 UTC 2026
+stdout: Tue Sep 15 14:02:32 UTC 2026
+stdout: Tue Sep 15 14:02:34 UTC 2026
+stdout: Tue Sep 15 14:02:36 UTC 2026
+stdout: Tue Sep 15 14:02:38 UTC 2026
+stdout: Tue Sep 15 14:02:40 UTC 2026
+stdout: Tue Sep 15 14:02:42 UTC 2026
+stdout: Tue Sep 15 14:02:44 UTC 2026
+stdout: Tue Sep 15 14:02:46 UTC 2026
+stdout: Tue Sep 15 14:02:48 UTC 2026
+stdout: Tue Sep 15 14:02:50 UTC 2026
+stdout: Tue Sep 15 14:02:52 UTC 2026
+stdout: Tue Sep 15 14:02:54 UTC 2026
+stdout: Tue Sep 15 14:02:56 UTC 2026
+stdout: Tue Sep 15 14:02:58 UTC 2026
+stdout: Tue Sep 15 14:03:00 UTC 2026
+stdout: Tue Sep 15 14:03:02 UTC 2026
+stdout: Tue Sep 15 14:03:04 UTC 2026
+stdout: Tue Sep 15 14:03:06 UTC 2026
+stdout: Tue Sep 15 14:03:08 UTC 2026
+stdout: Tue Sep 15 14:03:10 UTC 2026
+stdout: Tue Sep 15 14:03:12 UTC 2026
+Killed
+stdout: Tue Sep 15 14:03:13 UTC 2026
+stdout: Tue Sep 15 14:03:15 UTC 2026
+stdout: Tue Sep 15 14:03:17 UTC 2026
+stdout: Tue Sep 15 14:03:19 UTC 2026
+stdout: Tue Sep 15 14:03:21 UTC 2026
+stdout: Tue Sep 15 14:03:23 UTC 2026
+stdout: Tue Sep 15 14:03:25 UTC 2026
+stdout: Tue Sep 15 14:03:27 UTC 2026
+stdout: Tue Sep 15 14:03:29 UTC 2026
+stdout: Tue Sep 15 14:03:31 UTC 2026
+stdout: Tue Sep 15 14:03:33 UTC 2026
+stdout: Tue Sep 15 14:03:35 UTC 2026
+stdout: Tue Sep 15 14:03:37 UTC 2026
+stdout: Tue Sep 15 14:03:39 UTC 2026
+stdout: Tue Sep 15 14:03:41 UTC 2026
+stdout: Tue Sep 15 14:03:43 UTC 2026
+stdout: Tue Sep 15 14:03:45 UTC 2026
+stdout: Tue Sep 15 14:03:47 UTC 2026
+stdout: Tue Sep 15 14:03:49 UTC 2026
+stdout: Tue Sep 15 14:03:51 UTC 2026
+stdout: Tue Sep 15 14:03:53 UTC 2026
+stdout: Tue Sep 15 14:03:55 UTC 2026
+stdout: Tue Sep 15 14:03:57 UTC 2026
+stdout: Tue Sep 15 14:03:59 UTC 2026
+stdout: Tue Sep 15 14:04:01 UTC 2026
+stdout: Tue Sep 15 14:04:03 UTC 2026
+stdout: Tue Sep 15 14:04:05 UTC 2026
+stdout: Tue Sep 15 14:04:07 UTC 2026
+stdout: Tue Sep 15 14:04:09 UTC 2026
+stdout: Tue Sep 15 14:04:11 UTC 2026
+stdout: Tue Sep 15 14:04:13 UTC 2026
+stdout: Tue Sep 15 14:04:15 UTC 2026
+stdout: Tue Sep 15 14:04:17 UTC 2026
+stdout: Tue Sep 15 14:04:19 UTC 2026
+stdout: Tue Sep 15 14:04:21 UTC 2026
+stdout: Tue Sep 15 14:04:23 UTC 2026
+stdout: Tue Sep 15 14:04:25 UTC 2026
+stdout: Tue Sep 15 14:04:27 UTC 2026
+stdout: Tue Sep 15 14:04:29 UTC 2026
+stdout: Tue Sep 15 14:04:31 UTC 2026
+stdout: Tue Sep 15 14:04:33 UTC 2026
+stdout: Tue Sep 15 14:04:35 UTC 2026
+stdout: Tue Sep 15 14:04:37 UTC 2026
+stdout: Tue Sep 15 14:04:39 UTC 2026
+stdout: Tue Sep 15 14:04:41 UTC 2026
+stdout: Tue Sep 15 14:04:43 UTC 2026
+stdout: Tue Sep 15 14:04:45 UTC 2026
+stdout: Tue Sep 15 14:04:47 UTC 2026
+stdout: Tue Sep 15 14:04:49 UTC 2026
+stdout: Tue Sep 15 14:04:51 UTC 2026
+stdout: Tue Sep 15 14:04:53 UTC 2026
+stdout: Tue Sep 15 14:04:55 UTC 2026
+stdout: Tue Sep 15 14:04:57 UTC 2026
+stdout: Tue Sep 15 14:04:59 UTC 2026
+stdout: Tue Sep 15 14:05:02 UTC 2026
+stdout: Tue Sep 15 14:05:04 UTC 2026
+stdout: Tue Sep 15 14:05:06 UTC 2026
+stdout: Tue Sep 15 14:05:08 UTC 2026
+stdout: Tue Sep 15 14:05:10 UTC 2026
+stdout: Tue Sep 15 14:05:12 UTC 2026
+stdout: Tue Sep 15 14:05:14 UTC 2026
+stdout: Tue Sep 15 14:05:16 UTC 2026
+stdout: Tue Sep 15 14:05:18 UTC 2026
+stdout: Tue Sep 15 14:05:20 UTC 2026
+stdout: Tue Sep 15 14:05:22 UTC 2026
+stdout: Tue Sep 15 14:05:24 UTC 2026
+stdout: Tue Sep 15 14:05:26 UTC 2026
+stdout: Tue Sep 15 14:05:28 UTC 2026
+stdout: Tue Sep 15 14:05:30 UTC 2026
+stdout: Tue Sep 15 14:05:32 UTC 2026
+stdout: Tue Sep 15 14:05:34 UTC 2026
+stdout: Tue Sep 15 14:05:36 UTC 2026
+stdout: Tue Sep 15 14:05:38 UTC 2026
+stdout: Tue Sep 15 14:05:40 UTC 2026
+stdout: Tue Sep 15 14:05:42 UTC 2026
+stdout: Tue Sep 15 14:05:44 UTC 2026
+stdout: Tue Sep 15 14:05:46 UTC 2026
+stdout: Tue Sep 15 14:05:48 UTC 2026
+stdout: Tue Sep 15 14:05:50 UTC 2026
+stdout: Tue Sep 15 14:05:52 UTC 2026
+stdout: Tue Sep 15 14:05:54 UTC 2026
+stdout: Tue Sep 15 14:05:56 UTC 2026
+stdout: Tue Sep 15 14:05:58 UTC 2026
+stdout: Tue Sep 15 14:06:00 UTC 2026
+stdout: Tue Sep 15 14:06:02 UTC 2026
+stdout: Tue Sep 15 14:06:04 UTC 2026
+stdout: Tue Sep 15 14:06:06 UTC 2026
+stdout: Tue Sep 15 14:06:08 UTC 2026
+stdout: Tue Sep 15 14:06:10 UTC 2026
+stdout: Tue Sep 15 14:06:12 UTC 2026
+stdout: Tue Sep 15 14:06:14 UTC 2026
+stdout: Tue Sep 15 14:06:16 UTC 2026
+stdout: Tue Sep 15 14:06:18 UTC 2026
+stdout: Tue Sep 15 14:06:20 UTC 2026
+stdout: Tue Sep 15 14:06:22 UTC 2026
+stdout: Tue Sep 15 14:06:24 UTC 2026
+stdout: Tue Sep 15 14:06:26 UTC 2026
+stdout: Tue Sep 15 14:06:28 UTC 2026
+stdout: Tue Sep 15 14:06:30 UTC 2026
+stdout: Tue Sep 15 14:06:32 UTC 2026
+stdout: Tue Sep 15 14:06:34 UTC 2026
+stdout: Tue Sep 15 14:06:36 UTC 2026
+stdout: Tue Sep 15 14:06:38 UTC 2026
+stdout: Tue Sep 15 14:06:40 UTC 2026
+stdout: Tue Sep 15 14:06:42 UTC 2026
+stdout: Tue Sep 15 14:06:44 UTC 2026
+stdout: Tue Sep 15 14:06:46 UTC 2026
+stdout: Tue Sep 15 14:06:48 UTC 2026
+stdout: Tue Sep 15 14:06:50 UTC 2026
+stdout: Tue Sep 15 14:06:52 UTC 2026
+stdout: Tue Sep 15 14:06:54 UTC 2026
+stdout: Tue Sep 15 14:06:56 UTC 2026
+stdout: Tue Sep 15 14:06:58 UTC 2026
+stdout: Tue Sep 15 14:07:00 UTC 2026
+stdout: Tue Sep 15 14:07:02 UTC 2026
+stdout: Tue Sep 15 14:07:04 UTC 2026
+stdout: Tue Sep 15 14:07:06 UTC 2026
+stdout: Tue Sep 15 14:07:08 UTC 2026
+stdout: Tue Sep 15 14:07:10 UTC 2026
+stdout: Tue Sep 15 14:07:12 UTC 2026
+stdout: Tue Sep 15 14:07:14 UTC 2026
+stdout: Tue Sep 15 14:07:16 UTC 2026
+stdout: Tue Sep 15 14:07:18 UTC 2026
+stdout: Tue Sep 15 14:07:20 UTC 2026
+stdout: Tue Sep 15 14:07:22 UTC 2026
+stdout: Tue Sep 15 14:07:24 UTC 2026
+stdout: Tue Sep 15 14:07:26 UTC 2026
+stdout: Tue Sep 15 14:07:28 UTC 2026
+stdout: Tue Sep 15 14:07:30 UTC 2026
+stdout: Tue Sep 15 14:07:32 UTC 2026
+stdout: Tue Sep 15 14:07:34 UTC 2026
+stdout: Tue Sep 15 14:07:36 UTC 2026
+stdout: Tue Sep 15 14:07:38 UTC 2026
+stdout: Tue Sep 15 14:07:40 UTC 2026
+stdout: Tue Sep 15 14:07:42 UTC 2026
+stdout: Tue Sep 15 14:07:44 UTC 2026
+stdout: Tue Sep 15 14:07:46 UTC 2026
+stdout: Tue Sep 15 14:07:48 UTC 2026
+stdout: Tue Sep 15 14:07:50 UTC 2026
+stdout: Tue Sep 15 14:07:52 UTC 2026
+stdout: Tue Sep 15 14:07:54 UTC 2026
+stdout: Tue Sep 15 14:07:56 UTC 2026
+stdout: Tue Sep 15 14:07:58 UTC 2026
+stdout: Tue Sep 15 14:08:00 UTC 2026
+stdout: Tue Sep 15 14:08:02 UTC 2026
+stdout: Tue Sep 15 14:08:05 UTC 2026
+stdout: Tue Sep 15 14:08:07 UTC 2026
+stdout: Tue Sep 15 14:08:09 UTC 2026
+stdout: Tue Sep 15 14:08:11 UTC 2026
+stdout: Tue Sep 15 14:08:13 UTC 2026
+stdout: Tue Sep 15 14:08:15 UTC 2026
+stdout: Tue Sep 15 14:08:17 UTC 2026
+stdout: Tue Sep 15 14:08:19 UTC 2026
+stdout: Tue Sep 15 14:08:21 UTC 2026
+stdout: Tue Sep 15 14:08:23 UTC 2026
+stdout: Tue Sep 15 14:08:25 UTC 2026
+stdout: Tue Sep 15 14:08:27 UTC 2026
+stdout: Tue Sep 15 14:08:29 UTC 2026
+stdout: Tue Sep 15 14:08:31 UTC 2026
+stdout: Tue Sep 15 14:08:33 UTC 2026
+stdout: Tue Sep 15 14:08:35 UTC 2026
+stdout: Tue Sep 15 14:08:37 UTC 2026
+stdout: Tue Sep 15 14:08:39 UTC 2026
+stdout: Tue Sep 15 14:08:41 UTC 2026
+stdout: Tue Sep 15 14:08:43 UTC 2026
+stdout: Tue Sep 15 14:08:45 UTC 2026
+stdout: Tue Sep 15 14:08:47 UTC 2026
+stdout: Tue Sep 15 14:08:49 UTC 2026
+stdout: Tue Sep 15 14:08:51 UTC 2026
+stdout: Tue Sep 15 14:08:53 UTC 2026
+stdout: Tue Sep 15 14:08:55 UTC 2026
+stdout: Tue Sep 15 14:08:57 UTC 2026
+stdout: Tue Sep 15 14:08:59 UTC 2026
+stdout: Tue Sep 15 14:09:01 UTC 2026
+stdout: Tue Sep 15 14:09:03 UTC 2026
+stdout: Tue Sep 15 14:09:05 UTC 2026
+stdout: Tue Sep 15 14:09:07 UTC 2026
+stdout: Tue Sep 15 14:09:09 UTC 2026
+stdout: Tue Sep 15 14:09:11 UTC 2026
+stdout: Tue Sep 15 14:09:13 UTC 2026
+stdout: Tue Sep 15 14:09:15 UTC 2026
+stdout: Tue Sep 15 14:09:17 UTC 2026
+stdout: Tue Sep 15 14:09:19 UTC 2026
+stdout: Tue Sep 15 14:09:21 UTC 2026
+stdout: Tue Sep 15 14:09:23 UTC 2026
+stdout: Tue Sep 15 14:09:25 UTC 2026
+stdout: Tue Sep 15 14:09:27 UTC 2026
+stdout: Tue Sep 15 14:09:29 UTC 2026
+stdout: Tue Sep 15 14:09:31 UTC 2026
+stdout: Tue Sep 15 14:09:33 UTC 2026
+stdout: Tue Sep 15 14:09:35 UTC 2026
+stdout: Tue Sep 15 14:09:37 UTC 2026
+stdout: Tue Sep 15 14:09:39 UTC 2026
+stdout: Tue Sep 15 14:09:41 UTC 2026
+stdout: Tue Sep 15 14:09:43 UTC 2026
+stdout: Tue Sep 15 14:09:45 UTC 2026
+stdout: Tue Sep 15 14:09:47 UTC 2026
+stdout: Tue Sep 15 14:09:49 UTC 2026
+stdout: Tue Sep 15 14:09:51 UTC 2026
+stdout: Tue Sep 15 14:09:53 UTC 2026
+stdout: Tue Sep 15 14:09:55 UTC 2026
+stdout: Tue Sep 15 14:09:57 UTC 2026
+stdout: Tue Sep 15 14:09:59 UTC 2026
+stdout: Tue Sep 15 14:10:01 UTC 2026
+stdout: Tue Sep 15 14:10:03 UTC 2026
+stdout: Tue Sep 15 14:10:05 UTC 2026
+stdout: Tue Sep 15 14:10:07 UTC 2026
+stdout: Tue Sep 15 14:10:09 UTC 2026
+stdout: Tue Sep 15 14:10:11 UTC 2026
+stdout: Tue Sep 15 14:10:13 UTC 2026
+stdout: Tue Sep 15 14:10:15 UTC 2026
+stdout: Tue Sep 15 14:10:17 UTC 2026
+stdout: Tue Sep 15 14:10:19 UTC 2026
+stdout: Tue Sep 15 14:10:21 UTC 2026
+stdout: Tue Sep 15 14:10:23 UTC 2026
+stdout: Tue Sep 15 14:10:25 UTC 2026
+stdout: Tue Sep 15 14:10:27 UTC 2026
+stdout: Tue Sep 15 14:10:29 UTC 2026
+stdout: Tue Sep 15 14:10:31 UTC 2026
+stdout: Tue Sep 15 14:10:33 UTC 2026
+stdout: Tue Sep 15 14:10:35 UTC 2026
+stdout: Tue Sep 15 14:10:37 UTC 2026
+stdout: Tue Sep 15 14:10:39 UTC 2026
+stdout: Tue Sep 15 14:10:41 UTC 2026
+stdout: Tue Sep 15 14:10:43 UTC 2026
+stdout: Tue Sep 15 14:10:45 UTC 2026
+stdout: Tue Sep 15 14:10:47 UTC 2026
+stdout: Tue Sep 15 14:10:49 UTC 2026
+stdout: Tue Sep 15 14:10:51 UTC 2026
+stdout: Tue Sep 15 14:10:53 UTC 2026
+stdout: Tue Sep 15 14:10:55 UTC 2026
+stdout: Tue Sep 15 14:10:57 UTC 2026
+stdout: Tue Sep 15 14:10:59 UTC 2026
+stdout: Tue Sep 15 14:11:01 UTC 2026
+stdout: Tue Sep 15 14:11:03 UTC 2026
+stdout: Tue Sep 15 14:11:05 UTC 2026
+stdout: Tue Sep 15 14:11:07 UTC 2026
+stdout: Tue Sep 15 14:11:09 UTC 2026
+stdout: Tue Sep 15 14:11:11 UTC 2026
+stdout: Tue Sep 15 14:11:13 UTC 2026
+stdout: Tue Sep 15 14:11:15 UTC 2026
+stdout: Tue Sep 15 14:11:17 UTC 2026
+stdout: Tue Sep 15 14:11:19 UTC 2026
+stdout: Tue Sep 15 14:11:21 UTC 2026
+stdout: Tue Sep 15 14:11:23 UTC 2026
+stdout: Tue Sep 15 14:11:25 UTC 2026
+stdout: Tue Sep 15 14:11:27 UTC 2026
+stdout: Tue Sep 15 14:11:29 UTC 2026
+stdout: Tue Sep 15 14:11:31 UTC 2026
+stdout: Tue Sep 15 14:11:33 UTC 2026
+stdout: Tue Sep 15 14:11:35 UTC 2026
+stdout: Tue Sep 15 14:11:37 UTC 2026
+stdout: Tue Sep 15 14:11:39 UTC 2026
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod pod-logs-demo -o wide
+NAME            READY   STATUS    RESTARTS       AGE   IP            NODE                                  NOMINATED NODE   READINESS GATES
+pod-logs-demo   1/1     Running   1 (106s ago)   12m   10.244.3.12   mindstix-assignment-cluster-worker2   <none>           <none>
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker exec -it mindstix-assignment-cluster-worker2 bash
+root@mindstix-assignment-cluster-worker2:/# ls -la /var/log/pods/
+total 24
+drwxr-x--- 6 root root 4096 Sep 15 14:01 .
+drwxr-xr-x 4 root root 4096 Sep 14 17:19 ..
+drwxr-xr-x 4 root root 4096 Sep 15 13:46 default_init-demo-pod_479825f4-93be-4782-822b-d97f42fcaf96
+drwxr-xr-x 3 root root 4096 Sep 15 14:01 default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228
+drwxr-xr-x 3 root root 4096 Sep 14 17:19 kube-system_kindnet-h9v2g_a0051c1e-a201-4ef7-a95a-e889d090615a
+drwxr-xr-x 3 root root 4096 Sep 14 17:19 kube-system_kube-proxy-pp2qp_f399608c-746d-4378-b27c-8c8dbe66e88d
+root@mindstix-assignment-cluster-worker2:/# cd /var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228
+root@mindstix-assignment-cluster-worker2:/var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228# ll
+bash: ll: command not found
+root@mindstix-assignment-cluster-worker2:/var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228# ls
+app
+root@mindstix-assignment-cluster-worker2:/var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228# cd app/
+root@mindstix-assignment-cluster-worker2:/var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228/app# ls
+0.log  1.log
+root@mindstix-assignment-cluster-worker2:/var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228/app# cd..
+bash: cd..: command not found
+root@mindstix-assignment-cluster-worker2:/var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228/app# cd ..
+root@mindstix-assignment-cluster-worker2:/var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228# cd ..
+root@mindstix-assignment-cluster-worker2:/var/log/pods# ll
+bash: ll: command not found
+root@mindstix-assignment-cluster-worker2:/var/log/pods# ls -lart
+total 24
+drwxr-xr-x 4 root root 4096 Sep 14 17:19 ..
+drwxr-xr-x 3 root root 4096 Sep 14 17:19 kube-system_kube-proxy-pp2qp_f399608c-746d-4378-b27c-8c8dbe66e88d
+drwxr-xr-x 3 root root 4096 Sep 14 17:19 kube-system_kindnet-h9v2g_a0051c1e-a201-4ef7-a95a-e889d090615a
+drwxr-xr-x 4 root root 4096 Sep 15 13:46 default_init-demo-pod_479825f4-93be-4782-822b-d97f42fcaf96
+drwxr-x--- 6 root root 4096 Sep 15 14:01 .
+drwxr-xr-x 3 root root 4096 Sep 15 14:01 default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228
+root@mindstix-assignment-cluster-worker2:/var/log/pods# cd ..
+root@mindstix-assignment-cluster-worker2:/var/log# ls -lart
+total 20
+-rw-r--r--  1 root root  369 Sep 14 17:18 alternatives.log
+drwxr-xr-x 11 root root 4096 Sep 14 17:18 ..
+drwxr-xr-x  4 root root 4096 Sep 14 17:19 .
+drwxr-x---  6 root root 4096 Sep 15 14:01 pods
+drwxr-xr-x  2 root root 4096 Sep 15 14:11 containers
+root@mindstix-assignment-cluster-worker2:/var/log# du -sh /var/log/pods/* | sort -hr
+1.7M    /var/log/pods/kube-system_kindnet-h9v2g_a0051c1e-a201-4ef7-a95a-e889d090615a
+64K     /var/log/pods/default_pod-logs-demo_5a1d7476-f8a9-4b5e-a510-04ec5d151228
+16K     /var/log/pods/default_init-demo-pod_479825f4-93be-4782-822b-d97f42fcaf96
+12K     /var/log/pods/kube-system_kube-proxy-pp2qp_f399608c-746d-4378-b27c-8c8dbe66e88d
+root@mindstix-assignment-cluster-worker2:/var/log# exit
+exit
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ll
+total 44
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 15 14:00 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 14 17:31 ../
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 10:19 flask_app_probes_ass/
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  338 Sep 14 17:59 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  191 Sep 14 17:32 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  548 Sep 15 13:47 pod-init-failing.yaml
+-rw-r--r-- 1 vyankatz vyankatz  262 Sep 15 14:00 pod-logs.yaml
+-rw-r--r-- 1 vyankatz vyankatz  551 Sep 15 13:46 pod_init.yaml
+-rw-r--r-- 1 vyankatz vyankatz  890 Sep 15 10:53 slow_start_deploymet.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ls -lart
+total 44
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 14 17:31 ..
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  191 Sep 14 17:32 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  338 Sep 14 17:59 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 10:19 flask_app_probes_ass
+-rw-r--r-- 1 vyankatz vyankatz  890 Sep 15 10:53 slow_start_deploymet.yaml
+-rw-r--r-- 1 vyankatz vyankatz  551 Sep 15 13:46 pod_init.yaml
+-rw-r--r-- 1 vyankatz vyankatz  548 Sep 15 13:47 pod-init-failing.yaml
+-rw-r--r-- 1 vyankatz vyankatz  262 Sep 15 14:00 pod-logs.yaml
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 15 14:00 .
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS    RESTARTS      AGE
+init-demo-pod                      1/1     Running   0             35m
+pod-logs-demo                      1/1     Running   1 (10m ago)   20m
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running   1 (14m ago)   3h24m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get deployments
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+slow-start-exp2   1/1     1            1           3h34m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb delete deployments/slow-start-exp2
+deployment.apps "slow-start-exp2" deleted from default namespace
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get deployments
+No resources found in default namespace.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS        RESTARTS      AGE
+init-demo-pod                      1/1     Running       0             42m
+pod-logs-demo                      1/1     Running       1 (17m ago)   27m
+slow-start-exp2-66b49d9868-8pvp7   1/1     Terminating   1 (21m ago)   3h31m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb delete pod/init-demo-pod
+pod "init-demo-pod" deleted from default namespace
+
+
+
+
+
+^Cvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME            READY   STATUS        RESTARTS      AGE
+init-demo-pod   1/1     Terminating   0             42m
+pod-logs-demo   1/1     Running       1 (17m ago)   28m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb delete pod/pod-logs-demo
+pod "pod-logs-demo" deleted from default namespace
+^Cvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME            READY   STATUS        RESTARTS      AGE
+pod-logs-demo   1/1     Terminating   1 (18m ago)   28m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
