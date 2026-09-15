@@ -1,13 +1,3 @@
-| Pod Name Pattern | Resource Type | Created By |
-|---|---|---|
-| `my-app` | Bare Pod | Created directly via `kind: Pod` in YAML |
-| `my-app-66b49d9868-8pvp` | Deployment | Deployment → ReplicaSet → Pod |
-| `my-app-0`, `my-app-1` | StatefulSet | Created by a StatefulSet (predictable ordinal names) |
-| `my-app-x9k2l` | DaemonSet / Job | Created directly by a DaemonSet or a batch Job |
-
-
-
-
 # Kubernetes Storage Abstractions: `emptyDir` vs `hostPath` vs `PersistentVolumeClaim` (PVC)
 
 A comprehensive comparison of the three primary levels of storage abstraction in Kubernetes, detailing their lifecycles, scopes, use cases, and YAML specifications.
@@ -66,3 +56,11 @@ volumes:
 - name: db-storage
   persistentVolumeClaim:
     claimName: postgres-pvc
+
+
+| Pod Name Pattern | Resource Type | Created By |
+|---|---|---|
+| `my-app` | Bare Pod | Created directly via `kind: Pod` in YAML |
+| `my-app-66b49d9868-8pvp` | Deployment | Deployment → ReplicaSet → Pod |
+| `my-app-0`, `my-app-1` | StatefulSet | Created by a StatefulSet (predictable ordinal names) |
+| `my-app-x9k2l` | DaemonSet / Job | Created directly by a DaemonSet or a batch Job |
