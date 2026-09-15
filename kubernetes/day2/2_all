@@ -1,0 +1,2461 @@
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb apply -f stress_pod_day2.yaml -n practice
+pod/stress-pod created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pod stress-pod -n practice
+NAME         READY   STATUS    RESTARTS   AGE
+stress-pod   1/1     Running   0          35s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb apply -f stress_pod_day2.yaml -n practice
+The Pod "stress-pod" is invalid: spec: Forbidden: pod updates may not change fields other than `spec.containers[*].image`,`spec.initContainers[*].image`,`spec.activeDeadlineSeconds`,`spec.tolerations` (only additions to existing tolerations),`spec.terminationGracePeriodSeconds` (allow it to be set to 1 if it was previously negative)
+@@ -100,7 +100,7 @@
+     "--vm",
+     "1",
+     "--vm-bytes",
+-    "50M",
++    "200M",
+     "--timeout",
+     "60s"
+    ],
+
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pod stress-pod -n practice
+NAME         READY   STATUS    RESTARTS     AGE
+stress-pod   1/1     Running   1 (6s ago)   83s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pod stress-pod -n practice
+NAME         READY   STATUS    RESTARTS      AGE
+stress-pod   1/1     Running   1 (12s ago)   89s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pod stress-pod -n practice
+NAME         READY   STATUS    RESTARTS      AGE
+stress-pod   1/1     Running   1 (15s ago)   92s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pod stress-pod -n practice
+NAME         READY   STATUS    RESTARTS      AGE
+stress-pod   1/1     Running   1 (17s ago)   94s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod --watch
+Error from server (NotFound): pods "stress-pod" not found
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod --watch -n practice
+NAME         READY   STATUS    RESTARTS      AGE
+stress-pod   1/1     Running   1 (44s ago)   2m1s
+stress-pod   0/1     Completed   1 (66s ago)   2m23s
+stress-pod   0/1     CrashLoopBackOff   1 (13s ago)   2m35s
+stress-pod   1/1     Running            2 (17s ago)   2m39s
+stress-pod   0/1     Completed          2 (79s ago)   3m41s
+stress-pod   0/1     CrashLoopBackOff   2 (30s ago)   4m10s
+stress-pod   1/1     Running            3 (34s ago)   4m14s
+stress-pod   0/1     Completed          3 (95s ago)   5m15s
+stress-pod   0/1     CrashLoopBackOff   3 (58s ago)   6m13s
+stress-pod   1/1     Running            4 (61s ago)   6m16s
+stress-pod   0/1     Completed          4 (2m3s ago)   7m18s
+stress-pod   0/1     CrashLoopBackOff   4 (85s ago)    8m42s
+stress-pod   1/1     Running            5 (88s ago)    8m45s
+stress-pod   0/1     Completed          5 (2m29s ago)   9m46s
+stress-pod   0/1     CrashLoopBackOff   5 (75s ago)     11m
+stress-pod   1/1     Running            6 (2m45s ago)   12m
+stress-pod   0/1     Completed          6 (3m45s ago)   13m
+stress-pod   0/1     CrashLoopBackOff   6 (81s ago)     14m
+stress-pod   1/1     Running            7 (5m9s ago)    18m
+stress-pod   0/1     Completed          7 (6m10s ago)   19m
+stress-pod   0/1     CrashLoopBackOff   7 (78s ago)     20m
+stress-pod   1/1     Running            8 (5m12s ago)   24m
+stress-pod   0/1     Completed          8 (6m12s ago)   25m
+stress-pod   0/1     CrashLoopBackOff   8 (76s ago)     27m
+stress-pod   1/1     Running            9 (5m6s ago)    30m
+stress-pod   0/1     Completed          9 (6m6s ago)    31m
+stress-pod   0/1     CrashLoopBackOff   9 (78s ago)     33m
+stress-pod   1/1     Running            10 (5m6s ago)   37m
+stress-pod   0/1     Completed          10 (6m6s ago)   38m
+stress-pod   0/1     CrashLoopBackOff   10 (88s ago)    39m
+^Cvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get deployment
+No resources found in default namespace.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get deployments
+No resources found in default namespace.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get deployments -n practice
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   1/1     1            1           12h
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod -n practice
+NAME                                READY   STATUS             RESTARTS         AGE
+nginx-deployment-59c4c87bc6-hkbzk   1/1     Running            0                12h
+stress-pod                          0/1     CrashLoopBackOff   10 (2m32s ago)   40m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kn delete stress-pod
+kn: command not found
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kn delete pod/stress-pod -n practice
+kn: command not found
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb delete pod/stress-pod -n practice
+pod "stress-pod" deleted from practice namespace
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod -n practice
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-59c4c87bc6-hkbzk   1/1     Running   0          12h
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod -n practice
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-59c4c87bc6-hkbzk   1/1     Running   0          12h
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod -n practice
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-59c4c87bc6-hkbzk   1/1     Running   0          12h
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod -n practice
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-59c4c87bc6-hkbzk   1/1     Running   0          12h
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ll
+total 24
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 05:58 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 14 17:31 ../
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  338 Sep 14 17:59 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  191 Sep 14 17:32 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ less stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ less stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ stress-podReloadReload
+Conversation with Gemini
+ps is not installed in my container I want to see process how to do ?
+
+When ps is missing inside a lightweight container (like Alpine, Slim Debian, or distroless images), you can view running processes directly through the /proc filesystem from inside the container, or view them from outside the container using host/orchestrator commands.
+
+Option 1: View processes from INSIDE the container (No tools required)
+Linux mounts running processes directly into the /proc directory. You can list the process IDs (PIDs) and read their command lines directly using built-in shell commands.
+
+List all running Process IDs (PIDs):
+
+Bash
+ls -d /proc/[0-9]*
+See the command line for all running processes:
+
+Bash
+for p in /proc/[0-9]*; do echo -n "${p#/proc/}: "; cat "$p/cmdline" | tr '\0' ' '; echo; done
+Verification: You will see a list of PIDs followed by the executable and its arguments (e.g., 1: node index.js).
+
+Inspect a specific process (e.g., PID 1):
+
+Bash
+cat /proc/1/cmdline | tr '\0' ' '
+Option 2: View processes from OUTSIDE the container
+If you have access to the container host or orchestration CLI, this is the cleanest approach.
+
+Docker:
+
+Bash
+docker top <container_name_or_id>
+^Crify the exit code:STATUS will display OOMKilled.nds):ng", "0"]ntinuouslyve --timeout 60s:ker process to hold the memory allocation
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl describe pod stress-pod -n practice
+Name:             stress-pod
+Namespace:        practice
+Priority:         0
+Service Account:  default
+Node:             mindstix-assignment-cluster-worker2/172.18.0.5
+Start Time:       Tue, 15 Sep 2026 05:57:56 +0000
+Labels:           <none>
+Annotations:      <none>
+Status:           Running
+IP:               10.244.3.4
+IPs:
+  IP:  10.244.3.4
+Containers:
+  stress:
+    Container ID:  containerd://aec5cbcad4217981417aee42023fc8359978d1a784432df35a57019e093bd522
+    Image:         polinux/stress
+    Image ID:      docker.io/polinux/stress@sha256:b6144f84f9c15dac80deb48d3a646b55c7043ab1d83ea0a697c09097aaad21aa
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      stress
+    Args:
+      --vm
+      1
+      --vm-bytes
+      50M
+      --timeout
+      60s
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 15 Sep 2026 06:00:35 +0000
+      Finished:     Tue, 15 Sep 2026 06:01:36 +0000
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 15 Sep 2026 05:59:17 +0000
+      Finished:     Tue, 15 Sep 2026 06:00:18 +0000
+    Ready:          False
+    Restart Count:  2
+    Limits:
+      memory:  100Mi
+    Requests:
+      memory:     50Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-wht72 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       False
+  ContainersReady             False
+  PodScheduled                True
+Volumes:
+  kube-api-access-wht72:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                  From               Message
+  ----     ------     ----                 ----               -------
+  Normal   Scheduled  3m46s                default-scheduler  Successfully assigned practice/stress-pod to mindstix-assignment-cluster-worker2
+  Normal   Pulled     3m31s                kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 14.105s (14.105s including waiting). Image size: 4041495 bytes.
+  Normal   Pulled     2m25s                kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 3.046s (3.046s including waiting). Image size: 4041495 bytes.
+  Normal   Pulling    71s (x3 over 3m45s)  kubelet            spec.containers{stress}: Pulling image "polinux/stress"
+  Normal   Created    67s (x3 over 3m31s)  kubelet            spec.containers{stress}: Container created
+  Normal   Started    67s (x3 over 3m30s)  kubelet            spec.containers{stress}: Container started
+  Normal   Pulled     67s                  kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 3.449s (3.449s including waiting). Image size: 4041495 bytes.
+  Warning  BackOff    5s (x2 over 83s)     kubelet            spec.containers{stress}: Back-off restarting failed container stress in pod stress-pod_practice(b3fc2768-53c8-4fe9-bf47-c23287bbde72)
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl log pod stress-pod -n practice
+error: unknown command "log" for "kubectl"
+
+Did you mean this?
+        top
+        logs
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs pod stress-pod -n practice
+error: error from server (NotFound): pods "pod" not found in namespace "practice"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs pod/stress-pod -n practice
+stress: info: [1] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
+stress: info: [1] successful run completed in 61s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs pod/stress-pod -n practice --privious
+error: unknown flag: --privious
+See 'kubectl logs --help' for usage.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs pod/stress-pod -n practice --previous
+unable to retrieve container logs for containerd://aec5cbcad4217981417aee42023fc8359978d1a784432df35a57019e093bd522vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl log pod stress-pod -n practice^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods --watch
+error: unknown flag: --watch
+See 'kubectl top pod --help' for usage.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+serviceaccount/metrics-server created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/system:metrics-server created
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
+service/metrics-server created
+deployment.apps/metrics-server created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl patch deployment metrics-server -n kube-system \
+  --type=json \
+  -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
+deployment.apps/metrics-server patched
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+kubectl top pods --watch
+error: unknown flag: --watch
+See 'kubectl top pod --help' for usage.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods
+No resources found in default namespace.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice
+NAME                                CPU(cores)   MEMORY(bytes)
+nginx-deployment-59c4c87bc6-hkbzk   0m           7Mi
+stress-pod                          1002m        41Mi
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice --watch
+error: unknown flag: --watch
+See 'kubectl top pod --help' for usage.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice
+NAME                                CPU(cores)   MEMORY(bytes)
+nginx-deployment-59c4c87bc6-hkbzk   0m           7Mi
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice
+NAME                                CPU(cores)   MEMORY(bytes)
+nginx-deployment-59c4c87bc6-hkbzk   0m           7Mi
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice
+NAME                                CPU(cores)   MEMORY(bytes)
+nginx-deployment-59c4c87bc6-hkbzk   0m           7Mi
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice
+NAME                                CPU(cores)   MEMORY(bytes)
+nginx-deployment-59c4c87bc6-hkbzk   0m           7Mi
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice
+NAME                                CPU(cores)   MEMORY(bytes)
+nginx-deployment-59c4c87bc6-hkbzk   0m           7Mi
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice
+NAME                                CPU(cores)   MEMORY(bytes)
+nginx-deployment-59c4c87bc6-hkbzk   0m           7Mi
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl top pods -n practice
+NAME                                CPU(cores)   MEMORY(bytes)
+nginx-deployment-59c4c87bc6-hkbzk   0m           7Mi
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl describe pod stress-pod -n practice | less
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl describe pod stress-pod -n practice | less
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl describe pod stress-pod -n practice | less
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice -o jsonpath='{.status.containerStatuses[0].lastState.terminated}'
+{"containerID":"containerd://12a1a8b97aadb2ef21a0dce045785c22a826db52aec903581d2b7307843a0386","exitCode":0,"finishedAt":"2026-09-15T06:17:35Z","reason":"Completed","startedAt":"2026-09-15T06:16:35Z"}vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$  kubectl get pod stres kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS        AGE
+stress-pod   0/1     Completed   8 (7m27s ago)   27m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice -o jsonpath
+error: template format specified but no template given
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice -o
+error: flag needs an argument: 'o' in -o
+See 'kubectl get --help' for usage.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS             RESTARTS       AGE
+stress-pod   0/1     CrashLoopBackOff   8 (2m1s ago)   27m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice -o jsonpath='{.status.containerStatuses[0].lastState.terminated}'
+{"containerID":"containerd://f42bdea9741a8236b59e34f2414123c5e163100c9678b67a21dd48d6594bead9","exitCode":0,"finishedAt":"2026-09-15Tvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ "2026-09-15T06:22:47Z"}vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod str^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice -o jsonpath='{.status.containerStatuses[0]}'
+{"allocatedResources":{"memory":"50Mi"},"containerID":"containerd://f42bdea9741a8236b59e34f2414123c5e163100c9678b67a21dd48d6594bead9","image":"docker.io/polinux/stress:latest","imageID":"docker.io/polinux/stress@sha256:b6144f84f9c15dac80deb48d3a646b55c7043ab1d83ea0a697c09097aaad21aa","lastState":{"terminated":{"containerID":"containerd://f42bdea9741a8236b59e34f2414123c5e163100c9678b67a21dd48d6594bead9","exitCode":0,"finishedAt":"2026-09-15T06:23:47Z","reason":"Completed","startedAt":"2026-09-15T06:22:47Z"}},"name":"stress","ready":false,"resources":{"limits":{"memory":"100Mi"},"requests":{"memory":"50Mi"}},"restartCount":8,"started":false,"state":{"waiting":{"message":"back-off 5m0s restarting failed container=stress pod=stress-pod_practice(b3fc2768-53c8-4fe9-bf47-c23287bbde72)","reason":"CrashLoopBackOff"}},"user":{"linux":{"gid":0,"supplementalGroups":[0,1,2,3,4,6,10,11,20,26,27],"uid":0}},"volumeMounts":[{"mountPath":"/var/run/secrets/kubernetes.io/serviceaccount","name":"kube-api-access-wht72","readOnly":true,"recursiveReadOnly":"Disabled"}]}vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice -o jsonpath='{.status}'
+{"allocatedResources":{"memory":"50Mi"},"conditions":[{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T05:57:57Z","observedGeneration":1,"status":"True","type":"PodReadyToStartContainers"},{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T05:57:56Z","observedGeneration":1,"status":"True","type":"Initialized"},{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T06:23:47Z","message":"containers with unready status: [stress]","observedGeneration":1,"reason":"ContainersNotReady","status":"False","type":"Ready"},{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T06:23:47Z","message":"containers with unready status: [stress]","observedGeneration":1,"reason":"ContainersNotReady","status":"False","type":"ContainersReady"},{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T05:57:56Z","observedGeneration":1,"status":"True","type":"PodScheduled"}],"containerStatuses":[{"allocatedResources":{"memory":"50Mi"},"containerID":"containerd://f42bdea9741a8236b59e34f2414123c5e163100c9678b67a21dd48d6594bead9","image":"docker.io/polinux/stress:latest","imageID":"docker.io/polinux/stress@sha256:b6144f84f9c15dac80deb48d3a646b55c7043ab1d83ea0a697c09097aaad21aa","lastState":{"terminated":{"containerID":"containerd://f42bdea9741a8236b59e34f2414123c5e163100c9678b67a21dd48d6594bead9","exitCode":0,"finishedAt":"2026-09-15T06:23:47Z","reason":"Completed","startedAt":"2026-09-15T06:22:47Z"}},"name":"stress","ready":false,"resources":{"limits":{"memory":"100Mi"},"requests":{"memory":"50Mi"}},"restartCount":8,"started":false,"state":{"waiting":{"message":"back-off 5m0s restarting failed container=stress pod=stress-pod_practice(b3fc2768-53c8-4fe9-bf47-c23287bbde72)","reason":"CrashLoopBackOff"}},"user":{"linux":{"gid":0,"supplementalGroups":[0,1,2,3,4,6,10,11,20,26,27],"uid":0}},"volumeMounts":[{"mountPath":"/var/run/secrets/kubernetes.io/serviceaccount","name":"kube-api-access-wht72","readOnly":true,"recursiveReadOnly":"Disabled"}]}],"hostIP":"172.18.0.5","hostIPs":[{"ip":"172.18.0.5"}],"observedGeneration":1,"phase":"Running","podIP":"10.244.3.4","podIPs":[{"ip":"10.244.3.4"}],"qosClass":"Burstable","resources":{"limits":{"memory":"100Mi"},"requests":{"memory":"50Mi"}},"startTime":"2026-09-15T05:57:56Z"}vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice -o jsonpath='{}'
+{"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"name\":\"stress-pod\",\"namespace\":\"practice\"},\"spec\":{\"containers\":[{\"args\":[\"--vm\",\"1\",\"--vm-bytes\",\"50M\",\"--timeout\",\"60s\"],\"command\":[\"stress\"],\"image\":\"polinux/stress\",\"name\":\"stress\",\"resources\":{\"limits\":{\"memory\":\"100Mi\"},\"requests\":{\"memory\":\"50Mi\"}}}]}}\n"},"creationTimestamp":"2026-09-15T05:57:56Z","generation":1,"managedFields":[{"apiVersion":"v1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}}},"f:spec":{"f:containers":{"k:{\"name\":\"stress\"}":{".":{},"f:args":{},"f:command":{},"f:image":{},"f:imagePullPolicy":{},"f:name":{},"f:resources":{".":{},"f:limits":{".":{},"f:memory":{}},"f:requests":{".":{},"f:memory":{}}},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{}}},"f:dnsPolicy":{},"f:enableServiceLinks":{},"f:restartPolicy":{},"f:schedulerName":{},"f:securityContext":{},"f:terminationGracePeriodSeconds":{}}},"manager":"kubectl-client-side-apply","operation":"Update","time":"2026-09-15T05:57:56Z"},{"apiVersion":"v1","fieldsType":"FieldsV1","fieldsV1":{"f:status":{"f:allocatedResources":{".":{},"f:memory":{}},"f:conditions":{"k:{\"type\":\"ContainersReady\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:observedGeneration":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Initialized\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:observedGeneration":{},"f:status":{},"f:type":{}},"k:{\"type\":\"PodReadyToStartContainers\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:observedGeneration":{},"f:status":{},"f:type":{}},"k:{\"type\":\"PodScheduled\"}":{"f:observedGeneration":{}},"k:{\"type\":\"Ready\"}":{".":{},"f:lastProbeTime":{},"f:lastTransitionTime":{},"f:observedGeneration":{},"f:status":{},"f:type":{}}},"f:containerStatuses":{},"f:hostIP":{},"f:hostIPs":{},"f:observedGeneration":{},"f:phase":{},"f:podIP":{},"f:podIPs":{".":{},"k:{\"ip\":\"10.244.3.4\"}":{".":{},"f:ip":{}}},"f:resources":{".":{},"f:limits":{".":{},"f:memory":{}},"f:requests":{".":{},"f:memory":{}}},"f:startTime":{}}},"manager":"kubelet","operation":"Update","subresource":"status","time":"2026-09-15T06:28:53Z"}],"name":"stress-pod","namespace":"practice","resourceVersion":"11402","uid":"b3fc2768-53c8-4fe9-bf47-c23287bbde72"},"spec":{"containers":[{"args":["--vm","1","--vm-bytes","50M","--timeout","60s"],"command":["stress"],"image":"polinux/stress","imagePullPolicy":"Always","name":"stress","resources":{"limits":{"memory":"100Mi"},"requests":{"memory":"50Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/var/run/secrets/kubernetes.io/serviceaccount","name":"kube-api-access-wht72","readOnly":true}]}],"dnsPolicy":"ClusterFirst","enableServiceLinks":true,"nodeName":"mindstix-assignment-cluster-worker2","preemptionPolicy":"PreemptLowerPriority","priority":0,"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"serviceAccount":"default","serviceAccountName":"default","terminationGracePeriodSeconds":30,"tolerations":[{"effect":"NoExecute","key":"node.kubernetes.io/not-ready","operator":"Exists","tolerationSeconds":300},{"effect":"NoExecute","key":"node.kubernetes.io/unreachable","operator":"Exists","tolerationSeconds":300}],"volumes":[{"name":"kube-api-access-wht72","projected":{"defaultMode":420,"sources":[{"serviceAccountToken":{"expirationSeconds":3607,"path":"token"}},{"configMap":{"items":[{"key":"ca.crt","path":"ca.crt"}],"name":"kube-root-ca.crt"}},{"downwardAPI":{"items":[{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.namespace"},"path":"namespace"}]}}]}}]},"status":{"allocatedResources":{"memory":"50Mi"},"conditions":[{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T05:57:57Z","observedGeneration":1,"status":"True","type":"PodReadyToStartContainers"},{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T05:57:56Z","observedGeneration":1,"status":"True","type":"Initialized"},{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T06:28:53Z","observedGeneration":1,"status":"True","type":"Ready"},{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T06:28:53Z","observedGeneration":1,"status":"True","type":"ContainersReady"},{"lastProbeTime":null,"lastTransitionTime":"2026-09-15T05:57:56Z","observedGeneration":1,"status":"True","type":"PodScheduled"}],"containerStatuses":[{"allocatedResources":{"memory":"50Mi"},"containerID":"containerd://db93e306a54336d146a3a630c68a371128d47c936d7a097d60bcf41037fdbc51","image":"docker.io/polinux/stress:latest","imageID":"docker.io/polinux/stress@sha256:b6144f84f9c15dac80deb48d3a646b55c7043ab1d83ea0a697c09097aaad21aa","lastState":{"terminated":{"containerID":"containerd://f42bdea9741a8236b59e34f2414123c5e163100c9678b67a21dd48d6594bead9","exitCode":0,"finishedAt":"2026-09-15T06:23:47Z","reason":"Completed","startedAt":"2026-09-15T06:22:47Z"}},"name":"stress","ready":true,"resources":{"limits":{"memory":"100Mi"},"requests":{"memory":"50Mi"}},"restartCount":9,"started":true,"state":{"running":{"startedAt":"2026-09-15T06:28:53Z"}},"user":{"linux":{"gid":0,"supplementalGroups":[0,1,2,3,4,6,10,11,20,26,27],"uid":0}},"volumeMounts":[{"mountPath":"/var/run/secrets/kubernetes.io/serviceaccount","name":"kube-api-access-wht72","readOnly":true,"recursiveReadOnly":"Disabled"}]}],"hostIP":"172.18.0.5","hostIPs":[{"ip":"172.18.0.5"}],"observedGeneration":1,"phase":"Running","podIP":"10.244.3.4","podIPs":[{"ip":"10.244.3.4"}],"qosClass":"Burstable","resources":{"limits":{"memory":"100Mi"},"requests":{"memory":"50Mi"}},"startTime":"2026-09-15T05:57:56Z"}}vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl describe pod stress-pod -n practice -o jsonpath='{}'
+error: unknown shorthand flag: 'o' in -o
+See 'kubectl describe --help' for usage.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl describe pod stress-pod -n practice
+Name:             stress-pod
+Namespace:        practice
+Priority:         0
+Service Account:  default
+Node:             mindstix-assignment-cluster-worker2/172.18.0.5
+Start Time:       Tue, 15 Sep 2026 05:57:56 +0000
+Labels:           <none>
+Annotations:      <none>
+Status:           Running
+IP:               10.244.3.4
+IPs:
+  IP:  10.244.3.4
+Containers:
+  stress:
+    Container ID:  containerd://db93e306a54336d146a3a630c68a371128d47c936d7a097d60bcf41037fdbc51
+    Image:         polinux/stress
+    Image ID:      docker.io/polinux/stress@sha256:b6144f84f9c15dac80deb48d3a646b55c7043ab1d83ea0a697c09097aaad21aa
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      stress
+    Args:
+      --vm
+      1
+      --vm-bytes
+      50M
+      --timeout
+      60s
+    State:          Running
+      Started:      Tue, 15 Sep 2026 06:28:53 +0000
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 15 Sep 2026 06:22:47 +0000
+      Finished:     Tue, 15 Sep 2026 06:23:47 +0000
+    Ready:          True
+    Restart Count:  9
+    Limits:
+      memory:  100Mi
+    Requests:
+      memory:     50Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-wht72 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
+Volumes:
+  kube-api-access-wht72:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                 From               Message
+  ----     ------     ----                ----               -------
+  Normal   Scheduled  31m                 default-scheduler  Successfully assigned practice/stress-pod to mindstix-assignment-cluster-worker2
+  Normal   Pulled     31m                 kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 14.105s (14.105s including waiting). Image size: 4041495 bytes.
+  Normal   Pulled     30m                 kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 3.046s (3.046s including waiting). Image size: 4041495 bytes.
+  Normal   Pulled     28m                 kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 3.449s (3.449s including waiting). Image size: 4041495 bytes.
+  Normal   Pulled     27m                 kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 3.153s (3.153s including waiting). Image size: 4041495 bytes.
+  Normal   Pulled     25m                 kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 3.042s (3.042s including waiting). Image size: 4041495 bytes.
+  Normal   Pulled     22m                 kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 2.816s (2.816s including waiting). Image size: 4041495 bytes.
+  Normal   Started    22m (x6 over 31m)   kubelet            spec.containers{stress}: Container started
+  Normal   Created    19m (x7 over 31m)   kubelet            spec.containers{stress}: Container created
+  Normal   Pulled     19m                 kubelet            spec.containers{stress}: Successfully pulled image "polinux/stress" in 3.067s (3.067s including waiting). Image size: 4041495 bytes.
+  Warning  BackOff    46s (x20 over 29m)  kubelet            spec.containers{stress}: Back-off restarting failed container stress in pod stress-pod_practice(b3fc2768-53c8-4fe9-bf47-c23287bbde72)
+  Normal   Pulling    36s (x10 over 31m)  kubelet            spec.containers{stress}: Pulling image "polinux/stress"
+  Normal   Pulled     33s                 kubelet            spec.containers{stress}: (combined from similar events): Successfully pulled image "polinux/stress" in 2.788s (2.788s including waiting). Image size: 4041495 bytes.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ll
+total 24
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 05:58 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 14 17:31 ../
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  338 Sep 14 17:59 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  191 Sep 14 17:32 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ less stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ll
+total 24
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 05:58 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 14 17:31 ../
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  338 Sep 14 17:59 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  191 Sep 14 17:32 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ cat stress_pod_day2.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stress-pod
+spec:
+  containers:
+    - name: stress
+      image: polinux/stress
+      resources:
+        requests:
+          memory: "50Mi"
+        limits:
+          memory: "100Mi"
+      command: ["stress"]
+      args: ["--vm", "1", "--vm-bytes", "200M", "--timeout", "60s"]
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl delete pod stress-pod -n practice --force
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+Error from server (NotFound): pods "stress-pod" not found
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f stress_pod_day2.yaml -n practice
+pod/stress-pod created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS    RESTARTS     AGE
+stress-pod   1/1     Running   1 (3s ago)   7s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS     AGE
+stress-pod   0/1     OOMKilled   1 (6s ago)   10s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS     AGE
+stress-pod   0/1     OOMKilled   1 (8s ago)   12s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS      AGE
+stress-pod   0/1     OOMKilled   1 (10s ago)   14s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS      AGE
+stress-pod   0/1     OOMKilled   1 (11s ago)   15s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice -o jsonpath='{.status.containerStatuses[0].lastState.terminated}'
+{"containerID":"containerd://4c6f1ea91eea114421e147c6797d8b74150184ffeff14c4d7ff8de7a1d2ba0a1","exitCode":137,"finishedAt":"2026-09-1vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS      AGE
+stress-pod   0/1     OOMKilled   3 (48s ago)   69s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS      AGE
+stress-pod   0/1     OOMKilled   3 (50s ago)   71s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS      AGE
+stress-pod   0/1     OOMKilled   3 (55s ago)   76s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+NAME         READY   STATUS      RESTARTS      AGE
+stress-pod   0/1     OOMKilled   3 (58s ago)   79s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl delete pod stress-pod -n practice
+pod "stress-pod" deleted from practice namespace
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod stress-pod -n practice
+Error from server (NotFound): pods "stress-pod" not found
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ dmesg
+[    0.000000] Linux version 6.18.33.2-microsoft-standard-WSL2 (root@f1bbfb02316b) (gcc (GCC) 13.2.0, GNU ld (GNU Binutils) 2.41) #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026
+[    0.000000] Command line: initrd=\initrd.img WSL_ROOT_INIT=1 panic=-1 nr_cpus=8 hv_utils.timesync_implicit=1 console=hvc0 debug pty.legacy_count=0 WSL_ENABLE_CRASH_DUMP=1
+[    0.000000] KERNEL supported cpus:
+[    0.000000]   Intel GenuineIntel
+[    0.000000]   AMD AuthenticAMD
+[    0.000000] BIOS-provided physical RAM map:
+[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009ffff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000000e0000-0x00000000000e0fff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x00000000001fffff] ACPI data
+[    0.000000] BIOS-e820: [mem 0x0000000000200000-0x00000000f7ffffff] usable
+[    0.000000] BIOS-e820: [mem 0x0000000100000000-0x00000001ff7fffff] usable
+[    0.000000] NX (Execute Disable) protection: active
+[    0.000000] APIC: Static calls initialized
+[    0.000000] DMI not present or invalid.
+[    0.000000] Hypervisor detected: Microsoft Hyper-V
+[    0.000000] Hyper-V: privilege flags low 0xae7f, high 0x3b8030, ext 0x42, hints 0x9a4e24, misc 0xe4bed7b6
+[    0.000000] Hyper-V: Nested features: 0x3e0101
+[    0.000000] Hyper-V: LAPIC Timer Frequency: 0xc3500
+[    0.000000] Hyper-V: Using hypercall for remote TLB flush
+[    0.000000] clocksource: hyperv_clocksource_tsc_page: mask: 0xffffffffffffffff max_cycles: 0x24e6a1710, max_idle_ns: 440795202120 ns
+[    0.000000] clocksource: hyperv_clocksource_msr: mask: 0xffffffffffffffff max_cycles: 0x24e6a1710, max_idle_ns: 440795202120 ns
+[    0.000000] tsc: Detected 2611.201 MHz processor
+[    0.000051] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[    0.000053] e820: remove [mem 0x000a0000-0x000fffff] usable
+[    0.000056] last_pfn = 0x1ff800 max_arch_pfn = 0x400000000
+[    0.000071] MTRR map: 5 entries (4 fixed + 1 variable; max 20), built from 8 variable MTRRs
+[    0.000073] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT
+[    0.000103] last_pfn = 0xf8000 max_arch_pfn = 0x400000000
+[    0.000114] Using GB pages for direct mapping
+[    0.000195] RAMDISK: [mem 0x04beb000-0x04e9ffff]
+[    0.000197] ACPI: Early table checksum verification disabled
+[    0.000201] ACPI: RSDP 0x00000000000E0000 000024 (v02 VRTUAL)
+[    0.000204] ACPI: XSDT 0x0000000000100000 000044 (v01 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000209] ACPI: FACP 0x0000000000101000 000114 (v06 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000213] ACPI: DSDT 0x00000000001011B8 01E11C (v02 MSFTVM DSDT01   00000001 INTL 20230628)
+[    0.000216] ACPI: FACS 0x0000000000101114 000040
+[    0.000218] ACPI: OEM0 0x0000000000101154 000064 (v01 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000221] ACPI: SRAT 0x000000000011F2D4 000330 (v02 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000223] ACPI: APIC 0x000000000011F604 000088 (v04 VRTUAL MICROSFT 00000001 MSFT 00000001)
+[    0.000225] ACPI: Reserving FACP table memory at [mem 0x101000-0x101113]
+[    0.000226] ACPI: Reserving DSDT table memory at [mem 0x1011b8-0x11f2d3]
+[    0.000226] ACPI: Reserving FACS table memory at [mem 0x101114-0x101153]
+[    0.000227] ACPI: Reserving OEM0 table memory at [mem 0x101154-0x1011b7]
+[    0.000227] ACPI: Reserving SRAT table memory at [mem 0x11f2d4-0x11f603]
+[    0.000228] ACPI: Reserving APIC table memory at [mem 0x11f604-0x11f68b]
+[    0.000254] ACPI: SRAT: Node 0 PXM 0 [mem 0x00000000-0xf7ffffff] hotplug
+[    0.000255] ACPI: SRAT: Node 0 PXM 0 [mem 0x100000000-0x1ff7fffff] hotplug
+[    0.000256] ACPI: SRAT: Node 0 PXM 0 [mem 0x1ff800000-0x9ffdfffff] hotplug
+[    0.000256] ACPI: SRAT: Node 0 PXM 0 [mem 0x1000000000-0xffffffffff] hotplug
+[    0.000257] ACPI: SRAT: Node 0 PXM 0 [mem 0x10000000000-0x1ffffffffff] hotplug
+[    0.000258] ACPI: SRAT: Node 0 PXM 0 [mem 0x20000000000-0x3ffffffffff] hotplug
+[    0.000258] ACPI: SRAT: Node 0 PXM 0 [mem 0x40000000000-0x7ffffffffff] hotplug
+[    0.000259] ACPI: SRAT: Node 0 PXM 0 [mem 0x80000000000-0xfffffffffff] hotplug
+[    0.000259] ACPI: SRAT: Node 0 PXM 0 [mem 0x100000000000-0x1fffffffffff] hotplug
+[    0.000260] ACPI: SRAT: Node 0 PXM 0 [mem 0x200000000000-0x3fffffffffff] hotplug
+[    0.000260] ACPI: SRAT: Node 0 PXM 0 [mem 0x400000000000-0x7fffffffffff] hotplug
+[    0.000261] ACPI: SRAT: Node 0 PXM 0 [mem 0x800000000000-0xffffffffffff] hotplug
+[    0.000261] ACPI: SRAT: Node 0 PXM 0 [mem 0x1000000000000-0x1ffffffffffff] hotplug
+[    0.000262] ACPI: SRAT: Node 0 PXM 0 [mem 0x2000000000000-0x3ffffffffffff] hotplug
+[    0.000263] ACPI: SRAT: Node 0 PXM 0 [mem 0x4000000000000-0x7ffffffffffff] hotplug
+[    0.000263] ACPI: SRAT: Node 0 PXM 0 [mem 0x8000000000000-0xfffffffffffff] hotplug
+[    0.000265] NUMA: Node 0 [mem 0x00001000-0xf7ffffff] + [mem 0x100000000-0x1ff7fffff] -> [mem 0x00001000-0x1ff7fffff]
+[    0.000270] NODE_DATA(0) allocated [mem 0x1ff7de300-0x1ff7fffff]
+[    0.000362] Zone ranges:
+[    0.000363]   DMA32    [mem 0x0000000000001000-0x00000000ffffffff]
+[    0.000364]   Normal   [mem 0x0000000100000000-0x00000001ff7fffff]
+[    0.000365]   Device   empty
+[    0.000366] Movable zone start for each node
+[    0.000367] Early memory node ranges
+[    0.000367]   node   0: [mem 0x0000000000001000-0x000000000009ffff]
+[    0.000368]   node   0: [mem 0x0000000000200000-0x00000000f7ffffff]
+[    0.000369]   node   0: [mem 0x0000000100000000-0x00000001ff7fffff]
+[    0.000369] Initmem setup node 0 [mem 0x0000000000001000-0x00000001ff7fffff]
+[    0.000394] On node 0, zone DMA32: 1 pages in unavailable ranges
+[    0.025255] On node 0, zone DMA32: 352 pages in unavailable ranges
+[    0.026096] On node 0, zone Normal: 2048 pages in unavailable ranges
+[    0.026130] ACPI: PM-Timer IO Port: 0x408
+[    0.026144] ACPI: LAPIC_NMI (acpi_id[0x01] dfl dfl lint[0x1])
+[    0.027029] IOAPIC[0]: apic_id 8, version 17, address 0xfec00000, GSI 0-23
+[    0.027035] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+[    0.027040] ACPI: Using ACPI (MADT) for SMP configuration information
+[    0.027042] TSC deadline timer available
+[    0.027045] CPU topo: Max. logical packages:   1
+[    0.027046] CPU topo: Max. logical dies:       1
+[    0.027046] CPU topo: Max. dies per package:   1
+[    0.027049] CPU topo: Max. threads per core:   2
+[    0.027049] CPU topo: Num. cores per package:     4
+[    0.027050] CPU topo: Num. threads per package:   8
+[    0.027050] CPU topo: Allowing 8 present CPUs plus 0 hotplug CPUs
+[    0.027072] random: crng init done
+[    0.027078] PM: hibernation: Registered nosave memory: [mem 0x00000000-0x00000fff]
+[    0.027079] PM: hibernation: Registered nosave memory: [mem 0x000a0000-0x001fffff]
+[    0.027080] PM: hibernation: Registered nosave memory: [mem 0xf8000000-0xffffffff]
+[    0.027081] [mem 0xf8000000-0xffffffff] available for PCI devices
+[    0.027083] Booting paravirtualized kernel on Hyper-V
+[    0.027085] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645519600211568 ns
+[    0.027118] setup_percpu: NR_CPUS:8192 nr_cpumask_bits:8 nr_cpu_ids:8 nr_node_ids:1
+[    0.027991] percpu: Embedded 61 pages/cpu s212992 r8192 d28672 u262144
+[    0.027995] pcpu-alloc: s212992 r8192 d28672 u262144 alloc=1*2097152
+[    0.027996] pcpu-alloc: [0] 0 1 2 3 4 5 6 7
+[    0.028010] Hyper-V: PV spinlocks enabled
+[    0.028011] PV qspinlock hash table entries: 256 (order: 0, 4096 bytes, linear)
+[    0.028013] Kernel command line: initrd=\initrd.img WSL_ROOT_INIT=1 panic=-1 nr_cpus=8 hv_utils.timesync_implicit=1 console=hvc0 debug pty.legacy_count=0 WSL_ENABLE_CRASH_DUMP=1
+[    0.028097] Unknown kernel command line parameters "WSL_ROOT_INIT=1 WSL_ENABLE_CRASH_DUMP=1", will be passed to user space.
+[    0.028137] printk: log buffer data + meta data: 262144 + 917504 = 1179648 bytes
+[    0.031431] Dentry cache hash table entries: 1048576 (order: 11, 8388608 bytes, linear)
+[    0.033060] Inode-cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+[    0.033250] software IO TLB: area num 8.
+[    0.066735] Fallback order for Node 0: 0
+[    0.066742] Built 1 zonelists, mobility grouping on.  Total pages: 2061983
+[    0.066744] Policy zone: Normal
+[    0.066755] mem auto-init: stack:off, heap alloc:on, heap free:off
+[    0.076573] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
+[    0.084493] ftrace: allocating 59125 entries in 232 pages
+[    0.084497] ftrace: allocated 232 pages with 4 groups
+[    0.085759] Dynamic Preempt: none
+[    0.085857] rcu: Preemptible hierarchical RCU implementation.
+[    0.085858] rcu:     RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=8.
+[    0.085860]  Trampoline variant of Tasks RCU enabled.
+[    0.085860]  Rude variant of Tasks RCU enabled.
+[    0.085861]  Tracing variant of Tasks RCU enabled.
+[    0.085861] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.085862] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=8
+[    0.085893] RCU Tasks: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=8.
+[    0.085895] RCU Tasks Rude: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=8.
+[    0.085896] RCU Tasks Trace: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=8.
+[    0.088953] Using NULL legacy PIC
+[    0.088955] NR_IRQS: 524544, nr_irqs: 488, preallocated irqs: 0
+[    0.089015] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.089508] Console: colour dummy device 80x25
+[    0.089523] ACPI: Core revision 20250807
+[    0.089631] Failed to register legacy timer interrupt
+[    0.089632] APIC: Switch to symmetric I/O mode setup
+[    0.091178] x2apic enabled
+[    0.092723] APIC: Switched APIC routing to: physical x2apic
+[    0.092726] Hyper-V: Host Build 10.0.26100.9168-9-0
+[    0.092727] Hyper-V: enabling crash_kexec_post_notifiers
+[    0.092774] Hyper-V: Using IPI hypercalls
+[    0.092775] APIC: send_IPI() replaced with hv_send_ipi()
+[    0.092781] APIC: send_IPI_mask() replaced with hv_send_ipi_mask()
+[    0.092783] APIC: send_IPI_mask_allbutself() replaced with hv_send_ipi_mask_allbutself()
+[    0.092785] APIC: send_IPI_allbutself() replaced with hv_send_ipi_allbutself()
+[    0.092787] APIC: send_IPI_all() replaced with hv_send_ipi_all()
+[    0.092789] APIC: send_IPI_self() replaced with hv_send_ipi_self()
+[    0.092854] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles: 0x25a3912ab68, max_idle_ns: 440795279905 ns
+[    0.092859] Calibrating delay loop (skipped), value calculated using timer frequency.. 5222.40 BogoMIPS (lpj=10444804)
+[    0.092920] x86/cpu: User Mode Instruction Prevention (UMIP) activated
+[    0.092989] CET detected: Indirect Branch Tracking enabled
+[    0.092990] Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0
+[    0.092991] Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+[    0.092995] mitigations: Enabled attack vectors: user_kernel, user_user, guest_host, guest_guest, SMT mitigations: auto
+[    0.092998] Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl
+[    0.092999] Spectre V2 : Mitigation: Enhanced / Automatic IBRS
+[    0.092999] RETBleed: Mitigation: Enhanced IBRS
+[    0.093000] ITS: Mitigation: Aligned branch/return thunks
+[    0.093000] Spectre V1 : Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+[    0.093001] Spectre V2 : Spectre v2 / PBRSB-eIBRS: Retire a single CALL on VMEXIT
+[    0.093002] Spectre V2 : mitigation: Enabling conditional Indirect Branch Prediction Barrier
+[    0.093003] active return thunk: its_return_thunk
+[    0.093006] Spectre V2 : Spectre BHI mitigation: SW BHB clearing on syscall and VM exit
+[    0.093021] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    0.093022] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    0.093022] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    0.093022] x86/fpu: Supporting XSAVE feature 0x020: 'AVX-512 opmask'
+[    0.093023] x86/fpu: Supporting XSAVE feature 0x040: 'AVX-512 Hi256'
+[    0.093023] x86/fpu: Supporting XSAVE feature 0x080: 'AVX-512 ZMM_Hi256'
+[    0.093024] x86/fpu: Supporting XSAVE feature 0x800: 'Control-flow User registers'
+[    0.093024] x86/fpu: Supporting XSAVE feature 0x1000: 'Control-flow Kernel registers (KVM only)'
+[    0.093025] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    0.093025] x86/fpu: xstate_offset[5]:  832, xstate_sizes[5]:   64
+[    0.093026] x86/fpu: xstate_offset[6]:  896, xstate_sizes[6]:  512
+[    0.093026] x86/fpu: xstate_offset[7]: 1408, xstate_sizes[7]: 1024
+[    0.093027] x86/fpu: xstate_offset[11]: 2432, xstate_sizes[11]:   16
+[    0.093027] x86/fpu: xstate_offset[12]: 2448, xstate_sizes[12]:   24
+[    0.093028] x86/fpu: Enabled xstate features 0x18e7, context size is 2472 bytes, using 'compacted' format.
+[    0.096856] Freeing SMP alternatives memory: 52K
+[    0.096856] pid_max: default: 32768 minimum: 301
+[    0.096856] LSM: initializing lsm=capability,landlock,yama,safesetid,selinux,ima
+[    0.096856] landlock: Up and running.
+[    0.096856] Yama: becoming mindful.
+[    0.096856] SELinux:  Initializing.
+[    0.096856] Mount-cache hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.096856] Mountpoint-cache hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.096856] smpboot: CPU0: 11th Gen Intel(R) Core(TM) i5-1145G7 @ 2.60GHz (family: 0x6, model: 0x8c, stepping: 0x1)
+[    0.096856] Performance Events:  AnyThread deprecated, Icelake events, 32-deep LBR, full-width counters, Intel PMU driver.
+[    0.096856] ... version:                   5
+[    0.096856] ... bit width:                 48
+[    0.096856] ... generic counters:          8
+[    0.096856] ... generic bitmap:            00000000000000ff
+[    0.096856] ... fixed-purpose counters:    4
+[    0.096856] ... fixed-purpose bitmap:      000000000000000f
+[    0.096856] ... value mask:                0000ffffffffffff
+[    0.096856] ... max period:                00007fffffffffff
+[    0.096856] ... global_ctrl mask:          0001000f000000ff
+[    0.096856] signal: max sigframe size: 3632
+[    0.096856] rcu: Hierarchical SRCU implementation.
+[    0.096856] rcu:     Max phase no-delay instances is 1000.
+[    0.096856] Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+[    0.096856] smp: Bringing up secondary CPUs ...
+[    0.096856] smpboot: x86: Booting SMP configuration:
+[    0.096856] .... node  #0, CPUs:      #2 #4 #6 #1 #3 #5 #7
+[    0.097900] smp: Brought up 1 node, 8 CPUs
+[    0.097900] smpboot: Total of 8 processors activated (41779.21 BogoMIPS)
+[    0.109305] node 0 deferred pages initialised in 12ms
+[    0.110371] Memory: 7973572K/8247932K available (20176K kernel code, 3632K rwdata, 14820K rodata, 4852K init, 5648K bss, 264440K reserved, 0K cma-reserved)
+[    0.110371] devtmpfs: initialized
+[    0.110371] x86/mm: Memory block size: 128MB
+[    0.112976] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.112976] posixtimers hash table entries: 4096 (order: 4, 65536 bytes, linear)
+[    0.112976] futex hash table entries: 2048 (131072 bytes on 1 NUMA nodes, total 128 KiB, linear).
+[    0.113043] pinctrl core: initialized pinctrl subsystem
+[    0.114350] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.114862] DMA: preallocated 1024 KiB GFP_KERNEL pool for atomic allocations
+[    0.115231] DMA: preallocated 1024 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+[    0.115245] audit: initializing netlink subsys (disabled)
+[    0.115269] audit: type=2000 audit(1789405721.000:1): state=initialized audit_enabled=0 res=1
+[    0.115269] thermal_sys: Registered thermal governor 'step_wise'
+[    0.115269] thermal_sys: Registered thermal governor 'user_space'
+[    0.115269] cpuidle: using governor ladder
+[    0.115269] cpuidle: using governor menu
+[    0.115269] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    0.115269] dca service started, version 1.12.1
+[    0.115269] PCI: Fatal: No config space access function found
+[    0.115269] kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+[    0.116979] HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+[    0.116979] HugeTLB: 16380 KiB vmemmap can be freed for a 1.00 GiB page
+[    0.116979] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.116979] HugeTLB: 28 KiB vmemmap can be freed for a 2.00 MiB page
+[    0.123583] ACPI: Added _OSI(Module Device)
+[    0.123584] ACPI: Added _OSI(Processor Device)
+[    0.123585] ACPI: Added _OSI(Processor Aggregator Device)
+[    0.127167] ACPI: 1 ACPI AML tables successfully acquired and loaded
+[    0.127505] ACPI: Interpreter enabled
+[    0.127505] ACPI: PM: (supports S0 S5)
+[    0.127505] ACPI: Using IOAPIC for interrupt routing
+[    0.127505] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[    0.127505] PCI: Using E820 reservations for host bridge windows
+[    0.127505] ACPI: Enabled 2 GPEs in block 00 to 0F
+[    0.129411] iommu: Default domain type: Translated
+[    0.129411] iommu: DMA domain TLB invalidation policy: lazy mode
+[    0.140986] SCSI subsystem initialized
+[    0.141006] libata version 3.00 loaded.
+[    0.141006] pps_core: LinuxPPS API ver. 1 registered
+[    0.141006] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.141006] PTP clock support registered
+[    0.141006] EDAC MC: Ver: 3.0.0
+[    0.149033] hv_vmbus: Vmbus version:5.3
+[    0.149033] hv_vmbus: Unknown GUID: 6e382d18-3336-4f4b-acc4-2b7703d4df4a
+[    0.149033] hv_vmbus: Unknown GUID: dde9cbc0-5060-4436-9448-ea1254a5d177
+[    0.149450] NetLabel: Initializing
+[    0.149451] NetLabel:  domain hash size = 128
+[    0.149452] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    0.149460] NetLabel:  unlabeled traffic allowed by default
+[    0.149463] PCI: Using ACPI for IRQ routing
+[    0.149464] PCI: System does not support PCI
+[    0.149490] vgaarb: loaded
+[    0.152866] clocksource: Switched to clocksource tsc-early
+[    0.153150] VFS: Disk quotas dquot_6.6.0
+[    0.153158] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    0.153479] netfs: FS-Cache loaded
+[    0.153534] pnp: PnP ACPI init
+[    0.153732] pnp: PnP ACPI: found 1 devices
+[    0.164079] clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+[    0.164125] NET: Registered PF_INET protocol family
+[    0.164548] IP idents hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    0.176763] tcp_listen_portaddr_hash hash table entries: 4096 (order: 4, 65536 bytes, linear)
+[    0.176784] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.176818] TCP established hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    0.177279] TCP bind hash table entries: 65536 (order: 9, 2097152 bytes, linear)
+[    0.177414] TCP: Hash tables configured (established 65536 bind 65536)
+[    0.177586] UDP hash table entries: 4096 (order: 6, 262144 bytes, linear)
+[    0.177691] UDP-Lite hash table entries: 4096 (order: 6, 262144 bytes, linear)
+[    0.177745] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.177751] NET: Registered PF_XDP protocol family
+[    0.177756] PCI: CLS 0 bytes, default 64
+[    0.177789] PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
+[    0.177790] software IO TLB: mapped [mem 0x00000000f4000000-0x00000000f8000000] (64MB)
+[    0.177835] RAPL PMU: API unit is 2^-32 Joules, 0 fixed counters, 10737418240 ms ovfl timer
+[    0.177841] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x25a3912ab68, max_idle_ns: 440795279905 ns
+[    0.178050] clocksource: Switched to clocksource tsc
+[    0.178070] Trying to unpack rootfs image as initramfs...
+[    0.178546] Initialise system trusted keyrings
+[    0.178551] Key type blacklist registered
+[    0.178750] workingset: timestamp_bits=36 max_order=21 bucket_order=0
+[    0.178948] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    0.178954] fuse: init (API version 7.45)
+[    0.179124] SGI XFS with ACLs, security attributes, realtime, verbose warnings, quota, no debug enabled
+[    0.179567] 9p: Installing v9fs 9p2000 file system support
+[    0.180459] Freeing initrd memory: 2772K
+[    0.181076] cryptd: max_cpu_qlen set to 1000
+[    0.187458] Key type asymmetric registered
+[    0.187459] Asymmetric key parser 'x509' registered
+[    0.187479] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 244)
+[    0.187684] io scheduler mq-deadline registered
+[    0.187685] io scheduler kyber registered
+[    0.188172] hv_vmbus: registering driver hv_pci
+[    0.188579] hv_pci c4b741f5-5582-4c98-8f8b-2e082933c396: PCI VMBus probing: Using version 0x10004
+[    0.189522] hv_pci c4b741f5-5582-4c98-8f8b-2e082933c396: PCI host bridge to bus 5582:00
+[    0.189524] pci_bus 5582:00: root bus resource [mem 0x9ffe00000-0x9ffe02fff window]
+[    0.189526] pci_bus 5582:00: No busn resource found for root bus, will use [bus 00-ff]
+[    0.190215] pci 5582:00:00.0: [1af4:1043] type 00 class 0x010000 conventional PCI endpoint
+[    0.191344] pci 5582:00:00.0: BAR 0 [mem 0x9ffe00000-0x9ffe00fff 64bit]
+[    0.191463] pci 5582:00:00.0: BAR 2 [mem 0x9ffe01000-0x9ffe01fff 64bit]
+[    0.191540] pci 5582:00:00.0: BAR 4 [mem 0x9ffe02000-0x9ffe02fff 64bit]
+[    0.193653] pci_bus 5582:00: busn_res: [bus 00-ff] end is updated to 00
+[    0.193658] pci 5582:00:00.0: BAR 0 [mem 0x9ffe00000-0x9ffe00fff 64bit]: assigned
+[    0.193889] pci 5582:00:00.0: BAR 2 [mem 0x9ffe01000-0x9ffe01fff 64bit]: assigned
+[    0.194117] pci 5582:00:00.0: BAR 4 [mem 0x9ffe02000-0x9ffe02fff 64bit]: assigned
+[    0.195460] hv_pci 5e241a62-9f40-454e-9414-6ada9bb67d22: PCI VMBus probing: Using version 0x10004
+[    0.196044] hv_pci 5e241a62-9f40-454e-9414-6ada9bb67d22: PCI host bridge to bus 9f40:00
+[    0.196045] pci_bus 9f40:00: No busn resource found for root bus, will use [bus 00-ff]
+[    0.196292] pci 9f40:00:00.0: [1414:008e] type 00 class 0x030200 conventional PCI endpoint
+[    0.198625] pci_bus 9f40:00: busn_res: [bus 00-ff] end is updated to 00
+[    0.200342] ioatdma: Intel(R) QuickData Technology Driver 5.00
+[    0.200426] virtio-pci 5582:00:00.0: enabling device (0000 -> 0002)
+[    0.203037] Serial: 8250/16550 driver, 8 ports, IRQ sharing enabled
+[    0.235595] Linux agpgart interface v0.103
+[    0.235620] ACPI: bus type drm_connector registered
+[    0.238074] printk: legacy console [hvc0] enabled
+[    0.240088] brd: module loaded
+[    0.242499] loop: module loaded
+[    0.242979] Loading iSCSI transport class v2.0-870.
+[    0.243666] rdac: device handler registered
+[    0.244115] Microchip SmartPQI Driver (v2.1.34-035)
+[    0.244584] VMware PVSCSI driver - version 1.0.7.0-k
+[    0.244910] hv_vmbus: registering driver hv_storvsc
+[    0.246167] PPP generic driver version 2.4.2
+[    0.246458] VMware vmxnet3 virtual NIC driver - version 1.9.0.0-k-NAPI
+[    0.246830] scsi host0: storvsc_host_t
+[    0.246899] hv_vmbus: registering driver hv_netvsc
+[    0.247288] Fusion MPT base driver 3.04.20
+[    0.247433] Copyright (c) 1999-2008 LSI Corporation
+[    0.247637] Fusion MPT SPI Host driver 3.04.20
+[    0.247820] Fusion MPT SAS Host driver 3.04.20
+[    0.248011] Fusion MPT misc device (ioctl) driver 3.04.20
+[    0.248272] mptctl: Registered with Fusion MPT base driver
+[    0.248477] mptctl: /dev/mptctl @ (major,minor=10,220)
+[    0.248677] i8042: PNP: No PS/2 controller found.
+[    0.248901] hv_vmbus: registering driver hyperv_keyboard
+[    0.249120] rtc_cmos 00:00: RTC can wake from S4
+[    0.249921] scsi 0:0:0:0: Direct-Access     Msft     Virtual Disk     1.0  PQ: 0 ANSI: 5
+[    0.251081] rtc_cmos 00:00: registered as rtc0
+[    0.251534] scsi 0:0:0:1: Direct-Access     Msft     Virtual Disk     1.0  PQ: 0 ANSI: 5
+[    0.251664] rtc_cmos 00:00: setting system clock to 2026-09-14T17:08:41 UTC (1789405721)
+[    0.252289] rtc_cmos 00:00: alarms up to one month, 114 bytes nvram
+[    0.252572] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+[    0.253090] device-mapper: uevent: version 1.0.3
+[    0.253405] device-mapper: ioctl: 4.50.0-ioctl (2025-04-28) initialised: dm-devel@lists.linux.dev
+[    0.254001] intel_pstate: CPU model not supported
+[    0.254395] hv_utils: Registering HyperV Utility Driver
+[    0.254644] hv_vmbus: registering driver hv_utils
+[    0.254926] hv_vmbus: registering driver hv_balloon
+[    0.255272] hv_vmbus: registering driver dxgkrnl
+[    0.255925] hv_utils: TimeSync IC version 4.0
+[    0.257073] hv_balloon: Using Dynamic Memory protocol version 2.0
+[    0.258132] Free page reporting enabled
+[    0.258344] hv_balloon: Cold memory discard hint enabled with order 9
+[    0.258419] sd 0:0:0:0: Attached scsi generic sg0 type 0
+[    0.258655] sd 0:0:0:0: [sda] 730960 512-byte logical blocks: (374 MB/357 MiB)
+[    0.259146] sd 0:0:0:1: Attached scsi generic sg1 type 0
+[    0.259194] drop_monitor: Initializing network drop monitor service
+[    0.259312] sd 0:0:0:1: [sdb] 326464 512-byte logical blocks: (167 MB/159 MiB)
+[    0.259534] sd 0:0:0:0: [sda] Write Protect is on
+[    0.259844] sd 0:0:0:1: [sdb] Write Protect is on
+[    0.260056] sd 0:0:0:0: [sda] Mode Sense: 0f 00 80 00
+[    0.260213] sd 0:0:0:1: [sdb] Mode Sense: 0f 00 80 00
+[    0.260334] sd 0:0:0:1: [sdb] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[    0.260538] sd 0:0:0:0: [sda] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[    0.261623] NET: Registered PF_INET6 protocol family
+[    0.262233] Segment Routing with IPv6
+[    0.262435] In-situ OAM (IOAM) with IPv6
+[    0.262594] NET: Registered PF_PACKET protocol family
+[    0.262910] 9pnet: Installing 9P2000 support
+[    0.263132] NET: Registered PF_VSOCK protocol family
+[    0.263311] hv_vmbus: registering driver hv_sock
+[    0.264141] IPI shorthand broadcast: enabled
+[    0.265862] sched_clock: Marking stable (260676957, 3404378)->(288336344, -24255009)
+[    0.266474] registered taskstats version 1
+[    0.266758] Loading compiled-in X.509 certificates
+[    0.269580] Demotion targets for Node 0: null
+[    0.269832] ima: No TPM chip found, activating TPM-bypass!
+[    0.269999] ima: Allocated hash algorithm: sha256
+[    0.270175] ima: No architecture policies found
+[    0.270456] RAS: Correctable Errors collector initialized.
+[    0.276751] clk: Disabling unused clocks
+[    0.288251] sd 0:0:0:1: [sdb] Attached SCSI disk
+[    0.292349] sd 0:0:0:0: [sda] Attached SCSI disk
+[    0.297315] Freeing unused decrypted memory: 2028K
+[    0.298523] Freeing unused kernel image (initmem) memory: 4852K
+[    0.299189] Write protecting the kernel read-only data: 36864k
+[    0.300082] Freeing unused kernel image (text/rodata gap) memory: 300K
+[    0.300954] Freeing unused kernel image (rodata/data gap) memory: 1564K
+[    0.301200] Run /init as init process
+[    0.301354]   with arguments:
+[    0.301491]     /init
+[    0.301579]   with environment:
+[    0.301698]     HOME=/
+[    0.301792]     TERM=linux
+[    0.301888]     WSL_ROOT_INIT=1
+[    0.302048]     WSL_ENABLE_CRASH_DUMP=1
+[    0.302567] WSL (1 - ): WSL version 2.7.11.0
+[    0.332631] scsi 0:0:0:2: Direct-Access     Msft     Virtual Disk     1.0  PQ: 0 ANSI: 5
+[    0.338065] sd 0:0:0:2: Attached scsi generic sg2 type 0
+[    0.338222] sd 0:0:0:2: [sdc] 4194312 512-byte logical blocks: (2.15 GB/2.00 GiB)
+[    0.338875] sd 0:0:0:2: [sdc] 4096-byte physical blocks
+[    0.339214] sd 0:0:0:2: [sdc] Write Protect is off
+[    0.339658] sd 0:0:0:2: [sdc] Mode Sense: 0f 00 00 00
+[    0.340204] sd 0:0:0:2: [sdc] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[    0.364247] sd 0:0:0:2: [sdc] Attached SCSI disk
+[    0.396074] EXT4-fs (sda): mounted filesystem 00000000-0000-0000-0000-000000000000 ro without journal. Quota mode: none.
+[    0.400008] EXT4-fs (sdb): mounted filesystem 00000000-0000-0000-0000-000000000000 ro without journal. Quota mode: none.
+[    0.422091] tun: Universal TUN/TAP device driver, 1.6
+[    0.449152] Adding 2097152k swap on /dev/sdc.  Priority:-2 extents:1 across:2097152k
+[    0.453768] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+[    0.456691] Bridge firewalling registered
+[    1.322873] hv_pci beed0da1-9e5d-498d-be91-7e6d30f30154: PCI VMBus probing: Using version 0x10004
+[    1.324271] hv_pci beed0da1-9e5d-498d-be91-7e6d30f30154: PCI host bridge to bus 9e5d:00
+[    1.324691] pci_bus 9e5d:00: root bus resource [mem 0xc00000000-0xe00001fff window]
+[    1.325037] pci_bus 9e5d:00: No busn resource found for root bus, will use [bus 00-ff]
+[    1.326169] pci 9e5d:00:00.0: [1af4:105a] type 00 class 0x088000 conventional PCI endpoint
+[    1.327672] pci 9e5d:00:00.0: BAR 0 [mem 0xe00000000-0xe00000fff 64bit]
+[    1.328019] pci 9e5d:00:00.0: BAR 2 [mem 0xe00001000-0xe00001fff 64bit]
+[    1.328373] pci 9e5d:00:00.0: BAR 4 [mem 0xc00000000-0xdffffffff 64bit]
+[    1.331628] pci_bus 9e5d:00: busn_res: [bus 00-ff] end is updated to 00
+[    1.332007] pci 9e5d:00:00.0: BAR 4 [mem 0xc00000000-0xdffffffff 64bit]: assigned
+[    1.332859] pci 9e5d:00:00.0: BAR 0 [mem 0xe00000000-0xe00000fff 64bit]: assigned
+[    1.333696] pci 9e5d:00:00.0: BAR 2 [mem 0xe00001000-0xe00001fff 64bit]: assigned
+[    1.335223] virtio-pci 9e5d:00:00.0: enabling device (0000 -> 0002)
+[    1.342190] virtiofs virtio1: discovered new tag: wslg
+[    1.349414] virtiofs virtio1: Cache len: 0x200000000 @ 0xc00000000
+[    1.473410] scsi 0:0:0:3: Direct-Access     Msft     Virtual Disk     1.0  PQ: 0 ANSI: 5
+[    1.479339] sd 0:0:0:3: Attached scsi generic sg3 type 0
+[    1.479787] sd 0:0:0:3: [sdd] 2147483648 512-byte logical blocks: (1.10 TB/1.00 TiB)
+[    1.480190] sd 0:0:0:3: [sdd] 4096-byte physical blocks
+[    1.480530] sd 0:0:0:3: [sdd] Write Protect is off
+[    1.480732] sd 0:0:0:3: [sdd] Mode Sense: 0f 00 00 00
+[    1.481053] sd 0:0:0:3: [sdd] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[    1.500413] sd 0:0:0:3: [sdd] Attached SCSI disk
+[    2.757450] EXT4-fs (sdd): 1 orphan inode deleted
+[    2.757894] EXT4-fs (sdd): recovery complete
+[    2.763097] EXT4-fs (sdd): mounted filesystem dbf272e6-10f9-4b4b-9d05-b2e37e819dc6 r/w with ordered data mode. Quota mode: none.
+[    3.256606] WSL (2 - init-systemd(Ubuntu-24.04)) WARNING: /usr/share/zoneinfo/Asia/Calcutta not found. Is the tzdata package installed?
+[    3.342685] misc dxg: dxgk: dxgkio_is_feature_enabled: Ioctl failed: -22
+[    3.346190] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[    3.346692] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[    3.347154] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[    3.347720] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    3.574083] systemd-journald[39]: Collecting audit messages is disabled.
+[    3.634479] systemd-journald[39]: Received client request to flush runtime journal.
+[    3.643230] systemd-journald[39]: File /var/log/journal/58f2d515b8b04c7b8c0e293dbbecbfc5/system.journal corrupted or uncleanly shut down, renaming and replacing.
+[    3.810232] ACPI: AC: AC Adapter [AC1] (on-line)
+[    3.820116] ACPI: battery: Slot [BAT1] (battery present)
+[    4.224009] kvm_intel: Using Hyper-V Enlightened VMCS
+[    4.229286] vmentry_ctrl unsupported with eVMCS: 0x100000
+[    4.229292] vmexit_ctrl unsupported with eVMCS: 0x10000000
+[    4.411351] intel_rapl_msr: PL4 support detected.
+[    4.949461] TCP: eth0: Driver has suspect GRO implementation, TCP performance may be compromised.
+[    6.509914] WSL (136) ERROR: CheckConnection: getaddrinfo() failed: -5
+[   16.200531] scsi 0:0:0:4: Direct-Access     Msft     Virtual Disk     1.0  PQ: 0 ANSI: 5
+[   16.212549] sd 0:0:0:4: Attached scsi generic sg4 type 0
+[   16.212719] sd 0:0:0:4: [sde] 288840 512-byte logical blocks: (148 MB/141 MiB)
+[   16.212816] sd 0:0:0:4: [sde] Write Protect is off
+[   16.212820] sd 0:0:0:4: [sde] Mode Sense: 0f 00 00 00
+[   16.212945] sd 0:0:0:4: [sde] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[   16.213578] /dev/sde: Can't open blockdev
+[   16.248278] sd 0:0:0:4: [sde] Attached SCSI disk
+[   16.270706] EXT4-fs (sde): recovery complete
+[   16.271955] EXT4-fs (sde): mounted filesystem e0c99a30-555a-4b3f-a9b6-7b98516ef007 r/w with ordered data mode. Quota mode: none.
+[   16.368937] WSL (1 - init(docker-desktop)) ERROR: ConfigApplyWindowsLibPath:2091: open /etc/ld.so.conf.d/ld.wsl.conf failed 2
+[   16.385145] WSL (1 - init(docker-desktop)) WARNING: /usr/share/zoneinfo/Asia/Calcutta not found. Is the tzdata package installed?
+[   16.445504] scsi 0:0:0:5: Direct-Access     Msft     Virtual Disk     1.0  PQ: 0 ANSI: 5
+[   16.455023] sd 0:0:0:5: Attached scsi generic sg5 type 0
+[   16.460524] sd 0:0:0:5: [sdf] 2147483648 512-byte logical blocks: (1.10 TB/1.00 TiB)
+[   16.460533] sd 0:0:0:5: [sdf] 4096-byte physical blocks
+[   16.460702] sd 0:0:0:5: [sdf] Write Protect is off
+[   16.460711] sd 0:0:0:5: [sdf] Mode Sense: 0f 00 00 00
+[   16.460979] sd 0:0:0:5: [sdf] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[   16.488244] sd 0:0:0:5: [sdf] Attached SCSI disk
+[   16.628760] misc dxg: dxgk: dxgkio_is_feature_enabled: Ioctl failed: -22
+[   16.632755] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[   16.634674] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[   16.636008] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[   16.640634] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[   19.486347] EXT4-fs (sdf): recovery complete
+[   19.487766] EXT4-fs (sdf): mounted filesystem 46be2e2a-7a96-4ef0-8573-0ced2e266a07 r/w with ordered data mode. Quota mode: none.
+[   19.542955] loop0: detected capacity change from 0 to 1545364
+[   19.550260] ISO 9660 Extensions: Microsoft Joliet Level 3
+[   19.550489] ISO 9660 Extensions: RRIP_1991A
+[   19.652549] loop1: detected capacity change from 0 to 1488876
+[   19.653865] ISO 9660 Extensions: RRIP_1991A
+[   20.021967] /proc/cgroups lists only v1 controllers, use cgroup.controllers of root cgroup for v2 info
+[   20.050848] netlink: 'initd': attribute type 4 has an invalid length.
+[   20.181862] virtiofs: Unknown parameter 'negative_dentry_timeout'
+[   20.224298] systemd-journald[39]: Time jumped backwards, rotating.
+[   21.710338] NOTICE: Automounting of tracing to debugfs is deprecated and will be removed in 2030
+[   21.730399] RPC: Registered named UNIX socket transport module.
+[   21.730406] RPC: Registered udp transport module.
+[   21.730408] RPC: Registered tcp transport module.
+[   21.730410] RPC: Registered tcp-with-tls transport module.
+[   21.730412] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[   22.628011] Initializing XFRM netlink socket
+[   23.528773] br-eae82d633f5e: port 1(veth7732d00) entered blocking state
+[   23.528791] br-eae82d633f5e: port 1(veth7732d00) entered disabled state
+[   23.528815] veth7732d00: entered allmulticast mode
+[   23.528888] veth7732d00: entered promiscuous mode
+[   23.547326] br-eae82d633f5e: port 2(veth8bb8248) entered blocking state
+[   23.547333] br-eae82d633f5e: port 2(veth8bb8248) entered disabled state
+[   23.547350] veth8bb8248: entered allmulticast mode
+[   23.547483] veth8bb8248: entered promiscuous mode
+[   23.564397] br-eae82d633f5e: port 3(vetha34def3) entered blocking state
+[   23.564403] br-eae82d633f5e: port 3(vetha34def3) entered disabled state
+[   23.564415] vetha34def3: entered allmulticast mode
+[   23.564462] vetha34def3: entered promiscuous mode
+[   23.577471] eth0: renamed from vethd92fd7c
+[   23.579856] br-eae82d633f5e: port 1(veth7732d00) entered blocking state
+[   23.579863] br-eae82d633f5e: port 1(veth7732d00) entered forwarding state
+[   23.581924] ICMPv6: NA: 5e:99:0a:9d:34:3d advertised our address fc00:f853:ccd:e793::2 on eth0!
+[   23.597338] eth0: renamed from veth66ea84f
+[   23.602980] br-eae82d633f5e: port 2(veth8bb8248) entered blocking state
+[   23.602989] br-eae82d633f5e: port 2(veth8bb8248) entered forwarding state
+[   23.604599] ICMPv6: NA: 16:7e:d7:39:bc:ae advertised our address fc00:f853:ccd:e793::3 on eth0!
+[   23.610828] eth0: renamed from veth7cb6c4c
+[   23.611856] br-eae82d633f5e: port 3(vetha34def3) entered blocking state
+[   23.611863] br-eae82d633f5e: port 3(vetha34def3) entered forwarding state
+[   23.612937] ICMPv6: NA: ce:5e:df:3b:d8:f1 advertised our address fc00:f853:ccd:e793::4 on eth0!
+[   24.583218] ICMPv6: NA: 5e:99:0a:9d:34:3d advertised our address fc00:f853:ccd:e793::2 on eth0!
+[   24.606192] ICMPv6: NA: 16:7e:d7:39:bc:ae advertised our address fc00:f853:ccd:e793::3 on eth0!
+[   24.614098] ICMPv6: NA: ce:5e:df:3b:d8:f1 advertised our address fc00:f853:ccd:e793::4 on eth0!
+[   25.212892] systemd-journald[88]: Collecting audit messages is disabled.
+[   25.299822] systemd-journald[88]: Received client request to flush runtime journal.
+[   25.321465] systemd-journald[97]: Collecting audit messages is disabled.
+[   25.522811] systemd-journald[97]: Received client request to flush runtime journal.
+[   25.583468] ICMPv6: NA: 5e:99:0a:9d:34:3d advertised our address fc00:f853:ccd:e793::2 on eth0!
+[   25.609152] ICMPv6: NA: 16:7e:d7:39:bc:ae advertised our address fc00:f853:ccd:e793::3 on eth0!
+[   25.616054] ICMPv6: NA: ce:5e:df:3b:d8:f1 advertised our address fc00:f853:ccd:e793::4 on eth0!
+[   26.869834] systemd-journald[119]: Collecting audit messages is disabled.
+[   27.056219] systemd-journald[119]: Received client request to flush runtime journal.
+[   33.920092] systemd-journald[97]: Time jumped backwards, rotating.
+[   33.934697] systemd-journald[119]: Time jumped backwards, rotating.
+[   33.953518] systemd-journald[88]: Time jumped backwards, rotating.
+[   48.358166] hv_balloon: Max. dynamic memory size: 8056 MB
+[   49.902667] systemd-journald[39]: Time jumped backwards, rotating.
+[  595.577999] br-eae82d633f5e: port 4(vethafa7690) entered blocking state
+[  595.578013] br-eae82d633f5e: port 4(vethafa7690) entered disabled state
+[  595.578041] vethafa7690: entered allmulticast mode
+[  595.578123] vethafa7690: entered promiscuous mode
+[  595.613278] br-eae82d633f5e: port 5(veth05c7465) entered blocking state
+[  595.613287] br-eae82d633f5e: port 5(veth05c7465) entered disabled state
+[  595.613328] veth05c7465: entered allmulticast mode
+[  595.614707] veth05c7465: entered promiscuous mode
+[  595.633390] br-eae82d633f5e: port 6(veth89c5095) entered blocking state
+[  595.633398] br-eae82d633f5e: port 6(veth89c5095) entered disabled state
+[  595.633418] veth89c5095: entered allmulticast mode
+[  595.633496] veth89c5095: entered promiscuous mode
+[  595.648333] eth0: renamed from vethe84d095
+[  595.653543] br-eae82d633f5e: port 4(vethafa7690) entered blocking state
+[  595.653553] br-eae82d633f5e: port 4(vethafa7690) entered forwarding state
+[  595.660872] ICMPv6: NA: ae:f0:87:ed:ca:73 advertised our address fc00:f853:ccd:e793::5 on eth0!
+[  595.662862] eth0: renamed from veth2119196
+[  595.664750] br-eae82d633f5e: port 5(veth05c7465) entered blocking state
+[  595.664760] br-eae82d633f5e: port 5(veth05c7465) entered forwarding state
+[  595.666541] ICMPv6: NA: 36:35:72:c5:c3:a1 advertised our address fc00:f853:ccd:e793::6 on eth0!
+[  595.700020] eth0: renamed from veth6d36aaf
+[  595.708236] br-eae82d633f5e: port 6(veth89c5095) entered blocking state
+[  595.708247] br-eae82d633f5e: port 6(veth89c5095) entered forwarding state
+[  595.712003] ICMPv6: NA: a2:5e:26:ae:49:bc advertised our address fc00:f853:ccd:e793::7 on eth0!
+[  596.754205] ICMPv6: NA: ae:f0:87:ed:ca:73 advertised our address fc00:f853:ccd:e793::5 on eth0!
+[  596.760086] ICMPv6: NA: 36:35:72:c5:c3:a1 advertised our address fc00:f853:ccd:e793::6 on eth0!
+[  596.805382] ICMPv6: NA: a2:5e:26:ae:49:bc advertised our address fc00:f853:ccd:e793::7 on eth0!
+[  597.032208] systemd-journald[88]: Collecting audit messages is disabled.
+[  597.078903] systemd-journald[88]: Collecting audit messages is disabled.
+[  597.134947] systemd-journald[88]: Collecting audit messages is disabled.
+[  597.182971] systemd-journald[88]: Received client request to flush runtime journal.
+[  597.226123] systemd-journald[88]: Received client request to flush runtime journal.
+[  597.236643] systemd-journald[88]: Received client request to flush runtime journal.
+[  597.845322] ICMPv6: NA: ae:f0:87:ed:ca:73 advertised our address fc00:f853:ccd:e793::5 on eth0!
+[  597.850372] ICMPv6: NA: 36:35:72:c5:c3:a1 advertised our address fc00:f853:ccd:e793::6 on eth0!
+[  597.895699] ICMPv6: NA: a2:5e:26:ae:49:bc advertised our address fc00:f853:ccd:e793::7 on eth0!
+[ 2385.775330] WSL (136) ERROR: CheckConnection: getaddrinfo() failed: -5
+[ 3296.507511] hrtimer: interrupt took 14965826 ns
+[ 4163.958877] hv_utils: TimeSync IC version 4.0
+[ 4168.345195] WSL (2 - init-systemd(Ubuntu-24.04)) WARNING: /usr/share/zoneinfo/Asia/Calcutta not found. Is the tzdata package installed?
+[ 4168.380673] WSL (1 - init(docker-desktop)) WARNING: /usr/share/zoneinfo/Asia/Calcutta not found. Is the tzdata package installed?
+[ 4168.432955] hv_utils: TimeSync IC version 4.0
+[ 4451.122353] WSL (136) ERROR: CheckConnection: getaddrinfo() failed: -5
+[ 4489.087054] WSL (2 - init-systemd(Ubuntu-24.04)) WARNING: /usr/share/zoneinfo/Asia/Calcutta not found. Is the tzdata package installed?
+[ 4489.087145] WSL (1 - init(docker-desktop)) WARNING: /usr/share/zoneinfo/Asia/Calcutta not found. Is the tzdata package installed?
+[ 4489.087743] WSL (2 - init-systemd(Ubuntu-24.04)) WARNING: /usr/share/zoneinfo/Asia/Calcutta not found. Is the tzdata package installed?
+[ 4489.087765] WSL (1 - init(docker-desktop)) WARNING: /usr/share/zoneinfo/Asia/Calcutta not found. Is the tzdata package installed?
+[ 4523.759275] WSL (136) ERROR: CheckConnection: getaddrinfo() failed: -5
+[ 5157.497299] hv_utils: TimeSync IC version 4.0
+[ 5313.588009] WSL (136) ERROR: CheckConnection: getaddrinfo() failed: -5
+[ 8230.170580] hv_utils: TimeSync IC version 4.0
+[ 8720.474599] WSL (136) ERROR: CheckConnection: getaddrinfo() failed: -5
+[12245.218331] stress invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=994
+[12245.220406] CPU: 4 UID: 0 PID: 11122 Comm: stress Not tainted 6.18.33.2-microsoft-standard-WSL2 #1 PREEMPT(none)
+[12245.221131] Call Trace:
+[12245.221980]  <TASK>
+[12245.222124]  dump_stack_lvl+0x70/0x90
+[12245.223145]  dump_stack+0x14/0x20
+[12245.223147]  dump_header+0x48/0x1e0
+[12245.224886]  oom_kill_process+0x106/0x230
+[12245.224890]  out_of_memory+0x255/0x570
+[12245.224893]  mem_cgroup_out_of_memory+0xc1/0xd0
+[12245.225376]  try_charge_memcg+0x411/0x600
+[12245.225399]  charge_memcg+0x34/0x80
+[12245.225401]  __mem_cgroup_charge+0x31/0x90
+[12245.225426]  do_anonymous_page+0x2db/0x880
+[12245.225485]  ? ___pte_offset_map+0x20/0x160
+[12245.225508]  __handle_mm_fault+0x8d7/0x910
+[12245.225512]  handle_mm_fault+0x168/0x2c0
+[12245.225515]  do_user_addr_fault+0x179/0x710
+[12245.226040]  exc_page_fault+0x6e/0x170
+[12245.226082]  asm_exc_page_fault+0x2b/0x30
+[12245.226120] RIP: 0033:0x64d1d5f51e80
+[12245.226196] Code: 84 a7 02 00 00 8b 54 24 0c 31 c0 85 d2 0f 94 c0 89 44 24 08 41 83 fe 02 0f 8f 46 01 00 00 31 c0 48 85 ed 7e 12 0f 1f 44 00 00 <41> c6 04 07 5a 48 01 d8 48 39 c5 7f f3 48 83 3c 24 00 0f 84 fe 01
+[12245.226198] RSP: 002b:00007ffc24f01780 EFLAGS: 00010206
+[12245.226640] RAX: 0000000006335000 RBX: 0000000000001000 RCX: 0000792ef13bebd4
+[12245.226641] RDX: 0000000000000000 RSI: 000000000c801000 RDI: 0000792ee4b81000
+[12245.226642] RBP: 000000000c800000 R08: ffffffffffffffff R09: 0000000000000000
+[12245.226643] R10: 0000000000000022 R11: 0000000000000246 R12: 0000792ef141b2c0
+[12245.226644] R13: 0000792ef141b2c0 R14: 0000000000000002 R15: 0000792ee4b81020
+[12245.226651]  </TASK>
+[12245.226959] memory: usage 102400kB, limit 102400kB, failcnt 33
+[12245.227026] swap: usage 40kB, limit 9007199254740988kB, failcnt 0
+[12245.227028] Memory cgroup stats for /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice:
+[12245.228383] anon 104079360
+[12245.228387] file 16384
+[12245.228388] kernel 720896
+[12245.228389] kernel_stack 49152
+[12245.228391] pagetables 344064
+[12245.228426] sec_pagetables 0
+[12245.228427] percpu 31560
+[12245.228428] sock 0
+[12245.228429] vmalloc 16384
+[12245.228430] shmem 0
+[12245.228431] file_mapped 0
+[12245.228433] file_dirty 0
+[12245.228434] file_writeback 0
+[12245.228435] swapcached 40960
+[12245.228436] anon_thp 0
+[12245.228437] file_thp 0
+[12245.228438] shmem_thp 0
+[12245.228439] inactive_anon 104071168
+[12245.228440] active_anon 49152
+[12245.228441] inactive_file 8192
+[12245.228442] active_file 8192
+[12245.228444] unevictable 0
+[12245.228445] slab_reclaimable 121040
+[12245.228446] slab_unreclaimable 147448
+[12245.228447] slab 268488
+[12245.228448] workingset_refault_anon 0
+[12245.228449] workingset_refault_file 54
+[12245.228450] workingset_activate_anon 0
+[12245.228451] workingset_activate_file 54
+[12245.228452] workingset_restore_anon 0
+[12245.228454] workingset_restore_file 54
+[12245.228455] workingset_nodereclaim 0
+[12245.228456] pgdemote_kswapd 0
+[12245.228457] pgdemote_direct 0
+[12245.228458] pgdemote_khugepaged 0
+[12245.228459] pgdemote_proactive 0
+[12245.228460] pgscan 325
+[12245.228461] pgsteal 51
+[12245.228462] pswpin 0
+[12245.228463] pswpout 10
+[12245.228464] pgscan_kswapd 0
+[12245.228466] pgscan_direct 325
+[12245.228467] pgscan_khugepaged 0
+[12245.228469] pgscan_proactive 0
+[12245.228470] pgsteal_kswapd 0
+[12245.228471] pgsteal_direct 51
+[12245.228472] pgsteal_khugepaged 0
+[12245.228473] pgsteal_proactive 0
+[12245.228474] pgfault 28137
+[12245.228475] pgmajfault 2
+[12245.228476] pgrefill 197
+[12245.228478] pgactivate 155
+[12245.228503] pgdeactivate 197
+[12245.228504] pglazyfree 0
+[12245.228505] pglazyfreed 0
+[12245.228506] swpin_zero 0
+[12245.228507] swpout_zero 0
+[12245.228508] thp_fault_alloc 0
+[12245.228509] thp_collapse_alloc 0
+[12245.228512] thp_swpout 0
+[12245.228513] thp_swpout_fallback 0
+[12245.228514] Tasks state (memory values in pages):
+[12245.228516] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[12245.228521] [  11080] 65535 11080      257      148        0      148         0    40960        0          -998 pause
+[12245.228554] [  11106]     0 11106      197      139        0      139         0    40960        0           994 stress
+[12245.228558] [  11122]     0 11122    51398    25408    25376       32         0   249856        0           994 stress
+[12245.228561] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=cri-containerd-4d7029ea4761080464e4e9f8149b01733b75c99757fbeff618ec7faba38c6ae5.scope,mems_allowed=0,oom_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice,task_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-4d7029ea4761080464e4e9f8149b01733b75c99757fbeff618ec7faba38c6ae5.scope,task=stress,pid=11122,uid=0
+[12245.232089] Memory cgroup out of memory: Killed process 11122 (stress) total-vm:205592kB, anon-rss:101504kB, file-rss:128kB, shmem-rss:0kB, UID:0 pgtables:244kB oom_score_adj:994
+[12245.234500] Tasks in /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-4d7029ea4761080464e4e9f8149b01733b75c99757fbeff618ec7faba38c6ae5.scope are going to be killed due to memory.oom.group set
+[12245.234965] Memory cgroup out of memory: Killed process 11106 (stress) total-vm:788kB, anon-rss:0kB, file-rss:556kB, shmem-rss:0kB, UID:0 pgtables:40kB oom_score_adj:994
+[12245.236697] Memory cgroup out of memory: Killed process 11122 (stress) total-vm:205592kB, anon-rss:101504kB, file-rss:128kB, shmem-rss:0kB, UID:0 pgtables:244kB oom_score_adj:994
+[12248.040638] stress invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=994
+[12248.040648] CPU: 1 UID: 0 PID: 11194 Comm: stress Not tainted 6.18.33.2-microsoft-standard-WSL2 #1 PREEMPT(none)
+[12248.040651] Call Trace:
+[12248.040653]  <TASK>
+[12248.040658]  dump_stack_lvl+0x70/0x90
+[12248.040665]  dump_stack+0x14/0x20
+[12248.040666]  dump_header+0x48/0x1e0
+[12248.040670]  oom_kill_process+0x106/0x230
+[12248.040671]  out_of_memory+0x255/0x570
+[12248.040673]  mem_cgroup_out_of_memory+0xc1/0xd0
+[12248.040678]  try_charge_memcg+0x411/0x600
+[12248.040681]  charge_memcg+0x34/0x80
+[12248.040682]  __mem_cgroup_charge+0x31/0x90
+[12248.040685]  do_anonymous_page+0x2db/0x880
+[12248.040688]  ? ___pte_offset_map+0x20/0x160
+[12248.040691]  __handle_mm_fault+0x8d7/0x910
+[12248.040694]  handle_mm_fault+0x168/0x2c0
+[12248.040696]  do_user_addr_fault+0x179/0x710
+[12248.040700]  exc_page_fault+0x6e/0x170
+[12248.040702]  asm_exc_page_fault+0x2b/0x30
+[12248.040704] RIP: 0033:0x63f6e7793e80
+[12248.040713] Code: 84 a7 02 00 00 8b 54 24 0c 31 c0 85 d2 0f 94 c0 89 44 24 08 41 83 fe 02 0f 8f 46 01 00 00 31 c0 48 85 ed 7e 12 0f 1f 44 00 00 <41> c6 04 07 5a 48 01 d8 48 39 c5 7f f3 48 83 3c 24 00 0f 84 fe 01
+[12248.040714] RSP: 002b:00007ffc49943420 EFLAGS: 00010206
+[12248.040716] RAX: 0000000006344000 RBX: 0000000000001000 RCX: 00007cd303b11bd4
+[12248.040717] RDX: 0000000000000000 RSI: 000000000c801000 RDI: 00007cd2f72d4000
+[12248.040718] RBP: 000000000c800000 R08: ffffffffffffffff R09: 0000000000000000
+[12248.040719] R10: 0000000000000022 R11: 0000000000000246 R12: 00007cd303b6e2c0
+[12248.040720] R13: 00007cd303b6e2c0 R14: 0000000000000002 R15: 00007cd2f72d4020
+[12248.040757]  </TASK>
+[12248.040758] memory: usage 102400kB, limit 102400kB, failcnt 79
+[12248.040761] swap: usage 40kB, limit 9007199254740988kB, failcnt 0
+[12248.040762] Memory cgroup stats for /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice:
+[12248.040813] anon 104140800
+[12248.040814] file 8192
+[12248.040815] kernel 708608
+[12248.040832] kernel_stack 49152
+[12248.040833] pagetables 339968
+[12248.040833] sec_pagetables 0
+[12248.040834] percpu 31560
+[12248.040834] sock 0
+[12248.040835] vmalloc 16384
+[12248.040835] shmem 0
+[12248.040836] file_mapped 0
+[12248.040836] file_dirty 0
+[12248.040837] file_writeback 0
+[12248.040837] swapcached 0
+[12248.040838] anon_thp 0
+[12248.040838] file_thp 0
+[12248.040839] shmem_thp 0
+[12248.040839] inactive_anon 104132608
+[12248.040840] active_anon 8192
+[12248.040840] inactive_file 8192
+[12248.040841] active_file 0
+[12248.040841] unevictable 0
+[12248.040842] slab_reclaimable 111736
+[12248.040842] slab_unreclaimable 145392
+[12248.040843] slab 257128
+[12248.040843] workingset_refault_anon 0
+[12248.040844] workingset_refault_file 105
+[12248.040844] workingset_activate_anon 0
+[12248.040845] workingset_activate_file 54
+[12248.040845] workingset_restore_anon 0
+[12248.040846] workingset_restore_file 54
+[12248.040846] workingset_nodereclaim 0
+[12248.040847] pgdemote_kswapd 0
+[12248.040847] pgdemote_direct 0
+[12248.040848] pgdemote_khugepaged 0
+[12248.040848] pgdemote_proactive 0
+[12248.040849] pgscan 555
+[12248.040849] pgsteal 116
+[12248.040850] pswpin 0
+[12248.040850] pswpout 10
+[12248.040850] pgscan_kswapd 4
+[12248.040851] pgscan_direct 551
+[12248.040866] pgscan_khugepaged 0
+[12248.040867] pgscan_proactive 0
+[12248.040867] pgsteal_kswapd 4
+[12248.040868] pgsteal_direct 112
+[12248.040868] pgsteal_khugepaged 0
+[12248.040869] pgsteal_proactive 0
+[12248.040869] pgfault 55003
+[12248.040884] pgmajfault 4
+[12248.040885] pgrefill 259
+[12248.040886] pgactivate 217
+[12248.040886] pgdeactivate 259
+[12248.040887] pglazyfree 0
+[12248.040887] pglazyfreed 0
+[12248.040888] swpin_zero 0
+[12248.040888] swpout_zero 0
+[12248.040889] thp_fault_alloc 0
+[12248.040889] thp_collapse_alloc 0
+[12248.040890] thp_swpout 0
+[12248.040890] thp_swpout_fallback 0
+[12248.040891] Tasks state (memory values in pages):
+[12248.040891] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[12248.040893] [  11080] 65535 11080      257      148        0      148         0    40960        0          -998 pause
+[12248.040897] [  11177]     0 11177      197      119        0      119         0    36864        0           994 stress
+[12248.040898] [  11194]     0 11194    51398    25444    25408       36         0   249856        0           994 stress
+[12248.040900] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=cri-containerd-4c6f1ea91eea114421e147c6797d8b74150184ffeff14c4d7ff8de7a1d2ba0a1.scope,mems_allowed=0,oom_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice,task_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-4c6f1ea91eea114421e147c6797d8b74150184ffeff14c4d7ff8de7a1d2ba0a1.scope,task=stress,pid=11194,uid=0
+[12248.041051] Memory cgroup out of memory: Killed process 11194 (stress) total-vm:205592kB, anon-rss:101632kB, file-rss:144kB, shmem-rss:0kB, UID:0 pgtables:244kB oom_score_adj:994
+[12248.044362] Tasks in /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-4c6f1ea91eea114421e147c6797d8b74150184ffeff14c4d7ff8de7a1d2ba0a1.scope are going to be killed due to memory.oom.group set
+[12248.045503] Memory cgroup out of memory: Killed process 11177 (stress) total-vm:788kB, anon-rss:0kB, file-rss:476kB, shmem-rss:0kB, UID:0 pgtables:36kB oom_score_adj:994
+[12248.047767] Memory cgroup out of memory: Killed process 11194 (stress) total-vm:205592kB, anon-rss:101632kB, file-rss:144kB, shmem-rss:0kB, UID:0 pgtables:244kB oom_score_adj:994
+[12263.206833] stress invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=994
+[12263.206858] CPU: 3 UID: 0 PID: 11423 Comm: stress Not tainted 6.18.33.2-microsoft-standard-WSL2 #1 PREEMPT(none)
+[12263.206861] Call Trace:
+[12263.206862]  <TASK>
+[12263.206866]  dump_stack_lvl+0x70/0x90
+[12263.206872]  dump_stack+0x14/0x20
+[12263.206874]  dump_header+0x48/0x1e0
+[12263.206877]  oom_kill_process+0x106/0x230
+[12263.206878]  out_of_memory+0x255/0x570
+[12263.206879]  mem_cgroup_out_of_memory+0xc1/0xd0
+[12263.206883]  try_charge_memcg+0x411/0x600
+[12263.206886]  charge_memcg+0x34/0x80
+[12263.206887]  __mem_cgroup_charge+0x31/0x90
+[12263.206889]  do_anonymous_page+0x2db/0x880
+[12263.206892]  ? ___pte_offset_map+0x20/0x160
+[12263.206894]  __handle_mm_fault+0x8d7/0x910
+[12263.206897]  handle_mm_fault+0x168/0x2c0
+[12263.206899]  do_user_addr_fault+0x179/0x710
+[12263.206920]  exc_page_fault+0x6e/0x170
+[12263.206922]  asm_exc_page_fault+0x2b/0x30
+[12263.206924] RIP: 0033:0x580244d12e80
+[12263.206933] Code: 84 a7 02 00 00 8b 54 24 0c 31 c0 85 d2 0f 94 c0 89 44 24 08 41 83 fe 02 0f 8f 46 01 00 00 31 c0 48 85 ed 7e 12 0f 1f 44 00 00 <41> c6 04 07 5a 48 01 d8 48 39 c5 7f f3 48 83 3c 24 00 0f 84 fe 01
+[12263.206934] RSP: 002b:00007fffcf907a00 EFLAGS: 00010206
+[12263.206936] RAX: 0000000006346000 RBX: 0000000000001000 RCX: 00007fc7fb7adbd4
+[12263.206938] RDX: 0000000000000000 RSI: 000000000c801000 RDI: 00007fc7eef70000
+[12263.206939] RBP: 000000000c800000 R08: ffffffffffffffff R09: 0000000000000000
+[12263.206940] R10: 0000000000000022 R11: 0000000000000246 R12: 00007fc7fb80a2c0
+[12263.206941] R13: 00007fc7fb80a2c0 R14: 0000000000000002 R15: 00007fc7eef70020
+[12263.206946]  </TASK>
+[12263.207041] memory: usage 102400kB, limit 102400kB, failcnt 99
+[12263.207056] swap: usage 44kB, limit 9007199254740988kB, failcnt 0
+[12263.207057] Memory cgroup stats for /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice:
+[12263.207097] anon 104144896
+[12263.207099] file 0
+[12263.207100] kernel 708608
+[12263.207101] kernel_stack 49152
+[12263.207102] pagetables 335872
+[12263.207103] sec_pagetables 0
+[12263.207104] percpu 31560
+[12263.207105] sock 0
+[12263.207105] vmalloc 16384
+[12263.207106] shmem 0
+[12263.207106] file_mapped 0
+[12263.207107] file_dirty 0
+[12263.207107] file_writeback 0
+[12263.207108] swapcached 4096
+[12263.207109] anon_thp 0
+[12263.207109] file_thp 0
+[12263.207110] shmem_thp 0
+[12263.207111] inactive_anon 104144896
+[12263.207111] active_anon 4096
+[12263.207113] inactive_file 0
+[12263.207114] active_file 0
+[12263.207114] unevictable 0
+[12263.207115] slab_reclaimable 111624
+[12263.207115] slab_unreclaimable 144712
+[12263.207116] slab 256336
+[12263.207117] workingset_refault_anon 0
+[12263.207117] workingset_refault_file 156
+[12263.207118] workingset_activate_anon 0
+[12263.207119] workingset_activate_file 54
+[12263.207119] workingset_restore_anon 0
+[12263.207120] workingset_restore_file 54
+[12263.207121] workingset_nodereclaim 0
+[12263.207141] pgdemote_kswapd 0
+[12263.207142] pgdemote_direct 0
+[12263.207142] pgdemote_khugepaged 0
+[12263.207143] pgdemote_proactive 0
+[12263.207144] pgscan 646
+[12263.207144] pgsteal 170
+[12263.207145] pswpin 0
+[12263.207146] pswpout 11
+[12263.207146] pgscan_kswapd 6
+[12263.207147] pgscan_direct 640
+[12263.207148] pgscan_khugepaged 0
+[12263.207148] pgscan_proactive 0
+[12263.207149] pgsteal_kswapd 6
+[12263.207149] pgsteal_direct 164
+[12263.207150] pgsteal_khugepaged 0
+[12263.207151] pgsteal_proactive 0
+[12263.207151] pgfault 81853
+[12263.207152] pgmajfault 6
+[12263.207153] pgrefill 261
+[12263.207153] pgactivate 218
+[12263.207154] pgdeactivate 261
+[12263.207154] pglazyfree 0
+[12263.207155] pglazyfreed 0
+[12263.207156] swpin_zero 0
+[12263.207156] swpout_zero 0
+[12263.207157] thp_fault_alloc 0
+[12263.207158] thp_collapse_alloc 0
+[12263.207158] thp_swpout 0
+[12263.207159] thp_swpout_fallback 0
+[12263.207160] Tasks state (memory values in pages):
+[12263.207160] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[12263.207163] [  11080] 65535 11080      257      148        0      148         0    40960        0          -998 pause
+[12263.207187] [  11392]     0 11392      197      139        0      139         0    36864        0           994 stress
+[12263.207190] [  11423]     0 11423    51398    25477    25408       69         0   245760        0           994 stress
+[12263.207192] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=cri-containerd-9549f2500a865592f4bca5011d78b1f7e6a18100ad7a70a507ff2cb3411ac120.scope,mems_allowed=0,oom_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice,task_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-9549f2500a865592f4bca5011d78b1f7e6a18100ad7a70a507ff2cb3411ac120.scope,task=stress,pid=11423,uid=0
+[12263.207224] Memory cgroup out of memory: Killed process 11423 (stress) total-vm:205592kB, anon-rss:101632kB, file-rss:276kB, shmem-rss:0kB, UID:0 pgtables:240kB oom_score_adj:994
+[12263.208598] Tasks in /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-9549f2500a865592f4bca5011d78b1f7e6a18100ad7a70a507ff2cb3411ac120.scope are going to be killed due to memory.oom.group set
+[12263.208634] Memory cgroup out of memory: Killed process 11392 (stress) total-vm:788kB, anon-rss:0kB, file-rss:556kB, shmem-rss:0kB, UID:0 pgtables:36kB oom_score_adj:994
+[12263.211483] Memory cgroup out of memory: Killed process 11423 (stress) total-vm:205592kB, anon-rss:101632kB, file-rss:276kB, shmem-rss:0kB, UID:0 pgtables:240kB oom_score_adj:994
+[12289.359730] stress invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=994
+[12289.359744] CPU: 4 UID: 0 PID: 11603 Comm: stress Not tainted 6.18.33.2-microsoft-standard-WSL2 #1 PREEMPT(none)
+[12289.359748] Call Trace:
+[12289.359750]  <TASK>
+[12289.359755]  dump_stack_lvl+0x70/0x90
+[12289.359764]  dump_stack+0x14/0x20
+[12289.359766]  dump_header+0x48/0x1e0
+[12289.359773]  oom_kill_process+0x106/0x230
+[12289.359801]  out_of_memory+0x255/0x570
+[12289.359802]  mem_cgroup_out_of_memory+0xc1/0xd0
+[12289.359807]  try_charge_memcg+0x411/0x600
+[12289.359809]  charge_memcg+0x34/0x80
+[12289.359811]  __mem_cgroup_charge+0x31/0x90
+[12289.359813]  do_anonymous_page+0x2db/0x880
+[12289.359816]  ? ___pte_offset_map+0x20/0x160
+[12289.359822]  __handle_mm_fault+0x8d7/0x910
+[12289.359825]  handle_mm_fault+0x168/0x2c0
+[12289.359827]  do_user_addr_fault+0x179/0x710
+[12289.359831]  exc_page_fault+0x6e/0x170
+[12289.359833]  asm_exc_page_fault+0x2b/0x30
+[12289.359836] RIP: 0033:0x607c1716be80
+[12289.359844] Code: 84 a7 02 00 00 8b 54 24 0c 31 c0 85 d2 0f 94 c0 89 44 24 08 41 83 fe 02 0f 8f 46 01 00 00 31 c0 48 85 ed 7e 12 0f 1f 44 00 00 <41> c6 04 07 5a 48 01 d8 48 39 c5 7f f3 48 83 3c 24 00 0f 84 fe 01
+[12289.359846] RSP: 002b:00007ffd77c37b30 EFLAGS: 00010206
+[12289.359847] RAX: 0000000006311000 RBX: 0000000000001000 RCX: 000071e039fb5bd4
+[12289.359848] RDX: 0000000000000000 RSI: 000000000c801000 RDI: 000071e02d778000
+[12289.359849] RBP: 000000000c800000 R08: ffffffffffffffff R09: 0000000000000000
+[12289.359850] R10: 0000000000000022 R11: 0000000000000246 R12: 000071e03a0122c0
+[12289.359850] R13: 000071e03a0122c0 R14: 0000000000000002 R15: 000071e02d778020
+[12289.359867]  </TASK>
+[12289.359868] memory: usage 102200kB, limit 102400kB, failcnt 122
+[12289.359871] swap: usage 44kB, limit 9007199254740988kB, failcnt 0
+[12289.359871] Memory cgroup stats for /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice:
+[12289.359887] anon 103927808
+[12289.359888] file 12288
+[12289.359889] kernel 712704
+[12289.359907] kernel_stack 49152
+[12289.359907] pagetables 344064
+[12289.359908] sec_pagetables 0
+[12289.359908] percpu 31560
+[12289.359909] sock 0
+[12289.359909] vmalloc 16384
+[12289.359909] shmem 0
+[12289.359910] file_mapped 0
+[12289.359910] file_dirty 0
+[12289.359911] file_writeback 12288
+[12289.359924] swapcached 0
+[12289.359925] anon_thp 0
+[12289.359925] file_thp 0
+[12289.359926] shmem_thp 0
+[12289.359926] inactive_anon 103923712
+[12289.359927] active_anon 4096
+[12289.359927] inactive_file 0
+[12289.359928] active_file 12288
+[12289.359928] unevictable 0
+[12289.359943] slab_reclaimable 110840
+[12289.359944] slab_unreclaimable 145392
+[12289.359944] slab 256232
+[12289.359945] workingset_refault_anon 0
+[12289.359946] workingset_refault_file 207
+[12289.359946] workingset_activate_anon 0
+[12289.359947] workingset_activate_file 54
+[12289.359947] workingset_restore_anon 0
+[12289.359948] workingset_restore_file 54
+[12289.359948] workingset_nodereclaim 0
+[12289.359949] pgdemote_kswapd 0
+[12289.359949] pgdemote_direct 0
+[12289.359949] pgdemote_khugepaged 0
+[12289.359950] pgdemote_proactive 0
+[12289.359950] pgscan 740
+[12289.359951] pgsteal 222
+[12289.359951] pswpin 0
+[12289.359951] pswpout 11
+[12289.359952] pgscan_kswapd 6
+[12289.359952] pgscan_direct 734
+[12289.359953] pgscan_khugepaged 0
+[12289.359953] pgscan_proactive 0
+[12289.359954] pgsteal_kswapd 6
+[12289.359954] pgsteal_direct 216
+[12289.359954] pgsteal_khugepaged 0
+[12289.359955] pgsteal_proactive 0
+[12289.359955] pgfault 108755
+[12289.359956] pgmajfault 8
+[12289.359956] pgrefill 295
+[12289.359956] pgactivate 253
+[12289.359957] pgdeactivate 295
+[12289.359957] pglazyfree 0
+[12289.359958] pglazyfreed 0
+[12289.359958] swpin_zero 0
+[12289.359958] swpout_zero 0
+[12289.359959] thp_fault_alloc 0
+[12289.359959] thp_collapse_alloc 0
+[12289.359960] thp_swpout 0
+[12289.359960] thp_swpout_fallback 0
+[12289.359961] Tasks state (memory values in pages):
+[12289.359961] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[12289.359963] [  11080] 65535 11080      257      148        0      148         0    40960        0          -998 pause
+[12289.359967] [  11587]     0 11587      197      105        0      105         0    40960        0           994 stress
+[12289.359968] [  11603]     0 11603    51398    25378    25344       34         0   249856        0           994 stress
+[12289.359970] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=cri-containerd-bb31d71a15939ca36e76d7ace091218fec8c203ddb2e3e04a1770e25226f2c8e.scope,mems_allowed=0,oom_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice,task_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-bb31d71a15939ca36e76d7ace091218fec8c203ddb2e3e04a1770e25226f2c8e.scope,task=stress,pid=11603,uid=0
+[12289.360126] Memory cgroup out of memory: Killed process 11603 (stress) total-vm:205592kB, anon-rss:101376kB, file-rss:136kB, shmem-rss:0kB, UID:0 pgtables:244kB oom_score_adj:994
+[12289.361543] Tasks in /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-bb31d71a15939ca36e76d7ace091218fec8c203ddb2e3e04a1770e25226f2c8e.scope are going to be killed due to memory.oom.group set
+[12289.361641] Memory cgroup out of memory: Killed process 11587 (stress) total-vm:788kB, anon-rss:0kB, file-rss:420kB, shmem-rss:0kB, UID:0 pgtables:40kB oom_score_adj:994
+[12289.365248] Memory cgroup out of memory: Killed process 11603 (stress) total-vm:205592kB, anon-rss:101376kB, file-rss:136kB, shmem-rss:0kB, UID:0 pgtables:244kB oom_score_adj:994
+[12349.328363] stress invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=994
+[12349.328452] CPU: 1 UID: 0 PID: 12035 Comm: stress Not tainted 6.18.33.2-microsoft-standard-WSL2 #1 PREEMPT(none)
+[12349.328456] Call Trace:
+[12349.328458]  <TASK>
+[12349.328463]  dump_stack_lvl+0x70/0x90
+[12349.328470]  dump_stack+0x14/0x20
+[12349.328472]  dump_header+0x48/0x1e0
+[12349.328476]  oom_kill_process+0x106/0x230
+[12349.328477]  out_of_memory+0x255/0x570
+[12349.328479]  mem_cgroup_out_of_memory+0xc1/0xd0
+[12349.328484]  try_charge_memcg+0x411/0x600
+[12349.328487]  charge_memcg+0x34/0x80
+[12349.328489]  __mem_cgroup_charge+0x31/0x90
+[12349.328492]  do_anonymous_page+0x2db/0x880
+[12349.328495]  ? ___pte_offset_map+0x20/0x160
+[12349.328498]  __handle_mm_fault+0x8d7/0x910
+[12349.328502]  handle_mm_fault+0x168/0x2c0
+[12349.328504]  do_user_addr_fault+0x179/0x710
+[12349.328508]  exc_page_fault+0x6e/0x170
+[12349.328511]  asm_exc_page_fault+0x2b/0x30
+[12349.328512] RIP: 0033:0x5c2b76890e80
+[12349.328523] Code: 84 a7 02 00 00 8b 54 24 0c 31 c0 85 d2 0f 94 c0 89 44 24 08 41 83 fe 02 0f 8f 46 01 00 00 31 c0 48 85 ed 7e 12 0f 1f 44 00 00 <41> c6 04 07 5a 48 01 d8 48 39 c5 7f f3 48 83 3c 24 00 0f 84 fe 01
+[12349.328524] RSP: 002b:00007ffc133bbed0 EFLAGS: 00010206
+[12349.328526] RAX: 000000000633f000 RBX: 0000000000001000 RCX: 0000771fa8622bd4
+[12349.328527] RDX: 0000000000000000 RSI: 000000000c801000 RDI: 0000771f9bde5000
+[12349.328528] RBP: 000000000c800000 R08: ffffffffffffffff R09: 0000000000000000
+[12349.328528] R10: 0000000000000022 R11: 0000000000000246 R12: 0000771fa867f2c0
+[12349.328529] R13: 0000771fa867f2c0 R14: 0000000000000002 R15: 0000771f9bde5020
+[12349.328534]  </TASK>
+[12349.328535] memory: usage 102400kB, limit 102400kB, failcnt 143
+[12349.328538] swap: usage 44kB, limit 9007199254740988kB, failcnt 0
+[12349.328539] Memory cgroup stats for /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice:
+[12349.328584] anon 104120320
+[12349.328586] file 4096
+[12349.328587] kernel 733184
+[12349.328588] kernel_stack 49152
+[12349.328589] pagetables 344064
+[12349.328590] sec_pagetables 0
+[12349.328590] percpu 46920
+[12349.328591] sock 0
+[12349.328592] vmalloc 16384
+[12349.328593] shmem 0
+[12349.328599] file_mapped 0
+[12349.328600] file_dirty 0
+[12349.328630] file_writeback 4096
+[12349.328631] swapcached 0
+[12349.328632] anon_thp 0
+[12349.328633] file_thp 0
+[12349.328633] shmem_thp 0
+[12349.328634] inactive_anon 104116224
+[12349.328635] active_anon 4096
+[12349.328636] inactive_file 4096
+[12349.328637] active_file 0
+[12349.328638] unevictable 0
+[12349.328639] slab_reclaimable 111736
+[12349.328640] slab_unreclaimable 148752
+[12349.328641] slab 260488
+[12349.328642] workingset_refault_anon 0
+[12349.328643] workingset_refault_file 258
+[12349.328644] workingset_activate_anon 0
+[12349.328645] workingset_activate_file 54
+[12349.328646] workingset_restore_anon 0
+[12349.328647] workingset_restore_file 54
+[12349.328648] workingset_nodereclaim 0
+[12349.328649] pgdemote_kswapd 0
+[12349.328651] pgdemote_direct 0
+[12349.328652] pgdemote_khugepaged 0
+[12349.328653] pgdemote_proactive 0
+[12349.328654] pgscan 859
+[12349.328655] pgsteal 276
+[12349.328656] pswpin 0
+[12349.328657] pswpout 11
+[12349.328658] pgscan_kswapd 6
+[12349.328659] pgscan_direct 853
+[12349.328660] pgscan_khugepaged 0
+[12349.328661] pgscan_proactive 0
+[12349.328662] pgsteal_kswapd 6
+[12349.328663] pgsteal_direct 270
+[12349.328664] pgsteal_khugepaged 0
+[12349.328664] pgsteal_proactive 0
+[12349.328665] pgfault 135692
+[12349.328666] pgmajfault 10
+[12349.328666] pgrefill 339
+[12349.328667] pgactivate 295
+[12349.328667] pgdeactivate 339
+[12349.328668] pglazyfree 0
+[12349.328668] pglazyfreed 0
+[12349.328669] swpin_zero 0
+[12349.328669] swpout_zero 0
+[12349.328670] thp_fault_alloc 0
+[12349.328671] thp_collapse_alloc 0
+[12349.328691] thp_swpout 0
+[12349.328692] thp_swpout_fallback 0
+[12349.328693] Tasks state (memory values in pages):
+[12349.328693] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[12349.328696] [  11080] 65535 11080      257      148        0      148         0    40960        0          -998 pause
+[12349.328718] [  12019]     0 12019      197      122        0      122         0    40960        0           994 stress
+[12349.328720] [  12035]     0 12035    51398    25412    25376       36         0   249856        0           994 stress
+[12349.328723] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=cri-containerd-8757b48e51435330175d4e006ee9b750491164e5863f7b99ebb4892cec26bbd5.scope,mems_allowed=0,oom_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice,task_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-8757b48e51435330175d4e006ee9b750491164e5863f7b99ebb4892cec26bbd5.scope,task=stress,pid=12035,uid=0
+[12349.328905] Memory cgroup out of memory: Killed process 12035 (stress) total-vm:205592kB, anon-rss:101504kB, file-rss:144kB, shmem-rss:0kB, UID:0 pgtables:244kB oom_score_adj:994
+[12349.334179] Tasks in /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-8757b48e51435330175d4e006ee9b750491164e5863f7b99ebb4892cec26bbd5.scope are going to be killed due to memory.oom.group set
+[12349.335043] Memory cgroup out of memory: Killed process 12019 (stress) total-vm:788kB, anon-rss:0kB, file-rss:488kB, shmem-rss:0kB, UID:0 pgtables:40kB oom_score_adj:994
+[12349.337492] Memory cgroup out of memory: Killed process 12035 (stress) total-vm:205592kB, anon-rss:101504kB, file-rss:144kB, shmem-rss:0kB, UID:0 pgtables:244kB oom_score_adj:994
+[12439.658170] stress invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=994
+[12439.658183] CPU: 6 UID: 0 PID: 12576 Comm: stress Not tainted 6.18.33.2-microsoft-standard-WSL2 #1 PREEMPT(none)
+[12439.658188] Call Trace:
+[12439.658190]  <TASK>
+[12439.658197]  dump_stack_lvl+0x70/0x90
+[12439.658205]  dump_stack+0x14/0x20
+[12439.658208]  dump_header+0x48/0x1e0
+[12439.658212]  oom_kill_process+0x106/0x230
+[12439.658215]  out_of_memory+0x255/0x570
+[12439.658217]  mem_cgroup_out_of_memory+0xc1/0xd0
+[12439.658275]  try_charge_memcg+0x411/0x600
+[12439.658279]  charge_memcg+0x34/0x80
+[12439.658282]  __mem_cgroup_charge+0x31/0x90
+[12439.658285]  do_anonymous_page+0x2db/0x880
+[12439.658290]  ? ___pte_offset_map+0x20/0x160
+[12439.658294]  __handle_mm_fault+0x8d7/0x910
+[12439.658299]  handle_mm_fault+0x168/0x2c0
+[12439.658303]  do_user_addr_fault+0x179/0x710
+[12439.658309]  exc_page_fault+0x6e/0x170
+[12439.658312]  asm_exc_page_fault+0x2b/0x30
+[12439.658315] RIP: 0033:0x5d8f8d8ece80
+[12439.658327] Code: 84 a7 02 00 00 8b 54 24 0c 31 c0 85 d2 0f 94 c0 89 44 24 08 41 83 fe 02 0f 8f 46 01 00 00 31 c0 48 85 ed 7e 12 0f 1f 44 00 00 <41> c6 04 07 5a 48 01 d8 48 39 c5 7f f3 48 83 3c 24 00 0f 84 fe 01
+[12439.658328] RSP: 002b:00007ffee99ecfc0 EFLAGS: 00010206
+[12439.658331] RAX: 0000000006344000 RBX: 0000000000001000 RCX: 00007d30abaf9bd4
+[12439.658333] RDX: 0000000000000000 RSI: 000000000c801000 RDI: 00007d309f2bc000
+[12439.658334] RBP: 000000000c800000 R08: ffffffffffffffff R09: 0000000000000000
+[12439.658335] R10: 0000000000000022 R11: 0000000000000246 R12: 00007d30abb562c0
+[12439.658337] R13: 00007d30abb562c0 R14: 0000000000000002 R15: 00007d309f2bc020
+[12439.658343]  </TASK>
+[12439.658344] memory: usage 102400kB, limit 102400kB, failcnt 169
+[12439.658349] swap: usage 44kB, limit 9007199254740988kB, failcnt 0
+[12439.658351] Memory cgroup stats for /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice:
+[12439.658422] anon 104144896
+[12439.658424] file 4096
+[12439.658473] kernel 708608
+[12439.658474] kernel_stack 49152
+[12439.658475] pagetables 335872
+[12439.658476] sec_pagetables 0
+[12439.658477] percpu 31560
+[12439.658477] sock 0
+[12439.658478] vmalloc 16384
+[12439.658479] shmem 0
+[12439.658480] file_mapped 0
+[12439.658481] file_dirty 0
+[12439.658482] file_writeback 0
+[12439.658482] swapcached 0
+[12439.658483] anon_thp 0
+[12439.658484] file_thp 0
+[12439.658485] shmem_thp 0
+[12439.658486] inactive_anon 104140800
+[12439.658486] active_anon 4096
+[12439.658487] inactive_file 4096
+[12439.658488] active_file 0
+[12439.658489] unevictable 0
+[12439.658490] slab_reclaimable 110616
+[12439.658491] slab_unreclaimable 145392
+[12439.658492] slab 256008
+[12439.658493] workingset_refault_anon 0
+[12439.658494] workingset_refault_file 309
+[12439.658495] workingset_activate_anon 0
+[12439.658496] workingset_activate_file 54
+[12439.658497] workingset_restore_anon 0
+[12439.658498] workingset_restore_file 54
+[12439.658499] workingset_nodereclaim 0
+[12439.658500] pgdemote_kswapd 0
+[12439.658501] pgdemote_direct 0
+[12439.658502] pgdemote_khugepaged 0
+[12439.658503] pgdemote_proactive 0
+[12439.658504] pgscan 946
+[12439.658505] pgsteal 328
+[12439.658506] pswpin 0
+[12439.658507] pswpout 11
+[12439.658508] pgscan_kswapd 6
+[12439.658509] pgscan_direct 940
+[12439.658510] pgscan_khugepaged 0
+[12439.658511] pgscan_proactive 0
+[12439.658512] pgsteal_kswapd 6
+[12439.658513] pgsteal_direct 322
+[12439.658514] pgsteal_khugepaged 0
+[12439.658515] pgsteal_proactive 0
+[12439.658516] pgfault 162555
+[12439.658538] pgmajfault 12
+[12439.658539] pgrefill 349
+[12439.658540] pgactivate 305
+[12439.658541] pgdeactivate 349
+[12439.658542] pglazyfree 0
+[12439.658543] pglazyfreed 0
+[12439.658544] swpin_zero 0
+[12439.658545] swpout_zero 0
+[12439.658546] thp_fault_alloc 0
+[12439.658547] thp_collapse_alloc 0
+[12439.658548] thp_swpout 0
+[12439.658549] thp_swpout_fallback 0
+[12439.658550] Tasks state (memory values in pages):
+[12439.658551] [  pid  ]   uid  tgid total_vm      rss rss_anon rss_file rss_shmem pgtables_bytes swapents oom_score_adj name
+[12439.658554] [  11080] 65535 11080      257      148        0      148         0    40960        0          -998 pause
+[12439.658560] [  12551]     0 12551      197      135        0      135         0    36864        0           994 stress
+[12439.658564] [  12576]     0 12576    51398    25446    25376       70         0   245760        0           994 stress
+[12439.658567] oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=cri-containerd-ccae15b4033d1633617735fad0a851f9290b023f82d3d7b62d05c9390655ea5d.scope,mems_allowed=0,oom_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice,task_memcg=/docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-ccae15b4033d1633617735fad0a851f9290b023f82d3d7b62d05c9390655ea5d.scope,task=stress,pid=12576,uid=0
+[12439.658809] Memory cgroup out of memory: Killed process 12576 (stress) total-vm:205592kB, anon-rss:101504kB, file-rss:280kB, shmem-rss:0kB, UID:0 pgtables:240kB oom_score_adj:994
+[12439.664021] Tasks in /docker/aa57660459f2aca5e8fcafffb2dcb5e33c276ed32652398926ab63a478fba21b/kubelet.slice/kubelet-kubepods.slice/kubelet-kubepods-burstable.slice/kubelet-kubepods-burstable-pod7d395d3f_6ee2_40e2_a16c_68f9284c08f9.slice/cri-containerd-ccae15b4033d1633617735fad0a851f9290b023f82d3d7b62d05c9390655ea5d.scope are going to be killed due to memory.oom.group set
+[12439.666222] Memory cgroup out of memory: Killed process 12551 (stress) total-vm:788kB, anon-rss:0kB, file-rss:540kB, shmem-rss:0kB, UID:0 pgtables:36kB oom_score_adj:994
+[12439.668791] Memory cgroup out of memory: Killed process 12576 (stress) total-vm:205592kB, anon-rss:101504kB, file-rss:280kB, shmem-rss:0kB, UID:0 pgtables:240kB oom_score_adj:994
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ll
+total 24
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 05:58 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 14 17:31 ../
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  338 Sep 14 17:59 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  191 Sep 14 17:32 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ mkdir flask_app_probes_ass
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ cd flask_app_probes_ass/
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ ll
+total 8
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 10:18 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 15 10:18 ../
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ vim app.py
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ vim requirements.txt
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ vim Dockerfile
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ docker build -t slow-start-app:1.0 .
+[+] Building 31.7s (11/11) FINISHED                                                                                                                                                               docker:default
+ => [internal] load build definition from Dockerfile                                                                                                                                                        0.2s
+ => => transferring dockerfile: 200B                                                                                                                                                                        0.0s
+ => [internal] load metadata for docker.io/library/python:3.11-slim                                                                                                                                         5.2s
+ => [auth] library/python:pull token for registry-1.docker.io                                                                                                                                               0.0s
+ => [internal] load .dockerignore                                                                                                                                                                           0.0s
+ => => transferring context: 2B                                                                                                                                                                             0.0s
+ => [1/5] FROM docker.io/library/python:3.11-slim@sha256:9534e5a8e315485d4061ed659af0fd78a284c015f9b73661b41d6bab25604534                                                                                  12.7s
+ => => resolve docker.io/library/python:3.11-slim@sha256:9534e5a8e315485d4061ed659af0fd78a284c015f9b73661b41d6bab25604534                                                                                   0.1s
+ => => sha256:3678bb828654fcc3752f7a5eb63c5accfa00c97047252f25405285550d74a3fd 4.27MB / 4.27MB                                                                                                              2.6s
+ => => sha256:6310eb16bf4251731feab01e8f633bf5e2d75a657ccad97f420b1f83cce457be 29.79MB / 29.79MB                                                                                                            6.0s
+ => => sha256:db840d086b65cf73e0feea3bd0cf11063818114e466846ae3f2b2fb1a8c2b143 14.45MB / 14.45MB                                                                                                            5.5s
+ => => sha256:f9efa1b83d065a7c5a3041582875b75d63c4ab3d4413514de8e413b51f90e91a 249B / 249B                                                                                                                  2.6s
+ => => extracting sha256:6310eb16bf4251731feab01e8f633bf5e2d75a657ccad97f420b1f83cce457be                                                                                                                   3.7s
+ => => extracting sha256:3678bb828654fcc3752f7a5eb63c5accfa00c97047252f25405285550d74a3fd                                                                                                                   0.5s
+ => => extracting sha256:db840d086b65cf73e0feea3bd0cf11063818114e466846ae3f2b2fb1a8c2b143                                                                                                                   2.1s
+ => => extracting sha256:f9efa1b83d065a7c5a3041582875b75d63c4ab3d4413514de8e413b51f90e91a                                                                                                                   0.0s
+ => [internal] load build context                                                                                                                                                                           0.1s
+ => => transferring context: 414B                                                                                                                                                                           0.0s
+ => [2/5] WORKDIR /app                                                                                                                                                                                      0.3s
+ => [3/5] COPY requirements.txt .                                                                                                                                                                           0.1s
+ => [4/5] RUN pip install --no-cache-dir -r requirements.txt                                                                                                                                               10.4s
+ => [5/5] COPY app.py .                                                                                                                                                                                     0.1s
+ => exporting to image                                                                                                                                                                                      2.3s
+ => => exporting layers                                                                                                                                                                                     1.5s
+ => => exporting manifest sha256:a0dc638562f506e028da4267cbad8900c57b3c4104eb170504b171f78f5ced74                                                                                                           0.0s
+ => => exporting config sha256:b40c72cf464fb74b4d15f1c1629158a6b0dbef79c2e4226d6cceaa80a2fd6d41                                                                                                             0.0s
+ => => exporting attestation manifest sha256:f6b2b9806bc11c5857753ae94b22e79d26dc26bf7af37fa4e86aa4c93544343d                                                                                               0.1s
+ => => exporting manifest list sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0                                                                                                      0.0s
+ => => naming to docker.io/library/slow-start-app:1.0                                                                                                                                                       0.0s
+ => => unpacking to docker.io/library/slow-start-app:1.0                                                                                                                                                    0.6s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ docker run -d -p 8080:8080 --name test-app slow-start-app:1.0
+b3d42232d296aa75bdd6c3083a514fa08cd5c4a218c53c13e4822ede6831282b
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ curl -i http://localhost:8080/health
+HTTP/1.1 503 SERVICE UNAVAILABLE
+Server: Werkzeug/3.1.8 Python/3.11.16
+Date: Tue, 15 Sep 2026 10:21:17 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 9
+Connection: close
+
+not readyvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ curl -i http://localhost:8080/health
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.8 Python/3.11.16
+Date: Tue, 15 Sep 2026 10:21:33 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 2
+Connection: close
+
+okvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ curl -i http://localhost:8080/health
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.8 Python/3.11.16
+Date: Tue, 15 Sep 2026 10:21:54 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 2
+Connection: close
+
+okvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_assdocker rm -f test-apppp
+test-app
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ docker ps -a
+CONTAINER ID   IMAGE                  COMMAND                  CREATED        STATUS        PORTS                       NAMES
+1e1eab16fe88   kindest/node:v1.36.1   "/usr/local/bin/entr…"   17 hours ago   Up 17 hours   127.0.0.1:38571->6443/tcp   mindstix-assignment-cluster-control-plane
+e6d320edc268   kindest/node:v1.36.1   "/usr/local/bin/entr…"   17 hours ago   Up 17 hours                               mindstix-assignment-cluster-worker
+aa57660459f2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   17 hours ago   Up 17 hours                               mindstix-assignment-cluster-worker2
+85d9e165e140   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago    Up 17 hours                               kind-worker2
+14364cb80ba2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago    Up 17 hours                               kind-worker
+bf21bf3323ba   kindest/node:v1.36.1   "/usr/local/bin/entr…"   5 weeks ago    Up 17 hours   127.0.0.1:45977->6443/tcp   kind-control-plane
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ docker tag slow-start-app:1.0 zawarvyankatesh/slow-start-app:1.0
+docker login
+docker push zawarvyankatesh/slow-start-app:1.0
+Authenticating with existing credentials... [Username: zawarvyankatesh]
+
+i Info → To login with a different account, run 'docker logout' followed by 'docker login'
+
+
+Login Succeeded
+The push refers to repository [docker.io/zawarvyankatesh/slow-start-app]
+aa03a1f73238: Pushed
+f9efa1b83d06: Pushed
+890113971685: Pushing [==================================================>]  5.724MB/5.724MB
+6310eb16bf42: Pushing [=================>                                 ]  10.42MB/29.79MB
+9705f04a6d7a: Pushed
+db840d086b65: Pushing [==================================================>]  14.45MB/14.45MB
+5a4d9093a6f6: Pushed
+fed0a5137114: Pushed
+3678bb828654: Pushed
+failed commit on ref "layer-sha256:890113971685f745c18a1673a6c1a094672ff1af7efacdc1636a8ab5ec081a20": failed to do request: Put "https://registry-1.docker.io/v2/zawarvyankatesh/slow-start-app/blobs/uploads/8337e5f1-ff15-495f-8b5c-49e39a7fa05f?_state=Q1ms_dF8OkPXgNEJAbrrQG9p_febhegIfkubMbYsn3d7Ik5hbWUiOiJ6YXdhcnZ5YW5rYXRlc2gvc2xvdy1zdGFydC1hcHAiLCJVVUlEIjoiODMzN2U1ZjEtZmYxNS00OTVmLThiNWMtNDllMzlhN2ZhMDVmIiwiT2Zmc2V0IjowLCJTdGFydGVkQXQiOiIyMDI2LTA5LTE1VDEwOjI2OjU0Ljc0NTEwMDU2M1oiLCJFeHBpcmVzQXQiOiIyMDI2LTA5LTE1VDEwOjU2OjU0LjgxNzU2MTc0NFoiLCJVc2VybmFtZSI6Inphd2FydnlhbmthdGVzaCIsIlVzZXJVVUlEIjoiOTM0NTZkZjYtMGM5My00MDI4LTkwNjgtMDllZTgzMDMwYzA0IiwiU2Vzc2lvbklEIjoiZGNrcl9qdGlfcm4zZ01XbmpUVm00eUtUaURJYjBhNndpZDljPSJ9&digest=sha256%3A890113971685f745c18a1673a6c1a094672ff1af7efacdc1636a8ab5ec081a20": EOF
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ cd ~/.docker/
+vyankatz@DESKTOP-KQ9P9R3:~/.docker$ ll
+total 32
+drwxr-xr-x  6 vyankatz vyankatz 4096 Sep 15 10:26 ./
+drwxr-x--- 16 vyankatz vyankatz 4096 Sep 15 10:19 ../
+-rw-------  1 vyankatz vyankatz   74 Sep 15 10:19 .token_seed
+-rw-------  1 vyankatz vyankatz    0 Sep 15 10:19 .token_seed.lock
+drwx------  6 vyankatz vyankatz 4096 Sep 15 10:19 buildx/
+drwxr-xr-x  2 vyankatz vyankatz 4096 Aug  2 15:05 cli-plugins/
+-rw-r--r--  1 vyankatz vyankatz   84 Sep 15 10:26 config.json
+lrwxrwxrwx  1 vyankatz vyankatz   34 Aug  2 15:05 contexts -> /mnt/c/Users/USER/.docker/contexts/
+drwxr-xr-x  3 vyankatz vyankatz 4096 Aug  2 15:05 desktop/
+lrwxrwxrwx  1 vyankatz vyankatz   39 Aug  2 15:05 features.json -> /mnt/c/Users/USER/.docker/features.json
+drwxr-xr-x  2 vyankatz vyankatz 4096 Aug  2 15:05 run/
+vyankatz@DESKTOP-KQ9P9R3:~/.docker$ cat config.json
+{
+        "auths": {
+                "https://index.docker.io/v1/": {}
+        },
+        "credsStore": "desktop.exe"
+}vyankatz@DESKTOP-KQ9P9R3:~/.docker$ cd -
+/home/vyankatz/vy/k8s_mindstix/flask_app_probes_ass
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ kind load docker-image slow-start-app:1.0
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "kind-worker2", loading...
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "kind-worker", loading...
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "kind-control-plane", loading...
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ docker exec -it kind-control-plane crictl images | grep slow-start-app
+docker.io/library/slow-start-app                1.0                  b40c72cf464fb       54.2MB
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ ll
+total 20
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 10:19 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 15 10:18 ../
+-rw-r--r-- 1 vyankatz vyankatz  161 Sep 15 10:19 Dockerfile
+-rw-r--r-- 1 vyankatz vyankatz  328 Sep 15 10:18 app.py
+-rw-r--r-- 1 vyankatz vyankatz    6 Sep 15 10:18 requirements.txt
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix/flask_app_probes_ass$ cd ..
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ll
+total 28
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 15 10:18 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 14 17:31 ../
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 10:19 flask_app_probes_ass/
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  338 Sep 14 17:59 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  191 Sep 14 17:32 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim slow_start_deploymet.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb apply -f slow_start_deploymet.yaml
+deployment.apps/slow-start-exp1 created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ll
+total 32
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 15 10:49 ./
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 14 17:31 ../
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 10:19 flask_app_probes_ass/
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  338 Sep 14 17:59 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  191 Sep 14 17:32 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  578 Sep 15 10:49 slow_start_deploymet.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim slow_start_deploymet.yaml^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS         RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ErrImagePull   0          11s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS             RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff   0          18s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS             RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff   0          22s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb describe slow-start-exp1
+error: the server doesn't have a resource type "slow-start-exp1"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb describe pod slow-start-exp1
+Name:             slow-start-exp1-5bbb7bfc74-srrv5
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             mindstix-assignment-cluster-worker2/172.18.0.5
+Start Time:       Tue, 15 Sep 2026 10:49:39 +0000
+Labels:           app=slow-start-exp1
+                  pod-template-hash=5bbb7bfc74
+Annotations:      <none>
+Status:           Pending
+IP:               10.244.3.7
+IPs:
+  IP:           10.244.3.7
+Controlled By:  ReplicaSet/slow-start-exp1-5bbb7bfc74
+Containers:
+  app:
+    Container ID:
+    Image:          docker.io/library/slow-start-app:1.0
+    Image ID:
+    Port:           8080/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Liveness:       http-get http://:8080/health delay=5s timeout=1s period=5s #success=1 #failure=3
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-fdbfm (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       False
+  ContainersReady             False
+  PodScheduled                True
+Volumes:
+  kube-api-access-fdbfm:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb logs slow-start-exp1
+error: error from server (NotFound): pods "slow-start-exp1" not found in namespace "default"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS             RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff   0          85s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb logs slow-start-exp1-5bbb7bfc74-srrv5
+Error from server (BadRequest): container "app" in pod "slow-start-exp1-5bbb7bfc74-srrv5" is waiting to start: trying and failing to pull image
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim slow_start_deploymet.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb apply -f slow_start_deploymet.yaml
+deployment.apps/slow-start-exp2 created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m9s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          10s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m15s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          16s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m16s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          17s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m17s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          18s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+^[[ANAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m18s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          19s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+
+NAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m19s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          20s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+^[[ANAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m20s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          21s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+^[[A^[[BNAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m21s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          22s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          4m25s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          26s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ docker exec -it kind-control-plane crictl images | grep slow-start-app
+docker.io/library/slow-start-app                1.0                  b40c72cf464fb       54.2MB
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ # Check Pod status
+kubectl get pods
+
+# Check event history for probe behavior
+kubectl describe pod -l app=slow-start-exp2
+NAME                               READY   STATUS              RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   0/1     ImagePullBackOff    0          5m47s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     ErrImageNeverPull   0          108s
+Name:             slow-start-exp2-6c9645f6c7-5pjg7
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             mindstix-assignment-cluster-worker2/172.18.0.5
+Start Time:       Tue, 15 Sep 2026 10:53:38 +0000
+Labels:           app=slow-start-exp2
+                  pod-template-hash=6c9645f6c7
+Annotations:      <none>
+Status:           Pending
+IP:               10.244.3.8
+IPs:
+  IP:           10.244.3.8
+Controlled By:  ReplicaSet/slow-start-exp2-6c9645f6c7
+Containers:
+  app:
+    Container ID:
+    Image:          docker.io/library/slow-start-app:1.0
+    Image ID:
+    Port:           8080/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       ErrImageNeverPull
+    Ready:          False
+    Restart Count:  0
+    Liveness:       http-get http://:8080/health delay=0s timeout=1s period=10s #success=1 #failure=3
+    Readiness:      http-get http://:8080/health delay=0s timeout=1s period=5s #success=1 #failure=1
+    Startup:        http-get http://:8080/health delay=0s timeout=1s period=5s #success=1 #failure=10
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-gwd4j (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       False
+  ContainersReady             False
+  PodScheduled                True
+Volumes:
+  kube-api-access-gwd4j:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason             Age                 From               Message
+  ----     ------             ----                ----               -------
+  Normal   Scheduled          109s                default-scheduler  Successfully assigned default/slow-start-exp2-6c9645f6c7-5pjg7 to mindstix-assignment-cluster-worker2
+  Warning  ErrImageNeverPull  5s (x10 over 108s)  kubelet            spec.containers{app}: Container image "docker.io/library/slow-start-app:1.0" is not present with pull policy of Never
+  Warning  Failed             5s (x10 over 108s)  kubelet            spec.containers{app}: Error: ErrImageNeverPull
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kind load docker-image slow-start-app:1.0 --name mindstix-assignment-cluster
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "mindstix-assignment-cluster-control-plane", loading...
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "mindstix-assignment-cluster-worker", loading...
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "mindstix-assignment-cluster-worker2", loading...
+kind load docker-image slow-start-app:1.0 --name mindstix-assignment-cluster
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kind load docker-image slow-start-app:1.0 --name mindstix-assignment-cluster
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "mindstix-assignment-cluster-control-plane", loading...
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "mindstix-assignment-cluster-worker", loading...
+Image: "slow-start-app:1.0" with ID "sha256:f6a1544bfac7f919808225fdd4d7b718479debe739ad19ee96ab155d5a4ae3f0" not yet present on node "mindstix-assignment-cluster-worker2", loading...
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl rollout restart deployment/slow-start-exp1
+kubectl rollout restart deployment/slow-start-exp2
+deployment.apps/slow-start-exp1 restarted
+deployment.apps/slow-start-exp2 restarted
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods
+NAME                               READY   STATUS        RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   1/1     Terminating   0          7m55s
+slow-start-exp1-b45696656-n52qv    1/1     Running       0          9s
+slow-start-exp2-66b49d9868-8pvp7   0/1     Running       0          8s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     Running       0          3m56s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods
+NAME                               READY   STATUS        RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   1/1     Terminating   0          8m12s
+slow-start-exp1-b45696656-n52qv    1/1     Running       0          26s
+slow-start-exp2-66b49d9868-8pvp7   0/1     Running       0          25s
+slow-start-exp2-6c9645f6c7-5pjg7   1/1     Running       0          4m13s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods
+NAME                               READY   STATUS        RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   1/1     Terminating   0          8m14s
+slow-start-exp1-b45696656-n52qv    1/1     Running       0          28s
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running       0          27s
+slow-start-exp2-6c9645f6c7-5pjg7   1/1     Terminating   0          4m15s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods
+NAME                               READY   STATUS        RESTARTS   AGE
+slow-start-exp1-5bbb7bfc74-srrv5   1/1     Terminating   0          8m17s
+slow-start-exp1-b45696656-n52qv    1/1     Running       0          31s
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running       0          30s
+slow-start-exp2-6c9645f6c7-5pjg7   1/1     Terminating   0          4m18s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods
+NAME                               READY   STATUS        RESTARTS   AGE
+slow-start-exp1-b45696656-n52qv    1/1     Running       0          40s
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running       0          39s
+slow-start-exp2-6c9645f6c7-5pjg7   1/1     Terminating   0          4m27s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl rollout restart deployment/slow-start-exp1
+kubectl rollout restart deployment/slow-start-exp2^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods -w
+NAME                               READY   STATUS        RESTARTS     AGE
+slow-start-exp1-b45696656-n52qv    1/1     Running       1 (6s ago)   57s
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running       0            56s
+slow-start-exp2-6c9645f6c7-5pjg7   1/1     Terminating   0            4m44s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     Error         0            4m44s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     Error         0            4m44s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     Error         0            4m45s
+slow-start-exp1-b45696656-n52qv    1/1     Running       2 (1s ago)   97s
+slow-start-exp1-b45696656-n52qv    1/1     Running       3 (1s ago)   2m27s
+slow-start-exp1-b45696656-n52qv    1/1     Running       4 (1s ago)   3m12s
+slow-start-exp1-b45696656-n52qv    1/1     Running       5 (1s ago)   4m2s
+slow-start-exp1-b45696656-n52qv    0/1     CrashLoopBackOff   5 (0s ago)   4m52s
+^Cvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods -w
+NAME                               READY   STATUS             RESTARTS      AGE
+slow-start-exp1-b45696656-n52qv    0/1     CrashLoopBackOff   5 (76s ago)   6m8s
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running            0             6m7s
+slow-start-exp1-b45696656-n52qv    1/1     Running            6 (81s ago)   6m13s
+slow-start-exp1-b45696656-n52qv    0/1     CrashLoopBackOff   6 (1s ago)    7m3s
+^Cvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods -w
+NAME                               READY   STATUS        RESTARTS     AGE
+slow-start-exp1-b45696656-n52qv    1/1     Running       1 (6s ago)   57s
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running       0            56s
+slow-start-exp2-6c9645f6c7-5pjg7   1/1     Terminating   0            4m44s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     Error         0            4m44s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     Error         0            4m44s
+slow-start-exp2-6c9645f6c7-5pjg7   0/1     Error         0            4m45s
+slow-start-exp1-b45696656-n52qv    1/1     Running       2 (1s ago)   97s
+slow-start-exp1-b45696656-n52qv    1/1     Running       3 (1s ago)   2m27s
+slow-start-exp1-b45696656-n52qv    1/1     Running       4 (1s ago)   3m12s
+slow-start-exp1-b45696656-n52qv    1/1     Running       5 (1s ago)   4m2s
+slow-start-exp1-b45696656-n52qv    0/1     CrashLoopBackOff   5 (0s ago)   4m52s^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl delete deployment slow-start-exp1
+deployment.apps "slow-start-exp1" deleted from default namespace
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim pod_init.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f pod_init.yaml
+pod/init-demo-pod created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod init-demo-pod
+NAME            READY   STATUS    RESTARTS   AGE
+init-demo-pod   1/1     Running   0          15s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl logs init-demo-pod -c main-app
+Timestamp: Tue Sep 15 13:46:43 UTC 2026 | Hostname: init-demo-pod
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim pod-init-failing.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ apiVersion: v1
+kind: Pod
+metadata:
+  name: init-demo-pod-failing
+  labels:
+    app: init-demo-failing
+spec:
+  volumes:
+  - name: shared-data
+    emptyDir: {}
+
+  initContainers:
+  - name: init-writer
+    image: busybox
+    command: ['sh', '-c', 'exit 1']  # <--- Fails immediately with exit code 1
+    volumeMounts:
+    - name: shared-data
+      mountPath: /shared
+
+  containers:
+  - name: main-app
+    image: busybox
+    command: ['sh', '-c', 'cat /shared/init.txt && sleep 3600']
+    volumeMounts:
+    - name: shared-data
+      mountPath: /shared^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f pod-init-failing.yaml
+pod/init-demo-pod-failing created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod init-demo-pod-failing
+NAME                    READY   STATUS                  RESTARTS      AGE
+init-demo-pod-failing   0/1     Init:CrashLoopBackOff   1 (16s ago)   22s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb describe pod init-demo-pod-failing
+Name:             init-demo-pod-failing
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             mindstix-assignment-cluster-worker2/172.18.0.5
+Start Time:       Tue, 15 Sep 2026 13:48:05 +0000
+Labels:           app=init-demo-failing
+Annotations:      <none>
+Status:           Pending
+IP:               10.244.3.11
+IPs:
+  IP:  10.244.3.11
+Init Containers:
+  init-writer:
+    Container ID:  containerd://5da5b317c2ca2650d72b9afa42b2c9ebc3c677aadcdff86e4cb54a4ef73d8403
+    Image:         busybox
+    Image ID:      docker.io/library/busybox@sha256:dc2d74b28e4cf8984fa52af1f39bc7c3d9c73760b41a74d629f5d11b1ab28616
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      exit 1
+    State:          Terminated
+      Reason:       Error
+      Exit Code:    1
+      Started:      Tue, 15 Sep 2026 13:48:58 +0000
+      Finished:     Tue, 15 Sep 2026 13:48:58 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    1
+      Started:      Tue, 15 Sep 2026 13:48:28 +0000
+      Finished:     Tue, 15 Sep 2026 13:48:28 +0000
+    Ready:          False
+    Restart Count:  3
+    Environment:    <none>
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-28p4s (ro)
+Containers:
+  main-app:
+    Container ID:
+    Image:         busybox
+    Image ID:
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      cat /shared/init.txt && sleep 3600
+    State:          Waiting
+      Reason:       PodInitializing
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-28p4s (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 False
+  Ready                       False
+  ContainersReady             False
+  PodScheduled                True
+Volumes:
+  shared-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  kube-api-access-28p4s:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age               From               Message
+  ----     ------     ----              ----               -------
+  Normal   Scheduled  59s               default-scheduler  Successfully assigned default/init-demo-pod-failing to mindstix-assignment-cluster-worker2
+  Normal   Pulled     56s               kubelet            spec.initContainers{init-writer}: Successfully pulled image "busybox" in 2.507s (2.507s including waiting). Image size: 2236931 bytes.
+  Normal   Pulled     53s               kubelet            spec.initContainers{init-writer}: Successfully pulled image "busybox" in 2.154s (2.154s including waiting). Image size: 2236931 bytes.
+  Normal   Pulled     36s               kubelet            spec.initContainers{init-writer}: Successfully pulled image "busybox" in 2.008s (2.008s including waiting). Image size: 2236931 bytes.
+  Normal   Pulling    9s (x4 over 58s)  kubelet            spec.initContainers{init-writer}: Pulling image "busybox"
+  Normal   Created    7s (x4 over 56s)  kubelet            spec.initContainers{init-writer}: Container created
+  Normal   Pulled     7s                kubelet            spec.initContainers{init-writer}: Successfully pulled image "busybox" in 2.136s (2.136s including waiting). Image size: 2236931 bytes.
+  Normal   Started    6s (x4 over 56s)  kubelet            spec.initContainers{init-writer}: Container started
+  Warning  BackOff    6s (x4 over 52s)  kubelet            spec.initContainers{init-writer}: Back-off restarting failed container init-writer in pod init-demo-pod-failing_default(ab1194a2-a51b-41fe-bf7d-fcf45368a71d)
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl delete pod-init-failing.yaml
+error: the server doesn't have a resource type "pod-init-failing"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl delete init-demo-pod-failing
+error: the server doesn't have a resource type "init-demo-pod-failing"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl delete pod/init-demo-pod-failing
+pod "init-demo-pod-failing" deleted from default namespace
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pod
+NAME                               READY   STATUS    RESTARTS   AGE
+init-demo-pod                      1/1     Running   0          4m35s
+slow-start-exp2-66b49d9868-8pvp7   1/1     Running   0          173m
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+
+
+vyankatz@DESKTOP-KQ9P9R3:~$ kb describe pod slow-start-exp1
+Name:             slow-start-exp1-b45696656-n52qv
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             mindstix-assignment-cluster-worker2/172.18.0.5
+Start Time:       Tue, 15 Sep 2026 10:57:26 +0000
+Labels:           app=slow-start-exp1
+                  pod-template-hash=b45696656
+Annotations:      kubectl.kubernetes.io/restartedAt: 2026-09-15T10:57:25Z
+Status:           Running
+IP:               10.244.3.9
+IPs:
+  IP:           10.244.3.9
+Controlled By:  ReplicaSet/slow-start-exp1-b45696656
+Containers:
+  app:
+    Container ID:   containerd://cb3bfaec71aa6cacc3f6e2c4d9c17fbe30a2f43f38f5c67551a2ec57fb8c69f4
+    Image:          docker.io/library/slow-start-app:1.0
+    Image ID:       docker.io/library/import-2026-09-15@sha256:912867be7466d8bc8040300b355257bf2908225a8aa8706bf95897e3eab4b107
+    Port:           8080/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 15 Sep 2026 10:59:02 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    137
+      Started:      Tue, 15 Sep 2026 10:58:16 +0000
+      Finished:     Tue, 15 Sep 2026 10:59:01 +0000
+    Ready:          True
+    Restart Count:  2
+    Liveness:       http-get http://:8080/health delay=5s timeout=1s period=5s #success=1 #failure=3
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kcq7j (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
+Volumes:
+  kube-api-access-kcq7j:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+
+vyankatz@DESKTOP-KQ9P9R3:~$ kb logs slow-start-exp1
+error: error from server (NotFound): pods "slow-start-exp1" not found in namespace "default"
+vyankatz@DESKTOP-KQ9P9R3:~$ kb logs pod/slow-start-exp1
+error: error from server (NotFound): pods "slow-start-exp1" not found in namespace "default"
+vyankatz@DESKTOP-KQ9P9R3:~$ kb logs pod/slow-start-exp1-b45696656-n52qv
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.244.3.9:8080
+Press CTRL+C to quit
+10.244.3.1 - - [15/Sep/2026 10:59:56] "GET /health HTTP/1.1" 503 -
+10.244.3.1 - - [15/Sep/2026 11:00:01] "GET /health HTTP/1.1" 503 -
+10.244.3.1 - - [15/Sep/2026 11:00:06] "GET /health HTTP/1.1" 503 -
+vyankatz@DESKTOP-KQ9P9R3:~$ kb logs pod/slow-start-exp1-b45696656-n52qv
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.244.3.9:8080
+Press CTRL+C to quit
+10.244.3.1 - - [15/Sep/2026 11:00:46] "GET /health HTTP/1.1" 503 -
+10.244.3.1 - - [15/Sep/2026 11:00:51] "GET /health HTTP/1.1" 503 -
+10.244.3.1 - - [15/Sep/2026 11:00:56] "GET /health HTTP/1.1" 503 -
+vyankatz@DESKTOP-KQ9P9R3:~$ kb logs pod/slow-start-exp1-b45696656-n52qv
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.244.3.9:8080
+Press CTRL+C to quit
+10.244.3.1 - - [15/Sep/2026 11:00:46] "GET /health HTTP/1.1" 503 -
+10.244.3.1 - - [15/Sep/2026 11:00:51] "GET /health HTTP/1.1" 503 -
+10.244.3.1 - - [15/Sep/2026 11:00:56] "GET /health HTTP/1.1" 503 -
+vyankatz@DESKTOP-KQ9P9R3:~$ kb logs pod/slow-start-exp2-6c9645f6c7-5pjg7
+error: error from server (NotFound): pods "slow-start-exp2-6c9645f6c7-5pjg7" not found in namespace "default"
+vyankatz@DESKTOP-KQ9P9R3:~$ slow-start-exp2-66b49d9868-8pvp7^C
+vyankatz@DESKTOP-KQ9P9R3:~$ kb logs pod/slow-start-exp2-66b49d9868-8pvp7
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.244.1.4:8080
+Press CTRL+C to quit
+10.244.1.1 - - [15/Sep/2026 10:57:31] "GET /health HTTP/1.1" 503 -
+10.244.1.1 - - [15/Sep/2026 10:57:36] "GET /health HTTP/1.1" 503 -
+10.244.1.1 - - [15/Sep/2026 10:57:41] "GET /health HTTP/1.1" 503 -
+10.244.1.1 - - [15/Sep/2026 10:57:46] "GET /health HTTP/1.1" 503 -
+10.244.1.1 - - [15/Sep/2026 10:57:51] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:57:51] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:57:56] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:57:56] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:01] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:06] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:06] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:11] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:16] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:16] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:21] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:26] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:26] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:31] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:36] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:36] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:41] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:46] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:46] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:51] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:57] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:58:57] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:02] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:07] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:07] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:12] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:17] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:17] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:22] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:27] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:27] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:32] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:37] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:37] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:42] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:47] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:47] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:52] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:57] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 10:59:57] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:02] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:07] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:07] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:12] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:17] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:17] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:22] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:27] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:27] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:32] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:37] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:37] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:42] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:47] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:47] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:52] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:57] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:00:57] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:02] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:07] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:07] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:12] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:17] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:17] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:22] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:27] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:27] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:32] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:37] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:37] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:42] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:47] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:47] "GET /health HTTP/1.1" 200 -
+10.244.1.1 - - [15/Sep/2026 11:01:52] "GET /health HTTP/1.1" 200 -
+vyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$ kb logs pod/slow-start-exp1-b45696656-n52qv --previous
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.244.3.9:8080
+Press CTRL+C to quit
+10.244.3.1 - - [15/Sep/2026 11:00:46] "GET /health HTTP/1.1" 503 -
+10.244.3.1 - - [15/Sep/2026 11:00:51] "GET /health HTTP/1.1" 503 -
+10.244.3.1 - - [15/Sep/2026 11:00:56] "GET /health HTTP/1.1" 503 -
+vyankatz@DESKTOP-KQ9P9R3:~$
+
+
+
