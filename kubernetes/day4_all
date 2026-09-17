@@ -1,0 +1,612 @@
+vyankatz@DESKTOP-KQ9P9R3:~$ cd vy/k8s_mindstix/
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ll
+total 56
+drwxr-xr-x 3 vyankatz vyankatz 4096 Sep 16 14:57 ./
+drwxr-xr-x 4 vyankatz vyankatz 4096 Sep 15 15:46 ../
+-rw-r--r-- 1 vyankatz vyankatz  316 Sep 16 14:24 busy_box_deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  355 Sep 16 09:58 daemonset.yaml
+drwxr-xr-x 2 vyankatz vyankatz 4096 Sep 15 10:19 flask_app_probes_ass/
+-rw-r--r-- 1 vyankatz vyankatz  108 Sep 14 17:31 kind_cluster_config.yaml
+-rw-r--r-- 1 vyankatz vyankatz  470 Sep 16 14:14 nginx-deployment.yaml
+-rw-r--r-- 1 vyankatz vyankatz  250 Sep 16 13:36 niginx_pod.yaml
+-rw-r--r-- 1 vyankatz vyankatz  136 Sep 16 14:57 pod-a.yaml
+-rw-r--r-- 1 vyankatz vyankatz  548 Sep 15 13:47 pod-init-failing.yaml
+-rw-r--r-- 1 vyankatz vyankatz  262 Sep 15 14:00 pod-logs.yaml
+-rw-r--r-- 1 vyankatz vyankatz  551 Sep 15 13:46 pod_init.yaml
+-rw-r--r-- 1 vyankatz vyankatz  890 Sep 15 10:53 slow_start_deploymet.yaml
+-rw-r--r-- 1 vyankatz vyankatz  317 Sep 15 05:58 stress_pod_day2.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get replicasets
+E0917 04:39:30.317702     474 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:38571/api?timeout=32s\": dial tcp 127.0.0.1:38571: connect: connection refused"
+E0917 04:39:30.317983     474 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:38571/api?timeout=32s\": dial tcp 127.0.0.1:38571: connect: connection refused"
+E0917 04:39:30.319583     474 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:38571/api?timeout=32s\": dial tcp 127.0.0.1:38571: connect: connection refused"
+E0917 04:39:30.319897     474 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:38571/api?timeout=32s\": dial tcp 127.0.0.1:38571: connect: connection refused"
+E0917 04:39:30.321231     474 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:38571/api?timeout=32s\": dial tcp 127.0.0.1:38571: connect: connection refused"
+The connection to the server 127.0.0.1:38571 was refused - did you specify the right host or port?
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get replicasets
+No resources found in practice namespace.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get replicasets
+No resources found in practice namespace.
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim deployment_nginx.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f deployment_nginx.yaml
+deployment.apps/nginx created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods -l app=nginx
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-5cf8dc6bc5-89r9n   1/1     Running   0          11s
+nginx-5cf8dc6bc5-txp7k   1/1     Running   0          11s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ vim service_nginx.yaml
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f service.yaml
+error: the path "service.yaml" does not exist
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl apply -f service_nginx.yaml
+service/nginx-svc created
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get svc nginx-svc
+NAME        TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+nginx-svc   NodePort   10.96.34.61   <none>        80:30080/TCP   9s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get endpoint
+error: the server doesn't have a resource type "endpoint"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get endpoints
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME        ENDPOINTS                     AGE
+nginx-svc   10.244.1.6:80,10.244.3.4:80   19s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get endpoints/nginx-svc
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME        ENDPOINTS                     AGE
+nginx-svc   10.244.1.6:80,10.244.3.4:80   35s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get pods -l app=nginx -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'
+nginx-5cf8dc6bc5-89r9n
+nginx-5cf8dc6bc5-txp7k
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ # Example if pod names are nginx-6799fc88d8-abcde and nginx-6799fc88d8-xyz12
+kubectl exec -it <pod-1-name> -- bash -c 'echo "Hello from Pod 1 - $(hostname)" > /usr/share/nginx/html/index.html'
+kubectl exec -it <pod-2-name> -- bash -c 'echo "Hello from Pod 2 - $(hostname)" > /usr/share/nginx/html/index.html'
+-bash: pod-1-name: No such file or directory
+-bash: pod-2-name: No such file or directory
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ # Example if pod names are nginx-6799fc88d8-abcde and nginx-6799fc88d8-xyz12
+kubectl exec -it nginx-5cf8dc6bc5-89r9n -- bash -c 'echo "Hello from Pod 1 - $(hostname)" > /usr/share/nginx/html/index.html'
+kubectl exec -it nginx-5cf8dc6bc5-txp7k -- bash -c 'echo "Hello from Pod 2 - $(hostname)" > /usr/share/nginx/html/index.html'
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kb service nginx-svc --url
+error: unknown command "service" for "kubectl"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kind service nginx-svc --url
+ERROR: unknown command "service" for "kind"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ URL="http://localhost:30080"
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ for i in $(seq 1 10); do curl -s $URL; done
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ for i in $(seq 1 10); do curl -s $URL; done
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ echo $URL
+http://localhost:30080
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ for i in $(seq 1 10); do echo  $URL; done
+http://localhost:30080
+http://localhost:30080
+http://localhost:30080
+http://localhost:30080
+http://localhost:30080
+http://localhost:30080
+http://localhost:30080
+http://localhost:30080
+http://localhost:30080
+http://localhost:30080
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ for i in $(seq 1 10); do curl $URL; done
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to localhost port 30080 after 0 ms: Couldn't connect to server
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl get endpoints nginx-svc
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME        ENDPOINTS                     AGE
+nginx-svc   10.244.1.6:80,10.244.3.4:80   6m34s
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ echo $NODE_IP
+172.18.0.5
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ echo $HOSTNAME
+DESKTOP-KQ9P9R3
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ echo $HOSTNAME -i
+DESKTOP-KQ9P9R3 -i
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ifconfig
+Command 'ifconfig' not found, but can be installed with:
+sudo apt install net-tools
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl port-forward service/nginx-svc 30080:80
+Forwarding from 127.0.0.1:30080 -> 80
+Forwarding from [::1]:30080 -> 80
+for i in $(seq 1 10); do curl -s http://localhost:30080; echo; doneHandling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+^Cvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl port-forward service/nginx-svc 30080:80
+Forwarding from 127.0.0.1:30080 -> 80
+Forwarding from [::1]:30080 -> 80
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+^Cvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ curl http://localhost:30081
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ kubectl port-forward service/nginx-svc 30080:80
+Forwarding from 127.0.0.1:30080 -> 80
+Forwarding from [::1]:30080 -> 80
+^Cvyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~/vy/k8s_mindstix$
+
+  vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s http://localhost:30080; echo; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+vyankatz@DESKTOP-KQ9P9R3:~$ kb get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-5cf8dc6bc5-89r9n   1/1     Running   0          12m
+nginx-5cf8dc6bc5-txp7k   1/1     Running   0          12m
+pod-a                    1/1     Running   0          17h
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s http://172.18.0.5:30080; done
+^C
+vyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s http://172.18.0.5:30080; done
+^C
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+^[[AHello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s http://172.18.0.5:30080; done
+^[[A^[[B^[[B^[[B^[[B^[[A^[[A^[[A^C
+vyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s -H "Connection: close" http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ kubectl port-forward pod/nginx-5cf8dc6bc5-txp7k 30081:80
+Forwarding from 127.0.0.1:30081 -> 80
+Forwarding from [::1]:30081 -> 80
+Handling connection for 30081
+^Cvyankatz@DESKTOP-KQ9P9R3:~kubectl port-forward deployment/nginx 30080:8080
+Forwarding from 127.0.0.1:30080 -> 80
+Forwarding from [::1]:30080 -> 80
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+Handling connection for 30080
+^Cvyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$
+
+vyankatz@DESKTOP-KQ9P9R3:~$ for i in $(seq 1 10); do curl -s http://localhost:30080; done
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+vyankatz@DESKTOP-KQ9P9R3:~$ kubectl run test-curl --rm -it --image=curlimages/curl -- sh -c 'for i in $(seq 1 10); do curl -s http://nginx-svc; done'
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+Session ended, resume using 'kubectl attach test-curl -c test-curl -n practice -i -t' command
+pod "test-curl" deleted from practice namespace
+vyankatz@DESKTOP-KQ9P9R3:~$ ^C
+vyankatz@DESKTOP-KQ9P9R3:~$ # 1. Find your KinD/Minikube node container name
+docker ps
+
+# 2. Exec into the node container and curl localhost:30080 10 times
+docker exec -it kind-control-plan^Cbash -c 'for i in $(seq 1 10); do curl -s http://localhost:30080; echo; done'
+vyankatz@DESKTOP-KQ9P9R3:~$ docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED       STATUS       PORTS                       NAMES
+1e1eab16fe88   kindest/node:v1.36.1   "/usr/local/bin/entr…"   2 days ago    Up 4 hours   127.0.0.1:38571->6443/tcp   mindstix-assignment-cluster-control-plane
+e6d320edc268   kindest/node:v1.36.1   "/usr/local/bin/entr…"   2 days ago    Up 4 hours                               mindstix-assignment-cluster-worker
+aa57660459f2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   2 days ago    Up 4 hours                               mindstix-assignment-cluster-worker2
+85d9e165e140   kindest/node:v1.36.1   "/usr/local/bin/entr…"   6 weeks ago   Up 4 hours                               kind-worker2
+14364cb80ba2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   6 weeks ago   Up 4 hours                               kind-worker
+bf21bf3323ba   kindest/node:v1.36.1   "/usr/local/bin/entr…"   6 weeks ago   Up 4 hours   127.0.0.1:45977->6443/tcp   kind-control-plane
+vyankatz@DESKTOP-KQ9P9R3:~$ # 1. Find your KinD/Minikube node container name
+docker ps
+
+# 2. Exec into the node container and curl localhost:30080 10 times
+docker exec -it  mindstix-assignment-cluster-control-plane bash -c 'for i in $(seq 1 10); do curl -s http://localhost:30080; echo; do
+ne'
+CONTAINER ID   IMAGE                  COMMAND                  CREATED       STATUS       PORTS                       NAMES
+1e1eab16fe88   kindest/node:v1.36.1   "/usr/local/bin/entr…"   2 days ago    Up 4 hours   127.0.0.1:38571->6443/tcp   mindstix-assignment-cluster-control-plane
+e6d320edc268   kindest/node:v1.36.1   "/usr/local/bin/entr…"   2 days ago    Up 4 hours                               mindstix-assignment-cluster-worker
+aa57660459f2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   2 days ago    Up 4 hours                               mindstix-assignment-cluster-worker2
+85d9e165e140   kindest/node:v1.36.1   "/usr/local/bin/entr…"   6 weeks ago   Up 4 hours                               kind-worker2
+14364cb80ba2   kindest/node:v1.36.1   "/usr/local/bin/entr…"   6 weeks ago   Up 4 hours                               kind-worker
+bf21bf3323ba   kindest/node:v1.36.1   "/usr/local/bin/entr…"   6 weeks ago   Up 4 hours   127.0.0.1:45977->6443/tcp   kind-control-plane
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+
+Hello from Pod 1 - nginx-5cf8dc6bc5-89r9n
+
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+
+Hello from Pod 2 - nginx-5cf8dc6bc5-txp7k
+
+vyankatz@DESKTOP-KQ9P9R3:~$ kubectl edit service nginx-svc
+Edit cancelled, no changes made.
+vyankatz@DESKTOP-KQ9P9R3:~$ kubectl get deployment nginx -o jsonpath='{.metadata.annotations.kubectl\.kubernetes\.io/last-applied-configuration}' | jq
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "annotations": {},
+    "name": "nginx",
+    "namespace": "practice"
+  },
+  "spec": {
+    "replicas": 2,
+    "selector": {
+      "matchLabels": {
+        "app": "nginx"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "nginx"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "image": "nginx",
+            "name": "nginx",
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
+vyankatz@DESKTOP-KQ9P9R3:~$ kb get pod
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-5cf8dc6bc5-89r9n   1/1     Running   0          65m
+nginx-5cf8dc6bc5-txp7k   1/1     Running   0          65m
+pod-a                    1/1     Running   0          18h
+vyankatz@DESKTOP-KQ9P9R3:~$ kb exec -it nginx-5cf8dc6bc5-89r9n --bash -- cat /etc/resolv.conf
+error: unknown flag: --bash
+See 'kubectl exec --help' for usage.
+vyankatz@DESKTOP-KQ9P9R3:~$ kb exec -it nginx-5cf8dc6bc5-89r9n -- cat /etc/resolv.conf
+\\search practice.svc.cluster.local svc.cluster.local cluster.local
+nameserver 10.96.0.10
+options ndots:5
+vyankatz@DESKTOP-KQ9P9R3:~$ kb get all
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/nginx-5cf8dc6bc5-89r9n   1/1     Running   0          68m
+pod/nginx-5cf8dc6bc5-txp7k   1/1     Running   0          68m
+pod/pod-a                    1/1     Running   0          18h
+
+NAME                TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+service/nginx-svc   NodePort   10.96.34.61   <none>        80:30080/TCP   67m
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx   2/2     2            2           68m
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-5cf8dc6bc5   2         2         2       68m
+vyankatz@DESKTOP-KQ9P9R3:~$ kb get all -A
+NAMESPACE            NAME                                                                    READY   STATUS    RESTARTS        AGE
+default              pod/cpu-stress-pod                                                      1/1     Running   1 (4h57m ago)   19h
+kube-system          pod/coredns-589f44dc88-sqn8w                                            1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/coredns-589f44dc88-w85xf                                            1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/etcd-mindstix-assignment-cluster-control-plane                      1/1     Running   0               4h57m
+kube-system          pod/kindnet-flq8g                                                       1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/kindnet-h9v2g                                                       1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/kindnet-x2vpz                                                       1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/kube-apiserver-mindstix-assignment-cluster-control-plane            1/1     Running   0               4h57m
+kube-system          pod/kube-controller-manager-mindstix-assignment-cluster-control-plane   1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/kube-proxy-8vbhk                                                    1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/kube-proxy-pp2qp                                                    1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/kube-proxy-t2nt6                                                    1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/kube-scheduler-mindstix-assignment-cluster-control-plane            1/1     Running   1 (4h57m ago)   2d16h
+kube-system          pod/metrics-server-5b58578978-pjdzk                                     1/1     Running   2 (4h56m ago)   2d3h
+local-path-storage   pod/local-path-provisioner-855c7b7774-r2bmx                             1/1     Running   2 (4h56m ago)   2d16h
+ns-alpha             pod/nginx-alpha                                                         1/1     Running   1 (4h57m ago)   23h
+ns-beta              pod/nginx-beta                                                          1/1     Running   1 (4h57m ago)   23h
+ns-beta              pod/quota-test-54b59bfcfc-89vml                                         1/1     Running   1 (4h57m ago)   23h
+practice             pod/nginx-5cf8dc6bc5-89r9n                                              1/1     Running   0               68m
+practice             pod/nginx-5cf8dc6bc5-txp7k                                              1/1     Running   0               68m
+practice             pod/pod-a                                                               1/1     Running   0               18h
+
+NAMESPACE     NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE
+default       service/kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP                  2d16h
+kube-system   service/kube-dns         ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP   2d16h
+kube-system   service/metrics-server   ClusterIP   10.96.199.167   <none>        443/TCP                  2d3h
+ns-beta       service/nginx            ClusterIP   10.96.217.152   <none>        80/TCP                   23h
+practice      service/nginx-svc        NodePort    10.96.34.61     <none>        80:30080/TCP             67m
+
+NAMESPACE     NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+kube-system   daemonset.apps/kindnet      3         3         3       3            3           kubernetes.io/os=linux   2d16h
+kube-system   daemonset.apps/kube-proxy   3         3         3       3            3           kubernetes.io/os=linux   2d16h
+
+NAMESPACE            NAME                                     READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system          deployment.apps/coredns                  2/2     2            2           2d16h
+kube-system          deployment.apps/metrics-server           1/1     1            1           2d3h
+local-path-storage   deployment.apps/local-path-provisioner   1/1     1            1           2d16h
+ns-beta              deployment.apps/quota-test               1/3     1            1           23h
+practice             deployment.apps/nginx                    2/2     2            2           68m
+
+NAMESPACE            NAME                                                DESIRED   CURRENT   READY   AGE
+kube-system          replicaset.apps/coredns-589f44dc88                  2         2         2       2d16h
+kube-system          replicaset.apps/metrics-server-5b58578978           1         1         1       2d3h
+kube-system          replicaset.apps/metrics-server-687f9dc499           0         0         0       2d3h
+local-path-storage   replicaset.apps/local-path-provisioner-855c7b7774   1         1         1       2d16h
+ns-beta              replicaset.apps/quota-test-54b59bfcfc               3         1         1       23h
+practice             replicaset.apps/nginx-5cf8dc6bc5                    2         2         2       68m
+vyankatz@DESKTOP-KQ9P9R3:~$ # 2A. Short name lookup (Will FAIL)
+kubectl exec -it pod/nginx-alpha -n ns-alpha -- nslookup nginx-svc
+error: Internal error occurred: Internal error occurred: error executing command in container: failed to exec in container: failed to start exec "ea732990c3c010ae8f379b64e1cdbe8e1dbb91979b39650fee84b9bc6730e252": OCI runtime exec failed: exec failed: unable to start container process: exec: "nslookup": executable file not found in $PATH
+vyankatz@DESKTOP-KQ9P9R3:~$ # 2B. Fully Qualified Domain Name (FQDN) lookup (Will SUCCEED)
+kubectl exec -it pod/nginx-alpha -n ns-alpha -- nslookup nginx-svc.practice.svc.cluster.local
+error: Internal error occurred: Internal error occurred: error executing command in container: failed to exec in container: failed to start exec "a382cede52791a4c92b4aa3bc81ae9da31baa497d8bf19dfc6007fad5ad6a3a6": OCI runtime exec failed: exec failed: unable to start container process: exec: "nslookup": executable file not found in $PATH
+vyankatz@DESKTOP-KQ9P9R3:~$ # Check short name (from inside ns-alpha)
+kubectl exec -it pod/nginx-alpha -n ns-alpha -- getent host nginx-svc
+
+# Check cross-namespace FQDN
+kubectl exec -it pod/nginx-alpha -n ns-alpha -- getent host nginx-svc.practice.svc.cluster.local
+
+# Check Kubernetes API server FQDN
+kubectl exec -it pod/nginx-alpha -n ns-alpha -- getent host kubernetes.default.svc.cluster.local
+Unknown database: host
+Try `getent --help' or `getent --usage' for more information.
+command terminated with exit code 1
+Unknown database: host
+Try `getent --help' or `getent --usage' for more information.
+command terminated with exit code 1
+Unknown database: host
+Try `getent --help' or `getent --usage' for more information.
+command terminated with exit code 1
+vyankatz@DESKTOP-KQ9P9R3:~$ # 1. Short name lookup in same/different namespace (Will fail for practice ns)
+kubectl exec -it pod/nginx-alpha -n ns-alpha -- getent hosts nginx-svc
+
+# 2. Cross-namespace FQDN lookup (Will succeed -> 10.96.34.61)
+kubectl exec -it pod/nginx-alpha -n ns-alpha -- getent hosts nginx-svc.practice.svc.cluster.local
+
+# 3. K8s API Server lookup (Will succeed -> 10.96.0.1)
+kubectl exec -it pod/nginx-alpha -n ns-alpha -- getent hosts kubernetes.default.svc.cluster.local
+command terminated with exit code 2
+10.96.34.61     nginx-svc.practice.svc.cluster.local
+10.96.0.1       kubernetes.default.svc.cluster.local
+vyankatz@DESKTOP-KQ9P9R3:~$
+                               
